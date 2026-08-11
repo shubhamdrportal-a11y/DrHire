@@ -15,8 +15,24 @@ if ($uri === '/api/setup-admin') {
     require __DIR__ . '/backend/config/database.php';
     try {
         $db = getDbConnection();
-        $sql = file_get_contents(__DIR__ . '/backend/database/seed_admin.sql');
-        $db->exec($sql);
+        
+        // Ensure admin user exists with the correct password
+        $email = 'admin@drhire.in';
+        $pass = 'Admin@DRHire2026';
+        $hash = password_hash($pass, PASSWORD_BCRYPT, ['cost' => 12]);
+        
+        $stmt = $db->prepare("SELECT id FROM users WHERE email = ?");
+        $stmt->execute([$email]);
+        $admin = $stmt->fetch();
+        
+        if ($admin) {
+            $db->prepare("UPDATE users SET password_hash = ?, status = 'active' WHERE id = ?")
+               ->execute([$hash, $admin['id']]);
+        } else {
+            $db->prepare("INSERT INTO users (email, password_hash, role, status) VALUES (?, ?, 'admin', 'active')")
+               ->execute([$email, $hash]);
+        }
+        
         header('Content-Type: application/json');
         echo json_encode(['success' => true, 'message' => 'Admin account seeded successfully! You can now log in.']);
     } catch (\Exception $e) {
