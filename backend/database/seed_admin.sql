@@ -5,7 +5,6 @@
 -- Run AFTER schema.sql
 -- ============================================================
 
-USE drhire;
 
 INSERT INTO users (email, password_hash, role, status)
 VALUES (
