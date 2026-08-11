@@ -1,11 +1,6 @@
 [build]
-builder = "NIXPACKS"
-buildCommand = "echo 'No build required for PHP'"
+builder = "DOCKER"
 
 [deploy]
-startCommand = "php -S 0.0.0.0:$PORT router.php"
 healthcheckPath = "/health"
 healthcheckTimeout = 100
-
-[phases.setup]
-nixPkgs = ["php83", "php83Extensions.pdo", "php83Extensions.pdo_mysql", "php83Extensions.fileinfo", "php83Extensions.curl"]
