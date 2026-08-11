@@ -355,9 +355,9 @@
             };
 
             if (role === 'doctor') {
-                payload.specialization    = document.getElementById('regSpecialization')?.value?.trim() || '';
-                payload.qualification     = document.getElementById('regQualification')?.value?.trim() || '';
-                payload.experience_years  = parseInt(document.getElementById('regExperience')?.value || '0', 10);
+                payload.specialization    = document.getElementById('regSpec')?.value?.trim() || '';
+                payload.qualification     = document.getElementById('regQual')?.value?.trim() || '';
+                payload.experience_years  = parseInt(document.getElementById('regExp')?.value || '0', 10);
                 payload.license_no        = document.getElementById('regLicense')?.value?.trim() || '';
             } else if (role === 'hospital') {
                 payload.hospital_name    = document.getElementById('regHospName')?.value?.trim() || '';
