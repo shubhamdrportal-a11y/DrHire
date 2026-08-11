@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Doctors Coat – Doctor Recruitment Portal India</title>
+    <meta name="description"
+        content="Doctors Coat connects qualified doctors with top hospitals across India. Find medical jobs or hire verified doctors instantly." />
+    <link rel="canonical" href="https://doctorscoat.in/" />
+    <link rel="icon" type="image/png" href="images/DoctorsCoat.png" />
+
+    <!-- Preconnect to external domains for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://doctorscoat.in/" />
+    <meta property="og:title" content="Doctors Coat – Doctor Recruitment Portal India" />
+    <meta property="og:description"
+        content="Doctors Coat connects qualified doctors with top hospitals across India. Find medical jobs or hire verified doctors instantly." />
+    <meta property="og:image" content="https://doctorscoat.in/DoctorsCoat.png" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://doctorscoat.in/" />
+    <meta property="twitter:title" content="Doctors Coat – Doctor Recruitment Portal India" />
+    <meta property="twitter:description"
+        content="Doctors Coat connects qualified doctors with top hospitals across India. Find medical jobs or hire verified doctors instantly." />
+    <meta property="twitter:image" content="https://doctorscoat.in/DoctorsCoat.png" />
+
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <!-- Structured Data (JSON-LD) for Search Engine Optimization -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "MedicalBusiness",
+      "name": "Doctors Coat",
+      "alternateName": "Doctors Coat Recruitment",
+      "url": "https://doctorscoat.in/",
+      "logo": "https://doctorscoat.in/DoctorsCoat.png",
+      "description": "Doctors Coat connects qualified doctors with top hospitals across India. Find medical jobs or hire verified doctors instantly.",
+      "sameAs": [
+        "https://www.linkedin.com/company/doctorscoattalent/posts/?feedView=all"
+      ],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+91-84454-61195",
+        "contactType": "customer service",
+        "email": "hello@doctorscoat.in",
+        "availableLanguage": ["English", "Hindi"]
+      }
+    }
+    </script>
+</head>
+
+<body>
+
+    <!-- MOBILE NAV -->
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+    <nav class="mobile-menu" id="mobileMenu">
+        <a href="#home">Home</a>
+        <a href="pages/services.html">Services</a>
+        <a href="pages/jobs.html">Jobs</a>
+        <a href="pages/why-us.html">Why Us</a>
+        <a href="pages/testimonials.html">Testimonials</a>
+        <a href="pages/contact.html">Contact</a>
+        
+        <div id="mobileUserInfo" style="display:none;flex-direction:column;gap:12px;margin-top:20px;padding-top:20px;border-top:1px solid var(--border)">
+            <div style="display:flex;align-items:center;gap:10px">
+                <div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#0ea5e9,#06b6d4);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem;color:#fff">
+                    <i class="fa-solid fa-user-doctor"></i>
+                </div>
+                <span id="mobileUserEmail" style="font-size:.88rem;color:var(--text);font-weight:500"></span>
+            </div>
+            <button id="mobileLogoutBtn" style="padding:10px;border:1px solid rgba(239,68,68,.5);background:rgba(239,68,68,.1);color:#ef4444;border-radius:50px;font-size:.9rem;cursor:pointer;font-weight:600;transition:.3s;width:100%">Logout</button>
+        </div>
+        <a href="pages/login.html" class="btn-primary" id="mobileLoginBtn" style="text-align:center;margin-top:20px;width:100%;cursor:pointer;display:block">Login / Register</a>
+    </nav>
+
+    <!-- NAVBAR -->
+    <nav>
+        <div class="logo">
+            <img src="images/DoctorsCoat.png" alt="Doctors Coat Logo" />
+            <span class="logo-text">Doctors Coat</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="pages/services.html">Services</a></li>
+            <li><a href="pages/jobs.html">Jobs</a></li>
+            <li><a href="pages/why-us.html">Why Us</a></li>
+            <li><a href="pages/testimonials.html">Testimonials</a></li>
+            <li><a href="pages/contact.html">Contact</a></li>
+        </ul>
+        <div class="nav-cta">
+            <button id="themeToggle" aria-label="Toggle theme" title="Toggle light/dark mode"
+                style="width:38px;height:38px;border-radius:50%;border:1.5px solid var(--border);background:var(--card-bg);color:var(--text);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;transition:.3s"><i
+                    class="fa-solid fa-sun" id="themeIcon"></i></button>
+            <a href="pages/login.html" class="btn-outline" id="navLoginBtn" style="display:flex;align-items:center;gap:6px;border-color:transparent;background:transparent;color:var(--text)"><i
+                    class="fa-solid fa-user"></i> Login</a>
+            <div id="navUserInfo" style="display:none;align-items:center;gap:10px">
+                <div
+                    style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#0ea5e9,#06b6d4);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem;color:#fff">
+                    <i class="fa-solid fa-user-doctor"></i>
+                </div>
+                <span id="navUserEmail" style="font-size:.88rem;color:#588ed5;font-weight:500"></span>
+                <button id="logoutBtn"
+                    style="padding:6px 14px;border:1px solid rgba(239,68,68,.5);background:rgba(239,68,68,.1);color:#ef4444;border-radius:50px;font-size:.8rem;cursor:pointer;font-weight:600;transition:.3s">Logout</button>
+            </div>
+            <a href="pages/register.html" class="btn-outline">Register</a>
+            <a href="pages/login.html" class="btn-primary">Login</a>
+        </div>
+        <div class="hamburger" id="hamburger">
+            <span></span><span></span><span></span>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero" id="home">
+        <div class="hero-bg">
+            <div class="hero-orb hero-orb-1"></div>
+            <div class="hero-orb hero-orb-2"></div>
+        </div>
+        <div class="hero-wrapper">
+            <div class="hero-content">
+                <div class="hero-badge"><i class="fa-solid fa-stethoscope"></i> India's Trusted Medical Recruitment Platform
+                </div>
+                <h1>Connecting Hospitals With <span>Qualified Doctors</span> Across India</h1>
+                <p>Doctors Coat bridges the gap between healthcare professionals and top hospitals. Whether you're a doctor
+                    seeking your next opportunity or a hospital looking for the right talent — we make it fast, verified,
+                    and seamless.</p>
+                <div class="hero-btns">
+                    <a href="pages/find-doctor.html" class="btn-primary" id="heroFindDoctor" style="padding:14px 36px;font-size:1rem"><i
+                            class="fa-solid fa-stethoscope" style="margin-right:8px"></i>Find a Doctor</a>
+                    <a href="pages/register.html" class="btn-outline" style="padding:14px 36px;font-size:1rem"><i
+                            class="fa-solid fa-user-plus" style="margin-right:8px"></i>Register Free</a>
+                    <a href="pages/jobs.html" class="btn-outline" style="padding:14px 36px;font-size:1rem"><i
+                            class="fa-solid fa-briefcase-medical" style="margin-right:8px"></i>Find Jobs</a>
+                </div>
+            </div>
+            <div class="hero-cards">
+                <div class="glass-card main-card">
+                    <div class="card-header">
+                        <h4><i class="fa-solid fa-fire" style="color: #ef4444; margin-right: 6px;"></i> Trending Jobs</h4>
+                        <span class="live-badge">Live</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="hero-job-item">
+                            <div class="hero-job-icon"><i class="fa-solid fa-heart-pulse"></i></div>
+                            <div class="hero-job-info">
+                                <h5>Cardiologist</h5>
+                                <span>Apollo Hospitals, Delhi</span>
+                            </div>
+                            <div class="hero-job-salary">₹3L/mo</div>
+                        </div>
+                        <div class="hero-job-item">
+                            <div class="hero-job-icon"><i class="fa-solid fa-brain"></i></div>
+                            <div class="hero-job-info">
+                                <h5>Neurologist</h5>
+                                <span>Fortis, Mumbai</span>
+                            </div>
+                            <div class="hero-job-salary">₹4L/mo</div>
+                        </div>
+                        <div class="hero-job-item">
+                            <div class="hero-job-icon"><i class="fa-solid fa-tooth"></i></div>
+                            <div class="hero-job-info">
+                                <h5>Orthodontist</h5>
+                                <span>Max Care, Pune</span>
+                            </div>
+                            <div class="hero-job-salary">₹1.5L/mo</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="glass-card stat-card">
+                    <div class="hero-stat-icon"><i class="fa-solid fa-user-check"></i></div>
+                    <div class="hero-stat-info">
+                        <h4>1200+</h4>
+                        <span>Doctors Placed</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- STARTUP PROMISE PILLS -->
+        <div class="startup-pills">
+            <div class="pill"><i class="fa-solid fa-bolt"></i> Placements in 48 hrs</div>
+            <div class="pill"><i class="fa-solid fa-indian-rupee-sign"></i> Free for Doctors. Always.</div>
+            <div class="pill"><i class="fa-solid fa-shield-halved"></i> 100% Verified Profiles</div>
+            <div class="pill"><i class="fa-solid fa-map-location-dot"></i> Pan-India Reach</div>
+            <div class="pill"><i class="fa-solid fa-hospital-user"></i> 500+ Hospitals</div>
+        </div>
+    </section>
+
+    <!-- PARTNER CTA BANNER -->
+    <section class="partner-banner">
+        <div class="partner-banner-inner">
+            <div class="partner-left">
+                <span class="launch-badge"><i class="fa-solid fa-rocket"></i> Just Launched</span>
+                <h2>Be Among India's First Partner Hospitals</h2>
+                <p>We're building the future of medical hiring — and we want <strong>you</strong> in from day one. Early
+                    partners get priority listings, zero placement fees for the first 3 hires, and dedicated support.
+                </p>
+            </div>
+            <div class="partner-right">
+                <a href="pages/hire-doctors.html" class="btn-primary" style="padding:14px 32px;font-size:1rem"><i
+                        class="fa-solid fa-handshake" style="margin-right:8px"></i>Partner with Us</a>
+                <p class="partner-note"><i class="fa-solid fa-circle-check"
+                        style="color:#10b981;margin-right:6px"></i>No fees for your first 3 hires</p>
+                <p class="partner-note"><i class="fa-solid fa-circle-check"
+                        style="color:#10b981;margin-right:6px"></i>Dedicated account manager</p>
+                <p class="partner-note"><i class="fa-solid fa-circle-check"
+                        style="color:#10b981;margin-right:6px"></i>Verified doctors only</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section class="section" id="services">
+        <div class="section-header">
+            <span class="section-tag">What We Offer</span>
+            <h2>Comprehensive Medical Recruitment Services</h2>
+            <p>End-to-end solutions for doctors and hospitals across every specialty and every state.</p>
+        </div>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon"><i class="fa-solid fa-user-doctor"></i></div>
+                <h3>Doctor Recruitment</h3>
+                <p>We source, screen, and place verified MBBS, MD, and specialist doctors with top-tier hospitals —
+                    fast.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon"><i class="fa-solid fa-hospital-user"></i></div>
+                <h3>Hospital Hiring</h3>
+                <p>Hospitals post vacancies and we deliver pre-screened, credential-verified candidates directly to your
+                    HR team.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon"><i class="fa-solid fa-people-group"></i></div>
+                <h3>Medical Staffing</h3>
+                <p>Temporary, contract, and permanent staffing solutions tailored to the dynamic needs of healthcare
+                    facilities.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon"><i class="fa-solid fa-compass"></i></div>
+                <h3>Career Guidance</h3>
+                <p>Expert counselling on specializations, fellowships, and career pathways for medical graduates and
+                    professionals.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon"><i class="fa-solid fa-file-medical"></i></div>
+                <h3>Resume Support</h3>
+                <p>Professional CV building and optimization for doctors — crafted to meet the expectations of top
+                    hospitals.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon"><i class="fa-solid fa-bolt"></i></div>
+                <h3>Emergency Hiring</h3>
+                <p>Urgent staffing solutions delivered within 24–48 hours for hospitals facing critical workforce
+                    shortages.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE -->
+    <section class="section why" id="why">
+        <div class="section-header">
+            <span class="section-tag">Why Doctors Coat</span>
+            <h2>The Smarter Way to Hire & Get Hired</h2>
+            <p>We combine deep healthcare expertise with technology to deliver results that matter.</p>
+        </div>
+        <div class="why-grid">
+            <div class="why-card">
+                <div class="why-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                <div class="why-stat">100%</div>
+                <h3>Verified Opportunities</h3>
+                <p>Every job listing and every candidate profile is thoroughly verified before going live.</p>
+            </div>
+            <div class="why-card">
+                <div class="why-icon"><i class="fa-solid fa-rocket"></i></div>
+                <div class="why-stat">48 hrs</div>
+                <h3>Faster Hiring</h3>
+                <p>Our streamlined process cuts average hiring time from weeks to just 48 hours.</p>
+            </div>
+            <div class="why-card">
+                <div class="why-icon"><i class="fa-solid fa-network-wired"></i></div>
+                <div class="why-stat">1200+</div>
+                <h3>Trusted Medical Network</h3>
+                <p>A growing network of hospitals, clinics, and nursing homes across India's top cities.</p>
+            </div>
+            <div class="why-card">
+                <div class="why-icon"><i class="fa-solid fa-map-location-dot"></i></div>
+                <div class="why-stat">28</div>
+                <h3>Nationwide Reach</h3>
+                <p>Presence across all 28 states — from metro cities to Tier-2 and Tier-3 towns.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURED JOBS -->
+    <section class="section" id="jobs">
+        <div class="section-header">
+            <span class="section-tag">Featured Jobs</span>
+            <h2>Latest Medical Job Openings</h2>
+            <p>Explore opportunities across specializations and locations all over India.</p>
+        </div>
+        <div id="jobsContainer"></div>
+        <div class="view-all" style="margin-top:40px">
+            <a href="pages/register.html" class="btn-primary" style="padding:14px 40px;font-size:1rem;display:inline-flex;align-items:center;gap:8px"
+                id="viewAllJobsBtn">Register to See All Jobs <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="section testimonials" id="testimonials">
+        <div class="section-header">
+            <span class="section-tag">Testimonials</span>
+            <h2>Trusted by Doctors & Hospitals</h2>
+            <p>Real stories from the healthcare professionals and institutions we've helped.</p>
+        </div>
+        <div class="testi-grid">
+            <div class="testi-card">
+                <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                        class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                </div>
+                <blockquote>"Doctors Coat helped me land my dream job at Apollo Delhi within just 10 days of
+                    registering. The process was smooth, transparent, and the team was incredibly supportive
+                    throughout."</blockquote>
+                <div class="testi-author">
+                    <div class="author-avatar">DR</div>
+                    <div class="author-info"><strong>Dr. Rohit Mehra</strong><span>Cardiologist, Apollo Hospitals
+                            Delhi</span></div>
+                </div>
+            </div>
+            <div class="testi-card">
+                <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                        class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                </div>
+                <blockquote>"As an HR manager, finding qualified specialists used to take months. Doctors Coat delivered
+                    3 verified candidates for our Radiology department in under 48 hours. Absolutely remarkable."
+                </blockquote>
+                <div class="testi-author">
+                    <div class="author-avatar">PS</div>
+                    <div class="author-info"><strong>Priya Sharma</strong><span>HR Manager, Fortis Healthcare
+                            Mumbai</span></div>
+                </div>
+            </div>
+            <div class="testi-card">
+                <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                        class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                        class="fa-solid fa-star-half-stroke"></i></div>
+                <blockquote>"After completing my MD I was confused about where to apply. The career guidance team at
+                    Doctors Coat helped me understand my options and secured a great fellowship opportunity in Jaipur."
+                </blockquote>
+                <div class="testi-author">
+                    <div class="author-avatar">AK</div>
+                    <div class="author-info"><strong>Dr. Anjali Kapoor</strong><span>Paediatrician, Max Hospitals
+                            Jaipur</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="section" id="contact">
+        <div class="contact-wrap">
+            <div class="contact-info">
+                <span class="section-tag">Get In Touch</span>
+                <h2>Let's Connect &amp; Get You Started</h2>
+                <p>Whether you're a doctor looking for opportunities or a hospital seeking talent, our team responds
+                    within 24 hours.</p>
+                <div class="contact-detail">
+                    <div class="contact-detail-icon"><i class="fa-solid fa-phone"></i></div>
+                    <div class="contact-detail-text"><strong>Phone</strong><span>+91 84454 61195</span></div>
+                </div>
+                <div class="contact-detail">
+                    <div class="contact-detail-icon"><i class="fa-solid fa-envelope"></i></div>
+                    <div class="contact-detail-text"><strong>Email</strong><span>hello@doctorscoat.in</span></div>
+                </div>
+                <div class="contact-detail">
+                    <div class="contact-detail-icon"><i class="fa-solid fa-location-dot"></i></div>
+                    <div class="contact-detail-text"><strong>Office</strong><span>Laxmi Nagar , New Delhi –
+                            110001</span></div>
+                </div>
+                <div class="contact-detail">
+                    <div class="contact-detail-icon"><i class="fa-solid fa-clock"></i></div>
+                    <div class="contact-detail-text"><strong>Working Hours</strong><span>Mon – Sat, 9:00 AM – 7:00
+                            PM</span></div>
+                </div>
+            </div>
+            <div class="contact-form">
+                <form id="contactForm" action="#" method="POST">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="fullName">Full Name *</label>
+                            <input type="text" id="fullName" name="name" placeholder="Dr. John Doe" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" name="email" placeholder="you@example.com" required />
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="phone">Phone Number *</label>
+                            <input type="tel" id="phone" name="phone" placeholder="+91 84454 61195" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="role">I am a *</label>
+                            <select id="role" name="role" required>
+                                <option value="" disabled selected>Select role</option>
+                                <option>Doctor / Medical Professional</option>
+                                <option>Hospital / Clinic</option>
+                                <option>Medical Student</option>
+                                <option>Recruiter / HR</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="specialization">Specialization / Department</label>
+                        <input type="text" id="specialization" name="specialization"
+                            placeholder="e.g. Cardiology, General Medicine…" />
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message *</label>
+                        <textarea id="message" name="message" placeholder="Tell us about your requirement…"
+                            required></textarea>
+                    </div>
+                    <button type="submit" class="form-submit"><i class="fa-solid fa-paper-plane"
+                            style="margin-right:8px"></i>Send Message</button>
+                    <div id="formSuccess" class="form-success"><i class="fa-solid fa-circle-check"
+                            style="margin-right:8px"></i>Message sent! We'll get back to you within 24 hours.</div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <div class="logo">
+                    <img src="images/DoctorsCoat.png" alt="Doctors Coat Logo" />
+                    <span class="logo-text">Doctors Coat</span>
+                </div>
+                <p>India's premier doctor recruitment platform connecting qualified medical professionals with top
+                    hospitals across all 28 states.</p>
+                <div class="social-links">
+                    <a href="https://www.linkedin.com/company/doctorscoattalent/posts/?feedView=all" target="_blank"
+                        class="social-link" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                    <a href="https://wa.me/918445461195" target="_blank" class="social-link" aria-label="WhatsApp"><i
+                            class="fa-brands fa-whatsapp"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="pages/about.html">About Us</a></li>
+                    <li><a href="pages/why-us.html">Why Doctors Coat</a></li>
+                    <li><a href="pages/testimonials.html">Success Stories</a></li>
+                    <li><a href="pages/careers.html">Careers</a></li>
+                    <li><a href="pages/blog.html">Blog</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Services</h4>
+                <ul>
+                    <li><a href="pages/service-details.html?service=doctor-recruitment">Doctor Recruitment</a></li>
+                    <li><a href="pages/service-details.html?service=hospital-hiring">Hospital Hiring</a></li>
+                    <li><a href="pages/service-details.html?service=medical-staffing">Medical Staffing</a></li>
+                    <li><a href="pages/service-details.html?service=career-guidance">Career Guidance</a></li>
+                    <li><a href="pages/service-details.html?service=resume-support">Resume Support</a></li>
+                    <li><a href="pages/service-details.html?service=emergency-hiring">Emergency Hiring</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contact</h4>
+                <ul>
+                    <li><a href="tel:+918445461195">+91 84454 61195</a></li>
+                    <li><a href="mailto:hello@doctorscoat.in">hello@doctorscoat.in</a></li>
+                    <li><a href="pages/contact.html">Laxmi Nagar , New Delhi</a></li>
+                    <li><a href="pages/support.html">Support Center</a></li>
+                    <li><a href="pages/privacy-policy.html">Privacy Policy</a></li>
+                    <li><a href="pages/terms.html">Terms of Service</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 Doctors Coat. All rights reserved. Made with <i class="fa-solid fa-heart"
+                    style="color:#ef4444"></i> for Indian Healthcare.</p>
+            <div class="footer-bottom-links">
+                <a href="pages/privacy-policy.html">Privacy Policy</a>
+                <a href="pages/terms.html">Terms of Service</a>
+                <a href="pages/sitemap.html">Sitemap</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- APPLY MODAL -->
+    <div class="modal-overlay" id="applyModal">
+        <div class="modal">
+            <button class="modal-close" id="modalClose"><i class="fa-solid fa-xmark"></i></button>
+            <h3 id="applyJobTitle">Apply for Job</h3>
+            <p style="color:#94a3b8;font-size:.85rem;margin-bottom:20px">Fill in your details and we'll get back to you
+                within 24 hours.</p>
+            <div id="applyFormWrap">
+                <form id="applyForm">
+                    <div class="form-group"><label>Full Name *</label><input type="text" id="applyName"
+                            placeholder="Dr. Full Name" required /></div>
+                    <div class="form-group"><label>Email *</label><input type="email" id="applyEmail"
+                            placeholder="your@email.com" required /></div>
+                    <div class="form-group"><label>Phone *</label><input type="tel" id="applyPhone"
+                            placeholder="+91 84454 61195" required /></div>
+                    <div class="form-group"><label>Specialization</label><input type="text" id="applySpec"
+                            placeholder="e.g. Cardiology" /></div>
+                    <button type="submit" class="form-submit"><i class="fa-solid fa-paper-plane"
+                            style="margin-right:8px"></i>Submit Application</button>
+                </form>
+            </div>
+            <div id="applySuccessMsg" style="display:none;text-align:center;padding:32px 16px">
+                <i class="fa-solid fa-circle-check fa-3x" style="color:#10b981"></i>
+                <p style="font-size:1.1rem;font-weight:700;margin-top:16px;color:#e2e8f0">Application Submitted!</p>
+                <p style="color:#94a3b8;font-size:.88rem;margin-top:8px">Our team will contact you within 24 hours.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- AUTH MODAL -->
+    <div class="modal-overlay" id="authModal">
+        <div class="modal" style="max-width:440px">
+            <button class="modal-close" id="authModalClose"><i class="fa-solid fa-xmark"></i></button>
+            <div
+                style="display:flex;gap:0;margin-bottom:28px;background:rgba(255,255,255,.05);border-radius:50px;padding:4px">
+                <button id="tabLogin" class="active-tab"
+                    style="flex:1;padding:10px;border:none;border-radius:50px;cursor:pointer;font-weight:600;font-size:.9rem;transition:.3s">Login</button>
+                <button id="tabRegister"
+                    style="flex:1;padding:10px;border:none;border-radius:50px;cursor:pointer;font-weight:600;font-size:.9rem;background:transparent;color:#94a3b8;transition:.3s">Register</button>
+            </div>
+            <!-- LOGIN -->
+            <div id="loginForm">
+                <h3 style="margin-bottom:6px">Welcome Back</h3>
+                <p style="color:#94a3b8;font-size:.85rem;margin-bottom:22px">Sign in to your Doctors Coat account.</p>
+                <form id="loginFormEl">
+                    <div class="form-group"><label>Email</label><input type="email" id="loginEmail"
+                            placeholder="you@example.com" required /></div>
+                    <div class="form-group"><label>Password</label><input type="password" id="loginPassword"
+                            placeholder="••••••••" required /></div>
+                    <p id="loginMsg" style="font-size:.83rem;margin-bottom:12px;min-height:18px"></p>
+                    <button type="submit" class="form-submit">Login</button>
+                </form>
+                <p style="text-align:center;margin-top:18px;font-size:.85rem;color:#94a3b8">No account? <a href="#"
+                        id="goToRegister" style="color:#0ea5e9;font-weight:600">Register here</a></p>
+            </div>
+            <!-- REGISTER -->
+            <div id="registerForm" style="display:none">
+                <h3 style="margin-bottom:6px">Create Account</h3>
+                <p style="color:#94a3b8;font-size:.85rem;margin-bottom:22px">Join thousands of medical professionals on
+                    Doctors Coat.</p>
+                <form id="registerFormEl">
+                    <div class="form-group"><label>Full Name</label><input type="text" id="regName"
+                            placeholder="Dr. Full Name" required /></div>
+                    <div class="form-group"><label>Email</label><input type="email" id="regEmail"
+                            placeholder="you@example.com" required /></div>
+                    <div class="form-row">
+                        <div class="form-group"><label>Password</label><input type="password" id="regPassword"
+                                placeholder="Min 6 chars" required /></div>
+                        <div class="form-group"><label>Confirm</label><input type="password" id="regConfirm"
+                                placeholder="Repeat password" required /></div>
+                    </div>
+                    <p id="registerMsg" style="font-size:.83rem;margin-bottom:12px;min-height:18px"></p>
+                    <button type="submit" class="form-submit">Create Account</button>
+                </form>
+                <p style="text-align:center;margin-top:18px;font-size:.85rem;color:#94a3b8">Already registered? <a
+                        href="#" id="goToLogin" style="color:#0ea5e9;font-weight:600">Login here</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- WHATSAPP FLOATING WIDGET -->
+    <div id="waWidget">
+        <div id="waPopup">
+            <div id="waHeader">
+                <img src="images/DoctorsCoat.png" alt="Doctors Coat Logo" />
+                <div id="waHeaderInfo">
+                    <strong>Doctors Coat</strong>
+                    <div id="waOnline"><span>Typically replies instantly</span></div>
+                </div>
+                <button id="waClose" aria-label="Close chat"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div id="waBody">
+                <div class="wa-bubble">
+                    Hi there 👋<br />How can I help you?
+                    <div class="wa-time">Just now</div>
+                </div>
+            </div>
+            <div id="waFooter">
+                <a href="https://wa.me/918445461195?text=Hi%20Doctors%20Coat%2C%20I%20need%20help%20with%20recruitment."
+                    target="_blank" id="waCtaBtn">
+                    <i class="fa-brands fa-whatsapp"></i> Chat on WhatsApp
+                </a>
+            </div>
+        </div>
+        <button id="waFloat" aria-label="Open WhatsApp chat">
+            <i class="fa-brands fa-whatsapp"></i>
+            <div id="waBadge">1</div>
+        </button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-config.js"></script>
+    <script src="js/script.js"></script>
+    <script>
+        // WhatsApp Widget Toggle
+        const waFloat = document.getElementById('waFloat');
+        const waPopup = document.getElementById('waPopup');
+        const waClose = document.getElementById('waClose');
+        const waBadge = document.getElementById('waBadge');
+        let waOpen = false;
+        waFloat.addEventListener('click', () => {
+            waOpen = !waOpen;
+            waPopup.classList.toggle('open', waOpen);
+            if (waOpen && waBadge) { waBadge.style.display = 'none'; }
+        });
+        waClose.addEventListener('click', () => { waOpen = false; waPopup.classList.remove('open'); });
+    </script>
+</body>
+
+</html>

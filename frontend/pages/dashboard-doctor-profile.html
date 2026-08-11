@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>My Profile – Doctor Dashboard | Doctors Coat</title>
+    <meta name="description" content="Update your doctor profile information." />
+    <link rel="icon" type="image/png" href="../images/DoctorsCoat.png" />
+    <link rel="stylesheet" href="../css/dashboard-shared.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <style>
+        .profile-header-card { background: linear-gradient(135deg,rgba(14,165,233,.12),rgba(6,182,212,.06)); border: 1px solid rgba(14,165,233,.2); border-radius: 14px; padding: 28px; display: flex; align-items: center; gap: 24px; margin-bottom: 24px; flex-wrap: wrap; }
+        .profile-avatar-large { width: 80px; height: 80px; border-radius: 50%; background: var(--grad); display: flex; align-items: center; justify-content: center; font-size: 1.8rem; font-weight: 700; color: #fff; flex-shrink: 0; }
+        .profile-header-info h2 { font-size: 1.2rem; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+        .profile-header-info p { font-size: .84rem; color: var(--accent); }
+        .profile-header-info span { font-size: .75rem; color: var(--text3); }
+        .profile-stats { display: flex; gap: 24px; margin-left: auto; flex-wrap: wrap; }
+        .profile-stat { text-align: center; }
+        .profile-stat-val { font-size: 1.3rem; font-weight: 800; color: var(--text); }
+        .profile-stat-label { font-size: .68rem; color: var(--text3); }
+    </style>
+</head>
+<body>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<aside class="sidebar" id="dashSidebar">
+    <div class="sidebar-top"><div class="sidebar-logo-icon">DC</div><span class="sidebar-brand">Doctors Coat</span></div>
+    <div class="sidebar-role-badge"><i class="fa-solid fa-user-doctor" style="margin-right:5px"></i>Doctor Portal</div>
+    <nav class="sidebar-nav">
+        <span class="sidebar-section-label">Overview</span>
+        <a href="dashboard-doctor.html" class="nav-link"><i class="fa-solid fa-chart-pie"></i> Dashboard</a>
+        <span class="sidebar-section-label">Patient Care</span>
+        <a href="dashboard-doctor-appointments.html" class="nav-link"><i class="fa-solid fa-calendar-check"></i> Appointments <span class="nav-badge">5</span></a>
+        <a href="dashboard-doctor-patients.html" class="nav-link"><i class="fa-solid fa-users"></i> Patients</a>
+        <a href="#" class="nav-link"><i class="fa-solid fa-clock"></i> Availability</a>
+        <span class="sidebar-section-label">Professional</span>
+        <a href="dashboard-doctor-reports.html" class="nav-link"><i class="fa-solid fa-chart-line"></i> Reports</a>
+        <a href="dashboard-doctor-jobs.html" class="nav-link"><i class="fa-solid fa-briefcase"></i> Jobs</a>
+        <a href="dashboard-doctor-profile.html" class="nav-link active"><i class="fa-solid fa-user-circle"></i> My Profile</a>
+        <a href="dashboard-doctor-settings.html" class="nav-link"><i class="fa-solid fa-gear"></i> Settings</a>
+    </nav>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-footer">
+        <div class="sidebar-user"><div class="sidebar-avatar" data-user-avatar>DR</div><div><div class="sidebar-uname" data-user-name>Dr. Demo</div><div class="sidebar-urole">Cardiologist</div></div></div>
+        <button class="sidebar-logout" data-logout><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+    </div>
+</aside>
+
+<div class="main-wrap">
+    <header class="top-header">
+        <div class="header-left">
+            <button class="hamburger-mob" id="hamburgerMob"><i class="fa-solid fa-bars"></i></button>
+            <div class="header-title"><h1>My Profile</h1><p>Manage your professional information</p></div>
+        </div>
+        <div class="header-right">
+            <button class="header-icon-btn"><i class="fa-solid fa-bell"></i><div class="notif-dot"></div></button>
+            <div class="header-user-pill"><div class="sidebar-avatar" style="width:26px;height:26px;font-size:.68rem" data-user-avatar>DR</div><span data-user-name>Doctor</span></div>
+        </div>
+    </header>
+
+    <div class="content">
+        <!-- Profile Header -->
+        <div class="profile-header-card">
+            <div class="profile-avatar-large" data-user-avatar>DR</div>
+            <div class="profile-header-info">
+                <h2 data-user-name>Dr. Demo User</h2>
+                <p>Cardiologist · MBBS, MD</p>
+                <span><i class="fa-solid fa-location-dot" style="margin-right:4px;color:var(--accent)"></i>Apollo Hospital, Mumbai</span>
+            </div>
+            <div class="profile-stats">
+                <div class="profile-stat"><div class="profile-stat-val">147</div><div class="profile-stat-label">Patients</div></div>
+                <div class="profile-stat"><div class="profile-stat-val">8yr</div><div class="profile-stat-label">Experience</div></div>
+                <div class="profile-stat"><div class="profile-stat-val">4.9</div><div class="profile-stat-label">Rating</div></div>
+            </div>
+            <div style="margin-left:auto;display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+                <span class="badge badge-active" style="padding:5px 14px">Profile Active</span>
+            </div>
+        </div>
+
+        <div class="two-col">
+            <!-- Personal Information -->
+            <div>
+                <div class="dash-card">
+                    <div class="dash-card-header"><span class="dash-card-title"><i class="fa-solid fa-user"></i> Personal Information</span></div>
+                    <div style="padding:20px">
+                        <div class="photo-upload-area">
+                            <div class="photo-preview" data-user-avatar>DR</div>
+                            <div class="photo-upload-info">
+                                <p>Profile Photo</p>
+                                <span>JPG, PNG or GIF · Max 5MB</span><br>
+                                <button class="btn-sm btn-outline-sm" style="margin-top:8px"><i class="fa-solid fa-upload"></i> Upload Photo</button>
+                            </div>
+                        </div>
+                        <form id="profileForm">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">First Name</label>
+                                    <input class="form-input" type="text" value="Demo" />
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Last Name</label>
+                                    <input class="form-input" type="text" value="Doctor" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Email Address</label>
+                                <input class="form-input" type="email" value="doctor@demo.com" />
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Phone Number</label>
+                                <input class="form-input" type="tel" value="+91 98765 43210" />
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Clinic / Hospital Address</label>
+                                <input class="form-input" type="text" value="Apollo Hospital, Mumbai, Maharashtra" />
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">About / Bio</label>
+                                <textarea class="form-textarea" rows="4">Experienced cardiologist specializing in interventional cardiology and heart failure management with over 8 years of clinical experience.</textarea>
+                            </div>
+                            <div style="display:flex;gap:10px;justify-content:flex-end">
+                                <button type="button" class="btn-secondary">Discard</button>
+                                <button type="submit" class="btn-primary"><i class="fa-solid fa-save"></i> Save Changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Professional Info -->
+            <div>
+                <div class="dash-card" style="margin-bottom:18px">
+                    <div class="dash-card-header"><span class="dash-card-title"><i class="fa-solid fa-stethoscope"></i> Professional Information</span></div>
+                    <div style="padding:20px">
+                        <div class="form-group">
+                            <label class="form-label">Specialization</label>
+                            <input class="form-input" type="text" value="Cardiology" />
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Medical Qualification</label>
+                            <input class="form-input" type="text" value="MBBS, MD (Cardiology)" />
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Years of Experience</label>
+                                <input class="form-input" type="number" value="8" />
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">License Number</label>
+                                <input class="form-input" type="text" value="MCI-45678" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Current Hospital / Clinic</label>
+                            <input class="form-input" type="text" value="Apollo Hospitals, Mumbai" />
+                        </div>
+                        <button class="btn-primary" style="width:100%"><i class="fa-solid fa-save"></i> Update Professional Info</button>
+                    </div>
+                </div>
+
+                <!-- Profile Completion -->
+                <div class="dash-card">
+                    <div class="dash-card-header"><span class="dash-card-title"><i class="fa-solid fa-circle-check"></i> Profile Completion</span></div>
+                    <div style="padding:20px">
+                        <div style="text-align:center;margin-bottom:16px">
+                            <div style="font-size:2rem;font-weight:800;color:var(--accent)">82%</div>
+                            <div style="font-size:.78rem;color:var(--text3)">Profile completeness</div>
+                        </div>
+                        <div class="prog-row"><div class="prog-header"><span class="prog-label">Personal Info</span><span class="prog-val" style="color:var(--success)">Complete</span></div><div class="prog-bar"><div class="prog-fill" style="width:100%;background:var(--success)"></div></div></div>
+                        <div class="prog-row"><div class="prog-header"><span class="prog-label">Professional Info</span><span class="prog-val" style="color:var(--success)">Complete</span></div><div class="prog-bar"><div class="prog-fill" style="width:100%;background:var(--success)"></div></div></div>
+                        <div class="prog-row"><div class="prog-header"><span class="prog-label">Profile Photo</span><span class="prog-val" style="color:var(--warning)">Missing</span></div><div class="prog-bar"><div class="prog-fill" style="width:0%;background:var(--warning)"></div></div></div>
+                        <div class="prog-row"><div class="prog-header"><span class="prog-label">Availability Schedule</span><span class="prog-val" style="color:var(--warning)">Incomplete</span></div><div class="prog-bar"><div class="prog-fill" style="width:50%;background:var(--accent)"></div></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

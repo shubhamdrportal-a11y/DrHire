@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Manage Users – Admin Dashboard | Doctors Coat</title>
+    <meta name="description" content="Manage all registered users across the platform." />
+    <link rel="icon" type="image/png" href="../images/DoctorsCoat.png" />
+    <link rel="stylesheet" href="../css/dashboard-shared.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<aside class="sidebar" id="dashSidebar">
+    <div class="sidebar-top">
+        <div class="sidebar-logo-icon">DC</div>
+        <span class="sidebar-brand">Doctors Coat</span>
+    </div>
+    <div class="sidebar-role-badge" style="background:rgba(239,68,68,0.1);color:var(--danger);border:1px solid rgba(239,68,68,0.2)"><i class="fa-solid fa-shield-halved" style="margin-right:5px"></i>Admin Portal</div>
+    <nav class="sidebar-nav">
+        <span class="sidebar-section-label">Overview</span>
+        <a href="dashboard-admin.html" class="nav-link"><i class="fa-solid fa-chart-pie"></i> Dashboard</a>
+        <a href="dashboard-admin-analytics.html" class="nav-link"><i class="fa-solid fa-chart-column"></i> Analytics</a>
+        <span class="sidebar-section-label">Management</span>
+        <a href="dashboard-admin-users.html" class="nav-link active"><i class="fa-solid fa-users"></i> All Users</a>
+        <a href="dashboard-admin-doctors.html" class="nav-link"><i class="fa-solid fa-user-doctor"></i> Doctors</a>
+        <a href="dashboard-admin-hospitals.html" class="nav-link"><i class="fa-solid fa-hospital"></i> Hospitals</a>
+        <span class="sidebar-section-label">Platform Data</span>
+        <a href="dashboard-admin-jobs.html" class="nav-link"><i class="fa-solid fa-briefcase"></i> Job Listings</a>
+        <a href="dashboard-admin-appointments.html" class="nav-link"><i class="fa-solid fa-calendar-check"></i> Appointments</a>
+        <a href="dashboard-admin-reports.html" class="nav-link"><i class="fa-solid fa-file-invoice"></i> Reports</a>
+        <span class="sidebar-section-label">System</span>
+        <a href="dashboard-admin-settings.html" class="nav-link"><i class="fa-solid fa-gear"></i> Settings</a>
+    </nav>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-footer">
+        <div class="sidebar-user">
+            <div class="sidebar-avatar" style="background:var(--danger)" data-user-avatar>AD</div>
+            <div>
+                <div class="sidebar-uname" data-user-name>Admin</div>
+                <div class="sidebar-urole">Super Admin</div>
+            </div>
+        </div>
+        <button class="sidebar-logout" data-logout><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+    </div>
+</aside>
+
+<div class="main-wrap">
+    <header class="top-header">
+        <div class="header-left">
+            <button class="hamburger-mob" id="hamburgerMob"><i class="fa-solid fa-bars"></i></button>
+            <div class="header-title"><h1>Manage Users</h1><p>View and manage all platform accounts</p></div>
+        </div>
+        <div class="header-right">
+            <button class="btn-primary" style="padding:7px 14px;font-size:.82rem;background:var(--danger);border-color:var(--danger)"><i class="fa-solid fa-user-plus"></i> Add User</button>
+            <div class="header-user-pill"><div class="sidebar-avatar" style="width:26px;height:26px;font-size:.68rem;background:var(--danger)" data-user-avatar>AD</div><span data-user-name>Admin</span></div>
+        </div>
+    </header>
+
+    <div class="content">
+        <div class="page-title"><h1><i class="fa-solid fa-users"></i> Platform Users</h1><p>Manage all Doctors, Hospitals, and Staff accounts in the system.</p></div>
+
+        <div class="filter-bar">
+            <div class="filter-search"><i class="fa-solid fa-magnifying-glass"></i><input type="text" placeholder="Search by name, email, or ID…" /></div>
+            <select class="filter-select">
+                <option value="">All Roles</option>
+                <option value="doctor">Doctors</option>
+                <option value="hospital">Hospitals</option>
+                <option value="staff">Staff/Students</option>
+            </select>
+            <select class="filter-select">
+                <option value="">All Statuses</option>
+                <option value="active">Active</option>
+                <option value="suspended">Suspended</option>
+            </select>
+            <button class="btn-primary" style="padding:9px 16px"><i class="fa-solid fa-filter"></i> Filter</button>
+        </div>
+
+        <div class="dash-card">
+            <div class="table-wrap">
+                <table class="dash-table">
+                    <thead><tr><th>User Info</th><th>Role</th><th>Date Joined</th><th>Status</th><th>Actions</th></tr></thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="user-cell">
+                                    <div class="ua ua-blue">DR</div>
+                                    <div><div class="td-name">Dr. Rajesh Kumar</div><div class="td-sub">rajesh@example.com</div></div>
+                                </div>
+                            </td>
+                            <td><span style="font-weight:600;color:var(--accent)"><i class="fa-solid fa-user-doctor" style="margin-right:4px"></i>Doctor</span></td>
+                            <td>Aug 1, 2026</td>
+                            <td><span class="badge badge-active">Active</span></td>
+                            <td>
+                                <button class="btn-sm btn-outline-sm" title="Edit"><i class="fa-solid fa-pen"></i></button>
+                                <button class="btn-sm btn-outline-sm" style="color:var(--danger);border-color:rgba(239,68,68,0.2)" title="Suspend"><i class="fa-solid fa-ban"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="user-cell">
+                                    <div class="ua ua-green">AH</div>
+                                    <div><div class="td-name">Apollo Hospitals</div><div class="td-sub">contact@apollo.com</div></div>
+                                </div>
+                            </td>
+                            <td><span style="font-weight:600;color:var(--success)"><i class="fa-solid fa-hospital" style="margin-right:4px"></i>Hospital</span></td>
+                            <td>Jul 15, 2026</td>
+                            <td><span class="badge badge-active">Active</span></td>
+                            <td>
+                                <button class="btn-sm btn-outline-sm" title="Edit"><i class="fa-solid fa-pen"></i></button>
+                                <button class="btn-sm btn-outline-sm" style="color:var(--danger);border-color:rgba(239,68,68,0.2)" title="Suspend"><i class="fa-solid fa-ban"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="user-cell">
+                                    <div class="ua ua-purple">SS</div>
+                                    <div><div class="td-name">Sunita Sharma</div><div class="td-sub">sunita.nurse@example.com</div></div>
+                                </div>
+                            </td>
+                            <td><span style="font-weight:600;color:#8b5cf6"><i class="fa-solid fa-user-nurse" style="margin-right:4px"></i>Staff</span></td>
+                            <td>Jun 28, 2026</td>
+                            <td><span class="badge badge-inactive" style="color:var(--danger);background:rgba(239,68,68,0.1)">Suspended</span></td>
+                            <td>
+                                <button class="btn-sm btn-outline-sm" title="Edit"><i class="fa-solid fa-pen"></i></button>
+                                <button class="btn-sm btn-outline-sm" style="color:var(--success);border-color:rgba(16,185,129,0.2)" title="Activate"><i class="fa-solid fa-check"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="user-cell">
+                                    <div class="ua ua-orange">VK</div>
+                                    <div><div class="td-name">Vikram Kapoor</div><div class="td-sub">vikram@example.com</div></div>
+                                </div>
+                            </td>
+                            <td><span style="font-weight:600;color:var(--warning)"><i class="fa-solid fa-user-graduate" style="margin-right:4px"></i>Student</span></td>
+                            <td>Aug 9, 2026</td>
+                            <td><span class="badge badge-pending">Pending Verification</span></td>
+                            <td>
+                                <button class="btn-sm btn-outline-sm" title="Edit"><i class="fa-solid fa-pen"></i></button>
+                                <button class="btn-sm btn-outline-sm" style="color:var(--success);border-color:rgba(16,185,129,0.2)" title="Verify"><i class="fa-solid fa-shield-check"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+</body>
+</html>

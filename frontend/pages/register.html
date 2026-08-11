@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Register – Doctors Coat | Create Your Account</title>
+    <meta name="description" content="Create a free Doctors Coat account. Select your role — Doctor, Hospital, or Staff/Student — to get started." />
+    <link rel="canonical" href="https://doctorscoat.in/pages/register.html" />
+    <link rel="icon" type="image/png" href="../images/DoctorsCoat.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://doctorscoat.in/pages/register.html" />
+    <meta property="og:title" content="Register – Doctors Coat" />
+    <meta property="og:description" content="Create a free Doctors Coat account." />
+
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/dashboard.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <script>window.__authFlow = 'register';</script>
+</head>
+
+<body>
+    <!-- ── STEP 1: ROLE SELECTION ─────────────────────────────── -->
+    <div class="auth-step active" id="step-role-select">
+        <div class="role-select-page">
+            <div class="role-select-container">
+
+                <!-- Logo -->
+                <a href="../index.html" class="role-select-logo">
+                    <img src="../images/DoctorsCoat.png" alt="Doctors Coat" />
+                    <span class="role-select-logo-text">Doctors Coat</span>
+                </a>
+
+                <!-- Header -->
+                <div class="role-select-header">
+                    <h1>Choose Your Account Type</h1>
+                    <p>Select how you want to join Doctors Coat</p>
+                </div>
+
+                <!-- Role Cards Grid -->
+                <div class="role-cards-grid">
+
+                    <!-- Admin (restricted) -->
+                    <div class="role-card" data-role="admin">
+                        <div class="role-card-icon">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </div>
+                        <div class="role-card-title">Admin</div>
+                        <div class="role-card-desc">Platform administration — restricted access only.</div>
+                        <i class="fa-solid fa-chevron-right role-card-arrow"></i>
+                    </div>
+
+                    <!-- Doctor -->
+                    <div class="role-card" data-role="doctor">
+                        <div class="role-card-icon">
+                            <i class="fa-solid fa-user-doctor"></i>
+                        </div>
+                        <div class="role-card-title">Doctor</div>
+                        <div class="role-card-desc">Manage your profile, appointments and patients.</div>
+                        <i class="fa-solid fa-chevron-right role-card-arrow"></i>
+                    </div>
+
+                    <!-- Hospital -->
+                    <div class="role-card" data-role="hospital">
+                        <div class="role-card-icon">
+                            <i class="fa-solid fa-hospital"></i>
+                        </div>
+                        <div class="role-card-title">Hospital</div>
+                        <div class="role-card-desc">Manage hospital information, doctors and job opportunities.</div>
+                        <i class="fa-solid fa-chevron-right role-card-arrow"></i>
+                    </div>
+
+                    <!-- Staff / Student -->
+                    <div class="role-card" data-role="staff">
+                        <div class="role-card-icon">
+                            <i class="fa-solid fa-user-graduate"></i>
+                        </div>
+                        <div class="role-card-title">Staff / Student</div>
+                        <div class="role-card-desc">Find doctors, book appointments and manage your activities.</div>
+                        <i class="fa-solid fa-chevron-right role-card-arrow"></i>
+                    </div>
+
+                </div>
+
+                <!-- Alert message -->
+                <p id="roleSelectMsg" style="display:none;text-align:center;color:#ef4444;font-size:.85rem;margin-bottom:12px;font-weight:600;"></p>
+
+                <!-- Continue Button -->
+                <button class="auth-submit-btn" id="roleSelectContinue" style="max-width:100%;margin-bottom:20px;">
+                    Continue <i class="fa-solid fa-arrow-right" style="margin-left:8px"></i>
+                </button>
+
+                <!-- Footer -->
+                <div class="role-select-footer">
+                    Already have an account? <a href="login.html">Sign in here</a>
+                    &nbsp;·&nbsp; <a href="../index.html">Back to Home</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- ── STEP 2: REGISTER FORM ───────────────────────────────── -->
+    <div class="auth-step" id="step-auth-form">
+        <div class="register-step-page">
+            <div class="register-step-container">
+
+                <!-- Logo -->
+                <a href="../index.html" class="role-select-logo" style="margin-bottom:28px">
+                    <img src="../images/DoctorsCoat.png" alt="Doctors Coat" />
+                    <span class="role-select-logo-text">Doctors Coat</span>
+                </a>
+
+                <!-- ADMIN RESTRICTED (shown for admin role) -->
+                <div id="adminAccessBlock" style="display:none">
+                    <div class="auth-role-indicator" style="margin-bottom:20px">
+                        <div class="auth-role-indicator-left">
+                            <div class="auth-role-indicator-icon">
+                                <i class="fa-solid fa-shield-halved"></i>
+                            </div>
+                            <div>
+                                <div class="auth-role-indicator-text">Selected role</div>
+                                <div class="auth-role-indicator-name">Admin</div>
+                            </div>
+                        </div>
+                        <button class="auth-change-role-btn" id="changeRoleBtnAdmin" type="button">
+                            <i class="fa-solid fa-rotate-left" style="margin-right:4px"></i> Change Role
+                        </button>
+                    </div>
+                    <div class="admin-access-msg">
+                        <i class="fa-solid fa-lock"></i>
+                        <h3>Admin Registration Restricted</h3>
+                        <p>Admin accounts are created by the platform team and cannot be self-registered. Please contact the platform administrator for access credentials.</p>
+                        <a href="login.html" class="auth-submit-btn" style="display:inline-block;max-width:240px;margin-top:20px;text-align:center;text-decoration:none">
+                            <i class="fa-solid fa-arrow-left" style="margin-right:6px"></i>Go to Login
+                        </a>
+                    </div>
+                </div>
+
+                <!-- NORMAL REGISTER FORM -->
+                <div id="normalAuthForm">
+                    <div class="auth-form-card">
+
+                        <!-- Role Indicator -->
+                        <div class="auth-role-indicator">
+                            <div class="auth-role-indicator-left">
+                                <div class="auth-role-indicator-icon">
+                                    <i id="roleIndicatorIconEl" class="fa-solid fa-user"></i>
+                                </div>
+                                <div>
+                                    <div class="auth-role-indicator-text">Registering as</div>
+                                    <div class="auth-role-indicator-name" id="roleIndicatorName">—</div>
+                                </div>
+                            </div>
+                            <button class="auth-change-role-btn" id="changeRoleBtn" type="button">
+                                <i class="fa-solid fa-rotate-left" style="margin-right:4px"></i> Change Role
+                            </button>
+                        </div>
+
+                        <h2 class="auth-form-title" id="authFormTitle">Create Account</h2>
+                        <p class="auth-form-sub">Join thousands of medical professionals on Doctors Coat.</p>
+
+                        <form id="registerFormMain" novalidate>
+
+                            <!-- Base Fields (all roles) -->
+                            <div class="auth-section-label">Personal Information</div>
+
+                            <div class="auth-form-row">
+                                <div class="auth-input-wrap">
+                                    <label class="auth-input-label" for="regFullName">Full Name *</label>
+                                    <input class="auth-input" type="text" id="regFullName" placeholder="Dr. Full Name" required />
+                                </div>
+                                <div class="auth-input-wrap">
+                                    <label class="auth-input-label" for="regPhone">Phone Number *</label>
+                                    <input class="auth-input" type="tel" id="regPhone" placeholder="+91 98765 43210" required />
+                                </div>
+                            </div>
+
+                            <div class="auth-input-wrap">
+                                <label class="auth-input-label" for="regEmail">Email Address *</label>
+                                <input class="auth-input" type="email" id="regEmail" placeholder="you@example.com" required />
+                            </div>
+
+                            <div class="auth-form-row">
+                                <div class="auth-input-wrap" style="position:relative">
+                                    <label class="auth-input-label" for="regPassword">Password *</label>
+                                    <input class="auth-input auth-input-with-icon" type="password" id="regPassword" placeholder="Min 8 chars" required />
+                                    <span class="auth-input-icon" id="toggleRegPass"><i class="fa-solid fa-eye"></i></span>
+                                </div>
+                                <div class="auth-input-wrap" style="position:relative">
+                                    <label class="auth-input-label" for="regConfirm">Confirm Password *</label>
+                                    <input class="auth-input auth-input-with-icon" type="password" id="regConfirm" placeholder="Repeat password" required />
+                                    <span class="auth-input-icon" id="toggleRegConfirm"><i class="fa-solid fa-eye"></i></span>
+                                </div>
+                            </div>
+
+                            <!-- DOCTOR FIELDS -->
+                            <div class="role-fields" id="fields-doctor" style="display:none">
+                                <div class="auth-section-label">Professional Information</div>
+                                <div class="auth-form-row">
+                                    <div class="auth-input-wrap">
+                                        <label class="auth-input-label" for="regQual">Medical Qualification *</label>
+                                        <input class="auth-input" type="text" id="regQual" placeholder="e.g. MBBS, MD" />
+                                    </div>
+                                    <div class="auth-input-wrap">
+                                        <label class="auth-input-label" for="regSpec">Specialization *</label>
+                                        <input class="auth-input" type="text" id="regSpec" placeholder="e.g. Cardiology" />
+                                    </div>
+                                </div>
+                                <div class="auth-form-row">
+                                    <div class="auth-input-wrap">
+                                        <label class="auth-input-label" for="regExp">Years of Experience</label>
+                                        <input class="auth-input" type="number" id="regExp" placeholder="e.g. 5" min="0" />
+                                    </div>
+                                    <div class="auth-input-wrap">
+                                        <label class="auth-input-label" for="regLicense">Medical License No.</label>
+                                        <input class="auth-input" type="text" id="regLicense" placeholder="e.g. MCI-12345" />
+                                    </div>
+                                </div>
+                                <div class="auth-input-wrap">
+                                    <label class="auth-input-label" for="regDocAddr">Clinic/Work Address</label>
+                                    <input class="auth-input" type="text" id="regDocAddr" placeholder="City, State" />
+                                </div>
+                                <div class="auth-input-wrap">
+                                    <label class="auth-input-label" for="regDocPhoto">Profile Photo</label>
+                                    <input class="auth-input" type="file" id="regDocPhoto" accept="image/*" style="padding:8px 14px" />
+                                </div>
+                            </div>
+
+                            <!-- HOSPITAL FIELDS -->
+                            <div class="role-fields" id="fields-hospital" style="display:none">
+                                <div class="auth-section-label">Hospital Information</div>
+                                <div class="auth-input-wrap">
+                                    <label class="auth-input-label" for="regHospName">Hospital Name *</label>
+                                    <input class="auth-input" type="text" id="regHospName" placeholder="e.g. Apollo Hospitals" />
+                                </div>
+                                <div class="auth-input-wrap">
+                                    <label class="auth-input-label" for="regHospAddr">Hospital Address *</label>
+                                    <input class="auth-input" type="text" id="regHospAddr" placeholder="Full address with city & state" />
+                                </div>
+                                <div class="auth-form-row">
+                                    <div class="auth-input-wrap">
+                                        <label class="auth-input-label" for="regHospContact">Contact Number *</label>
+                                        <input class="auth-input" type="tel" id="regHospContact" placeholder="+91 11 2345 6789" />
+                                    </div>
+                                    <div class="auth-input-wrap">
+                                        <label class="auth-input-label" for="regHospReg">Registration Number</label>
+                                        <input class="auth-input" type="text" id="regHospReg" placeholder="Hospital reg. no." />
+                                    </div>
+                                </div>
+                                <div class="auth-input-wrap">
+                                    <label class="auth-input-label" for="regHospLogo">Hospital Logo</label>
+                                    <input class="auth-input" type="file" id="regHospLogo" accept="image/*" style="padding:8px 14px" />
+                                </div>
+                            </div>
+
+                            <!-- STAFF / STUDENT FIELDS -->
+                            <div class="role-fields" id="fields-staff" style="display:none">
+                                <div class="auth-section-label">Additional Information</div>
+                                <div class="auth-input-wrap">
+                                    <label class="auth-input-label" for="regOrg">Institution / Organization</label>
+                                    <input class="auth-input" type="text" id="regOrg" placeholder="e.g. AIIMS, Apollo Clinic" />
+                                </div>
+                                <div class="auth-input-wrap">
+                                    <label class="auth-input-label" for="regStaffAddr">Address</label>
+                                    <input class="auth-input" type="text" id="regStaffAddr" placeholder="City, State" />
+                                </div>
+                                <div class="auth-input-wrap">
+                                    <label class="auth-input-label" for="regStaffPhoto">Profile Photo</label>
+                                    <input class="auth-input" type="file" id="regStaffPhoto" accept="image/*" style="padding:8px 14px" />
+                                </div>
+                            </div>
+
+                            <!-- Message -->
+                            <p class="auth-msg" id="registerFormMsg" style="margin-top:8px"></p>
+
+                            <!-- Submit -->
+                            <button type="submit" class="auth-submit-btn" style="margin-top:4px">
+                                <i class="fa-solid fa-user-plus" style="margin-right:8px"></i>Create Account
+                            </button>
+
+                        </form>
+
+                        <p class="auth-divider-text">
+                            Already have an account? <a href="login.html">Sign in here</a>
+                        </p>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/role-selection.js"></script>
+    <script src="../js/api.js"></script>
+    <script>
+        // Password toggles
+        function setupPwdToggle(btnId, inputId) {
+            const btn = document.getElementById(btnId);
+            const inp = document.getElementById(inputId);
+            if (!btn || !inp) return;
+            btn.addEventListener('click', () => {
+                const isPass = inp.type === 'password';
+                inp.type = isPass ? 'text' : 'password';
+                btn.querySelector('i').className = isPass ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye';
+            });
+        }
+        setupPwdToggle('toggleRegPass', 'regPassword');
+        setupPwdToggle('toggleRegConfirm', 'regConfirm');
+
+        // Admin block change role
+        document.getElementById('changeRoleBtnAdmin')?.addEventListener('click', () => {
+            sessionStorage.removeItem('drhire-selected-role');
+            document.getElementById('step-auth-form').classList.remove('active');
+            document.getElementById('step-role-select').classList.add('active');
+            document.getElementById('adminAccessBlock').style.display = 'none';
+            document.getElementById('normalAuthForm').style.display = 'block';
+        });
+
+        // ── Real PHP API Registration ──────────────────────────────
+        document.getElementById('registerFormMain')?.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const btn     = this.querySelector('button[type=submit]');
+            const msg     = document.getElementById('registerFormMsg');
+            const pass    = document.getElementById('regPassword')?.value;
+            const confirm = document.getElementById('regConfirm')?.value;
+
+            if (pass !== confirm) {
+                msg.textContent = 'Passwords do not match.';
+                msg.className = 'auth-msg error';
+                return;
+            }
+            if (pass.length < 8) {
+                msg.textContent = 'Password must be at least 8 characters.';
+                msg.className = 'auth-msg error';
+                return;
+            }
+
+            const role = sessionStorage.getItem('drhire-selected-role') || 'staff';
+
+            // Build payload based on role
+            const payload = {
+                role,
+                email:     document.getElementById('regEmail')?.value?.trim(),
+                password:  pass,
+                full_name: document.getElementById('regFullName')?.value?.trim(),
+                phone:     document.getElementById('regPhone')?.value?.trim() || '',
+            };
+
+            if (role === 'doctor') {
+                payload.specialization    = document.getElementById('regSpecialization')?.value?.trim() || '';
+                payload.qualification     = document.getElementById('regQualification')?.value?.trim() || '';
+                payload.experience_years  = parseInt(document.getElementById('regExperience')?.value || '0', 10);
+                payload.license_no        = document.getElementById('regLicense')?.value?.trim() || '';
+            } else if (role === 'hospital') {
+                payload.hospital_name    = document.getElementById('regHospName')?.value?.trim() || '';
+                payload.address          = document.getElementById('regHospAddr')?.value?.trim() || '';
+                payload.contact_phone    = document.getElementById('regHospContact')?.value?.trim() || '';
+                payload.registration_no  = document.getElementById('regHospReg')?.value?.trim() || '';
+            } else if (role === 'staff') {
+                payload.organization = document.getElementById('regOrg')?.value?.trim() || '';
+                payload.address      = document.getElementById('regStaffAddr')?.value?.trim() || '';
+            }
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin" style="margin-right:8px"></i>Creating account…';
+            msg.textContent = '';
+            msg.className = 'auth-msg';
+
+            try {
+                const data = await api.post('/auth/register', payload);
+                const serverRole = data.user?.role || role;
+
+                const dashMap = {
+                    admin:    'dashboard-admin.html',
+                    doctor:   'dashboard-doctor.html',
+                    hospital: 'dashboard-hospital.html',
+                    staff:    'dashboard-staff.html',
+                };
+
+                msg.textContent = '✅ Account created! Redirecting to your dashboard…';
+                msg.className = 'auth-msg success';
+
+                // Upload profile photo after registration (non-blocking)
+                const photoInput = document.getElementById('regDocPhoto') || document.getElementById('regHospLogo') || document.getElementById('regStaffPhoto');
+                if (photoInput?.files?.[0]) {
+                    const cat = (serverRole === 'hospital') ? 'hospital_logo' : 'profile_photo';
+                    api.upload(cat, photoInput.files[0]).catch(() => {});
+                }
+
+                setTimeout(() => {
+                    window.location.href = dashMap[serverRole] || 'dashboard-staff.html';
+                }, 1200);
+
+            } catch (err) {
+                msg.textContent = err.message || 'Registration failed. Please try again.';
+                msg.className = 'auth-msg error';
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fa-solid fa-user-plus" style="margin-right:8px"></i>Create Account';
+            }
+        });
+    </script>
+</body>
+
+</html>

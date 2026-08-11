@@ -1,0 +1,11 @@
+[build]
+builder = "NIXPACKS"
+buildCommand = "echo 'No build required for PHP'"
+
+[deploy]
+startCommand = "apache2-foreground"
+healthcheckPath = "/api/jobs"
+healthcheckTimeout = 100
+
+[phases.setup]
+nixPkgs = ["php83", "php83Extensions.pdo", "php83Extensions.pdo_mysql", "php83Extensions.fileinfo", "php83Extensions.curl"]

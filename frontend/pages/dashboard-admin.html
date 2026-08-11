@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Admin Dashboard – Doctors Coat</title>
+    <meta name="description" content="Admin dashboard for Doctors Coat platform management." />
+    <link rel="icon" type="image/png" href="../images/DoctorsCoat.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" href="../css/dashboard-shared.css" />
+</head>
+<body>
+<script src="../js/theme.js"></script>
+
+    <!-- SIDEBAR OVERLAY -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- ── SIDEBAR ──────────────────────────────────────────────── -->
+    <!-- ── SIDEBAR ─────────────────────────────────────────────── -->
+<aside class="sidebar" id="dashSidebar">
+    <div class="sidebar-top">
+        <div class="sidebar-logo-icon">DC</div>
+        <span class="sidebar-brand">Doctors Coat</span>
+    </div>
+    <div class="sidebar-role-badge" style="background:rgba(239,68,68,0.1);color:var(--danger);border:1px solid rgba(239,68,68,0.2)"><i class="fa-solid fa-shield-halved" style="margin-right:5px"></i>Admin Portal</div>
+    <nav class="sidebar-nav">
+        <span class="sidebar-section-label">Overview</span>
+        <a href="dashboard-admin.html" class="nav-link active"><i class="fa-solid fa-chart-pie"></i> Dashboard</a>
+        <a href="dashboard-admin-analytics.html" class="nav-link"><i class="fa-solid fa-chart-column"></i> Analytics</a>
+        <span class="sidebar-section-label">Management</span>
+        <a href="dashboard-admin-users.html" class="nav-link"><i class="fa-solid fa-users"></i> All Users</a>
+        <a href="dashboard-admin-doctors.html" class="nav-link"><i class="fa-solid fa-user-doctor"></i> Doctors</a>
+        <a href="dashboard-admin-hospitals.html" class="nav-link"><i class="fa-solid fa-hospital"></i> Hospitals</a>
+        <span class="sidebar-section-label">Platform Data</span>
+        <a href="dashboard-admin-jobs.html" class="nav-link"><i class="fa-solid fa-briefcase"></i> Job Listings</a>
+        <a href="dashboard-admin-appointments.html" class="nav-link"><i class="fa-solid fa-calendar-check"></i> Appointments</a>
+        <a href="dashboard-admin-reports.html" class="nav-link"><i class="fa-solid fa-file-invoice"></i> Reports</a>
+        <span class="sidebar-section-label">System</span>
+        <a href="dashboard-admin-settings.html" class="nav-link"><i class="fa-solid fa-gear"></i> Settings</a>
+    </nav>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-footer">
+        <div class="sidebar-user">
+            <div class="sidebar-avatar" style="background:var(--danger)" data-user-avatar>AD</div>
+            <div>
+                <div class="sidebar-uname" data-user-name>Admin</div>
+                <div class="sidebar-urole">Super Admin</div>
+            </div>
+        </div>
+        <button class="sidebar-logout" data-logout><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+    </div>
+</aside>
+
+    <!-- ── MAIN ─────────────────────────────────────────────────── -->
+    <div class="main-wrap">
+
+        <!-- TOP HEADER -->
+        <header class="top-header">
+        <div class="header-left">
+            <button class="hamburger-mob" id="hamburgerMob"><i class="fa-solid fa-bars"></i></button>
+            <div class="header-title">
+                <h1>Admin Dashboard</h1>
+                <p id="dashDate">Loading…</p>
+            </div>
+        </div>
+        <div class="header-right">
+            <div class="header-search">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" placeholder="Search across platform…" />
+            </div>
+            <button class="header-icon-btn" title="Notifications">
+                <i class="fa-solid fa-bell"></i>
+                <div class="notif-dot"></div>
+            </button>
+            <div class="header-user-pill">
+                <div class="sidebar-avatar" style="width:26px;height:26px;font-size:.68rem;background:var(--danger)" data-user-avatar>AD</div>
+                <span data-user-name>Admin</span>
+            </div>
+        </div>
+    </header>
+
+        <!-- CONTENT -->
+        <div class="content">
+
+            <!-- TOP 2 BIG STAT CARDS (reference style) -->
+            <div class="top-stats">
+
+                <!-- Total Users Card -->
+                <div class="top-stat-card">
+                    <div class="tsc-left">
+                        <div class="tsc-label">Total Users</div>
+                        <div class="tsc-value" data-stat-num="3450">0</div>
+                        <div class="tsc-change up"><i class="fa-solid fa-arrow-trend-up"></i> +12% this month</div>
+                    </div>
+                    <div class="tsc-right">
+                        <div class="sparkline-wrap">
+                            <svg viewBox="0 0 120 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <defs>
+                                    <linearGradient id="sg1" x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="0%" stop-color="#0ea5e9" stop-opacity="0.35"/>
+                                        <stop offset="100%" stop-color="#0ea5e9" stop-opacity="0"/>
+                                    </linearGradient>
+                                </defs>
+                                <path d="M0 38 L15 32 L28 35 L40 25 L52 28 L64 18 L76 22 L85 14 L95 18 L105 10 L120 8" stroke="#0ea5e9" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M0 38 L15 32 L28 35 L40 25 L52 28 L64 18 L76 22 L85 14 L95 18 L105 10 L120 8 L120 50 L0 50Z" fill="url(#sg1)"/>
+                                <!-- Red dot highlight -->
+                                <circle cx="85" cy="14" r="3.5" fill="#ef4444" opacity="0.9"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Active Sessions Card -->
+                <div class="top-stat-card">
+                    <div class="tsc-left">
+                        <div class="tsc-label">Active Sessions</div>
+                        <div class="tsc-value" data-stat-num="1120">0</div>
+                        <div class="tsc-change live">
+                            <span style="width:7px;height:7px;border-radius:50%;background:var(--success);display:inline-block;animation:pulse 1.5s infinite"></span>
+                            live
+                        </div>
+                    </div>
+                    <div class="tsc-right">
+                        <div class="wifi-icon-big">
+                            <i class="fa-solid fa-wifi"></i>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- MINI STATS ROW (4 small) -->
+            <div class="mini-stat-row">
+                <div class="mini-stat">
+                    <div class="mini-stat-ico ico-bg-blue"><i class="fa-solid fa-user-doctor"></i></div>
+                    <div class="mini-stat-body">
+                        <div class="mini-val" data-stat-num="386">0</div>
+                        <div class="mini-label">Total Doctors</div>
+                        <div class="mini-change up">↑ +8 this month</div>
+                    </div>
+                </div>
+                <div class="mini-stat">
+                    <div class="mini-stat-ico ico-bg-green"><i class="fa-solid fa-hospital"></i></div>
+                    <div class="mini-stat-body">
+                        <div class="mini-val" data-stat-num="142">0</div>
+                        <div class="mini-label">Total Hospitals</div>
+                        <div class="mini-change up">↑ +3 this month</div>
+                    </div>
+                </div>
+                <div class="mini-stat">
+                    <div class="mini-stat-ico ico-bg-yellow"><i class="fa-solid fa-calendar-check"></i></div>
+                    <div class="mini-stat-body">
+                        <div class="mini-val" data-stat-num="2847">0</div>
+                        <div class="mini-label">Appointments</div>
+                        <div class="mini-change up">↑ +127 this week</div>
+                    </div>
+                </div>
+                <div class="mini-stat">
+                    <div class="mini-stat-ico ico-bg-cyan"><i class="fa-solid fa-briefcase-medical"></i></div>
+                    <div class="mini-stat-body">
+                        <div class="mini-val" data-stat-num="58">0</div>
+                        <div class="mini-label">Active Jobs</div>
+                        <div class="mini-change up">↑ +5 today</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CHARTS ROW -->
+            <div class="charts-row">
+
+                <!-- Revenue Over Time (Area Chart) -->
+                <div class="chart-card">
+                    <div class="chart-card-header">
+                        <div class="chart-card-title">Revenue Over Time</div>
+                        <div class="chart-card-sub">$45.2k</div>
+                    </div>
+                    <div class="chart-body">
+                        <div class="area-chart-wrap">
+                            <svg viewBox="0 0 400 130" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                                <defs>
+                                    <linearGradient id="ag1" x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="0%" stop-color="#8b5cf6" stop-opacity="0.5"/>
+                                        <stop offset="100%" stop-color="#8b5cf6" stop-opacity="0.02"/>
+                                    </linearGradient>
+                                    <linearGradient id="ag2" x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="0%" stop-color="#0ea5e9" stop-opacity="0.45"/>
+                                        <stop offset="100%" stop-color="#0ea5e9" stop-opacity="0.02"/>
+                                    </linearGradient>
+                                </defs>
+                                <!-- Grid lines -->
+                                <line x1="0" y1="26" x2="400" y2="26" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+                                <line x1="0" y1="52" x2="400" y2="52" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+                                <line x1="0" y1="78" x2="400" y2="78" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+                                <line x1="0" y1="104" x2="400" y2="104" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+                                <!-- Purple area (revenue) -->
+                                <path d="M0 90 C40 80, 60 95, 80 85 C100 75, 120 60, 140 55 C160 50, 180 70, 200 60 C220 50, 240 30, 260 25 C280 20, 300 35, 320 28 C340 21, 360 15, 400 10 L400 130 L0 130Z" fill="url(#ag1)"/>
+                                <path d="M0 90 C40 80, 60 95, 80 85 C100 75, 120 60, 140 55 C160 50, 180 70, 200 60 C220 50, 240 30, 260 25 C280 20, 300 35, 320 28 C340 21, 360 15, 400 10" stroke="#8b5cf6" stroke-width="2" fill="none" stroke-linecap="round"/>
+                                <!-- Blue area (second metric) -->
+                                <path d="M0 110 C40 100, 60 108, 80 98 C100 88, 120 75, 140 70 C160 65, 180 80, 200 72 C220 64, 240 48, 260 42 C280 36, 300 50, 320 44 C340 38, 360 32, 400 28 L400 130 L0 130Z" fill="url(#ag2)"/>
+                                <path d="M0 110 C40 100, 60 108, 80 98 C100 88, 120 75, 140 70 C160 65, 180 80, 200 72 C220 64, 240 48, 260 42 C280 36, 300 50, 320 44 C340 38, 360 32, 400 28" stroke="#0ea5e9" stroke-width="2" fill="none" stroke-linecap="round"/>
+                                <!-- Red dot -->
+                                <circle cx="260" cy="25" r="4" fill="#ef4444" opacity="0.9"/>
+                            </svg>
+                        </div>
+                        <div class="chart-xaxis">
+                            <span>Oct 1</span><span>Oct 8</span><span>Oct 12</span><span>Oct 16</span><span>Oct 20</span><span>Oct 26</span><span>Oct 29</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- User Engagement (Bar Chart) -->
+                <div class="chart-card">
+                    <div class="chart-card-header">
+                        <div class="chart-card-title">User Engagement</div>
+                        <div class="chart-card-sub">8.5k/day</div>
+                    </div>
+                    <div class="chart-body">
+                        <div class="bar-chart-wrap" id="barChartWrap">
+                            <!-- Generated by JS -->
+                        </div>
+                        <div class="chart-xaxis" id="barXaxis"></div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- BOTTOM ROW: Quick Actions + Recent Activities -->
+            <div class="bottom-row">
+
+                <!-- Quick Actions -->
+                <div class="dash-card">
+                    <div class="dash-card-header">
+                        <div class="dash-card-title"><i class="fa-solid fa-bolt"></i> Quick Actions</div>
+                    </div>
+                    <div class="qa-grid">
+                        <a href="#" class="qa-btn"><i class="fa-solid fa-user-plus ico-blue"></i> Create User</a>
+                        <a href="#" class="qa-btn"><i class="fa-solid fa-file-chart-column ico-green"></i> Generate Report</a>
+                        <a href="#" class="qa-btn"><i class="fa-solid fa-calendar-plus ico-orange"></i> Add Event</a>
+                        <a href="#" class="qa-btn"><i class="fa-solid fa-circle-check ico-purple"></i> System Check</a>
+                    </div>
+                </div>
+
+                <!-- Recent Activities -->
+                <div class="dash-card">
+                    <div class="dash-card-header">
+                        <div class="dash-card-title"><i class="fa-solid fa-clock-rotate-left"></i> Recent Activities</div>
+                        <span class="rows-label">Rows</span>
+                    </div>
+                    <table class="act-table">
+                        <thead>
+                            <tr>
+                                <th>Activity</th>
+                                <th>User</th>
+                                <th>Time</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="td-act">Ritesh V. updated Profile</td>
+                                <td>
+                                    <div class="user-cell">
+                                        <div class="ua ua-blue">RV</div>
+                                        Ritesh V.
+                                    </div>
+                                </td>
+                                <td class="time-col">2m ago</td>
+                            </tr>
+                            <tr>
+                                <td class="td-act">Sales Report generated</td>
+                                <td>
+                                    <div class="user-cell">
+                                        <div class="ua ua-blue">RV</div>
+                                        Ritesh V.
+                                    </div>
+                                </td>
+                                <td class="time-col">5m ago</td>
+                            </tr>
+                            <tr>
+                                <td class="td-act">Priya S. logged in</td>
+                                <td>
+                                    <div class="user-cell">
+                                        <div class="ua ua-green">PS</div>
+                                        Priya S.
+                                    </div>
+                                </td>
+                                <td class="time-col">5m ago</td>
+                            </tr>
+                            <tr>
+                                <td class="td-act">System update applied</td>
+                                <td>
+                                    <div class="user-cell">
+                                        <div class="ua ua-green">PS</div>
+                                        Priya S.
+                                    </div>
+                                </td>
+                                <td class="time-col">5m ago</td>
+                            </tr>
+                            <tr>
+                                <td class="td-act">New doctor registered</td>
+                                <td>
+                                    <div class="user-cell">
+                                        <div class="ua ua-purple">AK</div>
+                                        Amit K.
+                                    </div>
+                                </td>
+                                <td class="time-col">12m ago</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+<style>
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+@keyframes countUp { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+</style>
+
+
+<script src="../js/api.js"></script>
+<script src="../js/auth-guard.js"></script>
+<script src="../js/dashboard-admin-main.js"></script>
+<script>
+// Mock charts (optional - to be replaced by real chart.js or left as UI only)
+const barWrap = document.getElementById('barChartWrap');
+const barX = document.getElementById('barXaxis');
+if (barWrap && barX) {
+    const days = ['M','T','W','T','F','S','S'];
+    const vals = [40, 65, 45, 80, 55, 90, 70];
+    vals.forEach((v,i) => {
+        const col = document.createElement('div'); col.className = 'bar-col';
+        const fill = document.createElement('div'); fill.className = 'bar-fill';
+        fill.style.height = v + '%';
+        col.appendChild(fill);
+        barWrap.appendChild(col);
+        const span = document.createElement('span'); span.textContent = days[i];
+        barX.appendChild(span);
+    });
+}
+</script>
+</body>
+</html>

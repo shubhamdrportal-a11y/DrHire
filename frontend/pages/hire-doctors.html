@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Hire Doctors – Doctors Coat for Hospitals</title>
+    <meta name="description" content="Hire verified, credential-checked doctors for your hospital or clinic. Share your requirement and receive a qualified shortlist within 48 hours." />
+    <link rel="canonical" href="https://doctorscoat.in/pages/hire-doctors.html" />
+    <link rel="icon" type="image/png" href="../images/DoctorsCoat.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://doctorscoat.in/pages/hire-doctors.html" />
+    <meta property="og:title" content="Hire Doctors – Doctors Coat for Hospitals" />
+    <meta property="og:description" content="Hire verified, credential-checked doctors for your hospital or clinic. Share your requirement and receive a qualified shortlist within 48 hours." />
+    <meta property="og:image" content="https://doctorscoat.in/DoctorsCoat.png" />
+
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:title" content="Hire Doctors – Doctors Coat for Hospitals" />
+    <meta property="twitter:description" content="Hire verified, credential-checked doctors for your hospital or clinic. Share your requirement and receive a qualified shortlist within 48 hours." />
+
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/pages.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+</head>
+
+<body>
+    <!-- MOBILE NAV -->
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+    <nav class="mobile-menu" id="mobileMenu">
+        <a href="../index.html">Home</a>
+        <a href="services.html">Services</a>
+        <a href="jobs.html">Jobs</a>
+        <a href="why-us.html">Why Us</a>
+        <a href="testimonials.html">Testimonials</a>
+        <a href="contact.html">Contact</a>
+
+        <div id="mobileUserInfo" style="display:none;flex-direction:column;gap:12px;margin-top:20px;padding-top:20px;border-top:1px solid var(--border)">
+            <div style="display:flex;align-items:center;gap:10px">
+                <div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#0ea5e9,#06b6d4);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem;color:#fff">
+                    <i class="fa-solid fa-user-doctor"></i>
+                </div>
+                <span id="mobileUserEmail" style="font-size:.88rem;color:var(--text);font-weight:500"></span>
+            </div>
+            <button id="mobileLogoutBtn" style="padding:10px;border:1px solid rgba(239,68,68,.5);background:rgba(239,68,68,.1);color:#ef4444;border-radius:50px;font-size:.9rem;cursor:pointer;font-weight:600;transition:.3s;width:100%">Logout</button>
+        </div>
+        <button class="btn-primary" id="mobileLoginBtn" style="text-align:center;margin-top:20px;width:100%;cursor:pointer">Login / Register</button>
+    </nav>
+
+    <!-- NAVBAR -->
+    <nav>
+        <div class="logo">
+            <a href="../index.html" style="display:flex;align-items:center;gap:10px;text-decoration:none">
+                <img src="../images/DoctorsCoat.png" alt="Doctors Coat Logo" />
+                <span class="logo-text">Doctors Coat</span>
+            </a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="jobs.html">Jobs</a></li>
+            <li><a href="why-us.html">Why Us</a></li>
+            <li><a href="testimonials.html">Testimonials</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <div class="nav-cta">
+            <button id="themeToggle" aria-label="Toggle theme" title="Toggle light/dark mode"
+                style="width:38px;height:38px;border-radius:50%;border:1.5px solid var(--border);background:var(--card-bg);color:var(--text);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;transition:.3s"><i
+                    class="fa-solid fa-sun" id="themeIcon"></i></button>
+            <button class="btn-outline" id="navLoginBtn" style="display:flex;align-items:center;gap:6px;border-color:transparent;background:transparent;color:var(--text)"><i
+                    class="fa-solid fa-user"></i> Login</button>
+            <div id="navUserInfo" style="display:none;align-items:center;gap:10px">
+                <div
+                    style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#0ea5e9,#06b6d4);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem;color:#fff">
+                    <i class="fa-solid fa-user-doctor"></i>
+                </div>
+                <span id="navUserEmail" style="font-size:.88rem;color:#588ed5;font-weight:500"></span>
+                <button id="logoutBtn"
+                    style="padding:6px 14px;border:1px solid rgba(239,68,68,.5);background:rgba(239,68,68,.1);color:#ef4444;border-radius:50px;font-size:.8rem;cursor:pointer;font-weight:600;transition:.3s">Logout</button>
+            </div>
+            <a href="jobs.html" class="btn-outline">Find Jobs</a>
+            <a href="hire-doctors.html" class="btn-primary">Hire Doctors</a>
+        </div>
+        <div class="hamburger" id="hamburger">
+            <span></span><span></span><span></span>
+        </div>
+    </nav>
+
+    <!-- PAGE HEADER -->
+    <section class="page-header">
+        <span class="section-tag">For Hospitals</span>
+        <h1>Hire Verified <span>Doctors, Fast</span></h1>
+        <p>Tell us your staffing requirement and get a qualified, credential-checked shortlist within 48 hours.</p>
+    </section>
+
+    <section class="section" style="padding-top:0">
+        <div class="hire-wrap">
+            <div>
+                <span class="section-tag">For Hospitals &amp; Recruiters</span>
+                <h2 style="font-family:'Playfair Display',serif;font-size:clamp(1.5rem,2.8vw,2.1rem);margin:14px 0 24px">Staff Your Hospital With Verified Doctors — Fast</h2>
+                <div class="hire-benefits">
+                    <div class="hire-benefit-item"><div class="hire-benefit-icon"><i class="fa-solid fa-shield-halved"></i></div><div><h4>Pre-Verified Candidates</h4><p>Every doctor's credentials are checked before they reach your shortlist.</p></div></div>
+                    <div class="hire-benefit-item"><div class="hire-benefit-icon"><i class="fa-solid fa-bolt"></i></div><div><h4>48-Hour Shortlists</h4><p>Most requirements receive a qualified shortlist within two business days.</p></div></div>
+                    <div class="hire-benefit-item"><div class="hire-benefit-icon"><i class="fa-solid fa-headset"></i></div><div><h4>Dedicated Coordinator</h4><p>A single point of contact manages your requirement end-to-end.</p></div></div>
+                    <div class="hire-benefit-item"><div class="hire-benefit-icon"><i class="fa-solid fa-indian-rupee-sign"></i></div><div><h4>Transparent Pricing</h4><p>No hidden fees — you know exactly what you're paying for, upfront.</p></div></div>
+                </div>
+                <div class="trust-strip" style="justify-content:flex-start;margin-top:32px">
+                    <div class="trust-chip"><i class="fa-solid fa-circle-check"></i> 500+ Hospitals</div>
+                    <div class="trust-chip"><i class="fa-solid fa-circle-check"></i> 1200+ Doctors Placed</div>
+                    <div class="trust-chip"><i class="fa-solid fa-circle-check"></i> Pan-India Reach</div>
+                </div>
+            </div>
+
+            <div class="hire-form-card">
+                <h3>Tell Us Your Requirement</h3>
+                <p style="color:var(--muted);font-size:.85rem;margin-bottom:24px">Our team will review your requirement and get back to you within 24 hours.</p>
+                <form id="hireForm">
+                    <div class="form-row">
+                        <div class="form-group"><label>Hospital / Clinic Name *</label><input type="text" id="hireHospital" placeholder="e.g. Apollo Hospitals" required /></div>
+                        <div class="form-group"><label>Contact Person *</label><input type="text" id="hireContactName" placeholder="Your full name" required /></div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group"><label>Email *</label><input type="email" id="hireEmail" placeholder="you@hospital.com" required /></div>
+                        <div class="form-group"><label>Phone *</label><input type="tel" id="hirePhone" placeholder="+91 84454 61195" required /></div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group"><label>Specialization Needed *</label><input type="text" id="hireSpecialization" placeholder="e.g. Cardiology" required /></div>
+                        <div class="form-group"><label>Number of Positions *</label><input type="number" id="hirePositions" min="1" value="1" required /></div>
+                    </div>
+                    <div class="form-group">
+                        <label>Urgency *</label>
+                        <select id="hireUrgency" required>
+                            <option value="" disabled selected>Select urgency</option>
+                            <option>Immediate (within 48 hours)</option>
+                            <option>Within 1 week</option>
+                            <option>Within 1 month</option>
+                            <option>Just exploring</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Requirement Details *</label>
+                        <textarea id="hireMessage" placeholder="Experience level, shift pattern, location, and any other requirements…" required></textarea>
+                    </div>
+                    <button type="submit" class="form-submit"><i class="fa-solid fa-paper-plane" style="margin-right:8px"></i>Submit Requirement</button>
+                    <div id="hireFormSuccess" class="form-success"><i class="fa-solid fa-circle-check" style="margin-right:8px"></i>Requirement received! Our team will contact you within 24 hours.</div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <section class="section why">
+        <div class="section-header">
+            <span class="section-tag">How It Works</span>
+            <h2>Our Hiring Process</h2>
+        </div>
+        <div class="process-grid">
+            <div class="process-step"><div class="step-num">1</div><h3>Submit Requirement</h3><p>Share role, specialty, urgency, and headcount using the form above.</p></div>
+            <div class="process-step"><div class="step-num">2</div><h3>We Shortlist</h3><p>Our team matches verified doctors against your exact requirement.</p></div>
+            <div class="process-step"><div class="step-num">3</div><h3>You Interview</h3><p>Review candidates and interview directly, with our support throughout.</p></div>
+            <div class="process-step"><div class="step-num">4</div><h3>Onboard</h3><p>We assist with documentation until the candidate joins.</p></div>
+        </div>
+        <div class="trust-strip">
+            <div class="trust-chip"><i class="fa-solid fa-circle-check"></i> No fees for your first 3 hires</div>
+            <div class="trust-chip"><i class="fa-solid fa-circle-check"></i> Dedicated account manager</div>
+            <div class="trust-chip"><i class="fa-solid fa-circle-check"></i> Verified doctors only</div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <div class="logo">
+                    <img src="../images/DoctorsCoat.png" alt="Doctors Coat Logo" />
+                    <span class="logo-text">Doctors Coat</span>
+                </div>
+                <p>India's premier doctor recruitment platform connecting qualified medical professionals with top
+                    hospitals across all 28 states.</p>
+                <div class="social-links">
+                    <a href="https://www.linkedin.com/company/doctorscoattalent/posts/?feedView=all" target="_blank"
+                        class="social-link" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                    <a href="https://wa.me/918445461195" target="_blank" class="social-link" aria-label="WhatsApp"><i
+                            class="fa-brands fa-whatsapp"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="why-us.html">Why Doctors Coat</a></li>
+                    <li><a href="testimonials.html">Success Stories</a></li>
+                    <li><a href="careers.html">Careers</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Services</h4>
+                <ul>
+                    <li><a href="service-details.html?service=doctor-recruitment">Doctor Recruitment</a></li>
+                    <li><a href="service-details.html?service=hospital-hiring">Hospital Hiring</a></li>
+                    <li><a href="service-details.html?service=medical-staffing">Medical Staffing</a></li>
+                    <li><a href="service-details.html?service=career-guidance">Career Guidance</a></li>
+                    <li><a href="service-details.html?service=resume-support">Resume Support</a></li>
+                    <li><a href="service-details.html?service=emergency-hiring">Emergency Hiring</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contact</h4>
+                <ul>
+                    <li><a href="tel:+918445461195">+91 84454 61195</a></li>
+                    <li><a href="mailto:hello@doctorscoat.in">hello@doctorscoat.in</a></li>
+                    <li><a href="contact.html">Laxmi Nagar , New Delhi</a></li>
+                    <li><a href="support.html">Support Center</a></li>
+                    <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                    <li><a href="terms.html">Terms of Service</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 Doctors Coat. All rights reserved. Made with <i class="fa-solid fa-heart"
+                    style="color:#ef4444"></i> for Indian Healthcare.</p>
+            <div class="footer-bottom-links">
+                <a href="privacy-policy.html">Privacy Policy</a>
+                <a href="terms.html">Terms of Service</a>
+                <a href="sitemap.html">Sitemap</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- APPLY MODAL -->
+    <div class="modal-overlay" id="applyModal">
+        <div class="modal">
+            <button class="modal-close" id="modalClose"><i class="fa-solid fa-xmark"></i></button>
+            <h3 id="applyJobTitle">Apply for Job</h3>
+            <p style="color:#94a3b8;font-size:.85rem;margin-bottom:20px">Fill in your details and we'll get back to you
+                within 24 hours.</p>
+            <div id="applyFormWrap">
+                <form id="applyForm">
+                    <div class="form-group"><label>Full Name *</label><input type="text" id="applyName"
+                            placeholder="Dr. Full Name" required /></div>
+                    <div class="form-group"><label>Email *</label><input type="email" id="applyEmail"
+                            placeholder="your@email.com" required /></div>
+                    <div class="form-group"><label>Phone *</label><input type="tel" id="applyPhone"
+                            placeholder="+91 84454 61195" required /></div>
+                    <div class="form-group"><label>Specialization</label><input type="text" id="applySpec"
+                            placeholder="e.g. Cardiology" /></div>
+                    <button type="submit" class="form-submit"><i class="fa-solid fa-paper-plane"
+                            style="margin-right:8px"></i>Submit Application</button>
+                </form>
+            </div>
+            <div id="applySuccessMsg" style="display:none;text-align:center;padding:32px 16px">
+                <i class="fa-solid fa-circle-check fa-3x" style="color:#10b981"></i>
+                <p style="font-size:1.1rem;font-weight:700;margin-top:16px;color:#e2e8f0">Application Submitted!</p>
+                <p style="color:#94a3b8;font-size:.88rem;margin-top:8px">Our team will contact you within 24 hours.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- AUTH MODAL -->
+    <div class="modal-overlay" id="authModal">
+        <div class="modal" style="max-width:440px">
+            <button class="modal-close" id="authModalClose"><i class="fa-solid fa-xmark"></i></button>
+            <div
+                style="display:flex;gap:0;margin-bottom:28px;background:rgba(255,255,255,.05);border-radius:50px;padding:4px">
+                <button id="tabLogin" class="active-tab"
+                    style="flex:1;padding:10px;border:none;border-radius:50px;cursor:pointer;font-weight:600;font-size:.9rem;transition:.3s">Login</button>
+                <button id="tabRegister"
+                    style="flex:1;padding:10px;border:none;border-radius:50px;cursor:pointer;font-weight:600;font-size:.9rem;background:transparent;color:#94a3b8;transition:.3s">Register</button>
+            </div>
+            <!-- LOGIN -->
+            <div id="loginForm">
+                <h3 style="margin-bottom:6px">Welcome Back</h3>
+                <p style="color:#94a3b8;font-size:.85rem;margin-bottom:22px">Sign in to your Doctors Coat account.</p>
+                <form id="loginFormEl">
+                    <div class="form-group"><label>Email</label><input type="email" id="loginEmail"
+                            placeholder="you@example.com" required /></div>
+                    <div class="form-group"><label>Password</label><input type="password" id="loginPassword"
+                            placeholder="••••••••" required /></div>
+                    <p id="loginMsg" style="font-size:.83rem;margin-bottom:12px;min-height:18px"></p>
+                    <button type="submit" class="form-submit">Login</button>
+                </form>
+                <p style="text-align:center;margin-top:18px;font-size:.85rem;color:#94a3b8">No account? <a href="#"
+                        id="goToRegister" style="color:#0ea5e9;font-weight:600">Register here</a></p>
+            </div>
+            <!-- REGISTER -->
+            <div id="registerForm" style="display:none">
+                <h3 style="margin-bottom:6px">Create Account</h3>
+                <p style="color:#94a3b8;font-size:.85rem;margin-bottom:22px">Join thousands of medical professionals on
+                    Doctors Coat.</p>
+                <form id="registerFormEl">
+                    <div class="form-group"><label>Full Name</label><input type="text" id="regName"
+                            placeholder="Dr. Full Name" required /></div>
+                    <div class="form-group"><label>Email</label><input type="email" id="regEmail"
+                            placeholder="you@example.com" required /></div>
+                    <div class="form-row">
+                        <div class="form-group"><label>Password</label><input type="password" id="regPassword"
+                                placeholder="Min 6 chars" required /></div>
+                        <div class="form-group"><label>Confirm</label><input type="password" id="regConfirm"
+                                placeholder="Repeat password" required /></div>
+                    </div>
+                    <p id="registerMsg" style="font-size:.83rem;margin-bottom:12px;min-height:18px"></p>
+                    <button type="submit" class="form-submit">Create Account</button>
+                </form>
+                <p style="text-align:center;margin-top:18px;font-size:.85rem;color:#94a3b8">Already registered? <a
+                        href="#" id="goToLogin" style="color:#0ea5e9;font-weight:600">Login here</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- WHATSAPP FLOATING WIDGET -->
+    <div id="waWidget">
+        <div id="waPopup">
+            <div id="waHeader">
+                <img src="../images/DoctorsCoat.png" alt="Doctors Coat Logo" />
+                <div id="waHeaderInfo">
+                    <strong>Doctors Coat</strong>
+                    <div id="waOnline"><span>Typically replies instantly</span></div>
+                </div>
+                <button id="waClose" aria-label="Close chat"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div id="waBody">
+                <div class="wa-bubble">
+                    Hi there 👋<br />How can I help you?
+                    <div class="wa-time">Just now</div>
+                </div>
+            </div>
+            <div id="waFooter">
+                <a href="https://wa.me/918445461195?text=Hi%20Doctors%20Coat%2C%20I%20need%20help%20with%20recruitment."
+                    target="_blank" id="waCtaBtn">
+                    <i class="fa-brands fa-whatsapp"></i> Chat on WhatsApp
+                </a>
+            </div>
+        </div>
+        <button id="waFloat" aria-label="Open WhatsApp chat">
+            <i class="fa-brands fa-whatsapp"></i>
+            <div id="waBadge">1</div>
+        </button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../js/supabase-config.js"></script>
+    <script src="../js/script.js"></script>
+    <script src="../js/hire-doctors.js"></script>
+    <script>
+        // WhatsApp Widget Toggle
+        const waFloat = document.getElementById('waFloat');
+        const waPopup = document.getElementById('waPopup');
+        const waClose = document.getElementById('waClose');
+        const waBadge = document.getElementById('waBadge');
+        let waOpen = false;
+        waFloat.addEventListener('click', () => {
+            waOpen = !waOpen;
+            waPopup.classList.toggle('open', waOpen);
+            if (waOpen && waBadge) { waBadge.style.display = 'none'; }
+        });
+        waClose.addEventListener('click', () => { waOpen = false; waPopup.classList.remove('open'); });
+    </script>
+</body>
+
+</html>

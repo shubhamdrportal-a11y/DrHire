@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Sitemap – Doctors Coat</title>
+  <meta name="description"
+    content="Complete sitemap of the Doctors Coat doctor recruitment portal — find every page and section of our platform." />
+  <link rel="canonical" href="https://doctorscoat.in/sitemap.html" />
+  <link rel="icon" type="image/png" href="../images/DoctorsCoat.png" />
+
+  <!-- Preconnect to external domains for performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://doctorscoat.in/sitemap.html" />
+  <meta property="og:title" content="Sitemap – Doctors Coat" />
+  <meta property="og:description" content="Complete sitemap of the Doctors Coat doctor recruitment portal — find every page and section of our platform." />
+  <meta property="og:image" content="https://doctorscoat.in/DoctorsCoat.png" />
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content="https://doctorscoat.in/sitemap.html" />
+  <meta property="twitter:title" content="Sitemap – Doctors Coat" />
+  <meta property="twitter:description" content="Complete sitemap of the Doctors Coat doctor recruitment portal — find every page and section of our platform." />
+  <meta property="twitter:image" content="https://doctorscoat.in/DoctorsCoat.png" />
+
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    .page-hero {
+      padding: 140px 5% 70px;
+      background: linear-gradient(135deg, #0a0f1e, #0f172a);
+      text-align: center;
+      position: relative;
+      overflow: hidden
+    }
+
+    .page-hero::before {
+      content: '';
+      position: absolute;
+      bottom: -100px;
+      left: -50px;
+      width: 400px;
+      height: 400px;
+      background: var(--primary);
+      border-radius: 50%;
+      filter: blur(100px);
+      opacity: .12
+    }
+
+    .page-hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-weight: 800;
+      margin-bottom: 12px
+    }
+
+    .page-hero p {
+      color: var(--muted);
+      font-size: .95rem
+    }
+
+    .sitemap-wrap {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 80px 5%
+    }
+
+    .sitemap-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 28px
+    }
+
+    .sitemap-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px;
+      transition: .3s
+    }
+
+    .sitemap-card:hover {
+      border-color: rgba(14, 165, 233, .35)
+    }
+
+    .sitemap-card-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border)
+    }
+
+    .sitemap-card-header .ico {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      background: rgba(14, 165, 233, .1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary);
+      font-size: 1.1rem;
+      flex-shrink: 0
+    }
+
+    .sitemap-card-header h3 {
+      font-size: 1rem;
+      font-weight: 700
+    }
+
+    .sitemap-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px
+    }
+
+    .sitemap-links li {
+      display: flex;
+      align-items: center;
+      gap: 8px
+    }
+
+    .sitemap-links li::before {
+      content: '→';
+      color: var(--primary);
+      font-size: .85rem;
+      flex-shrink: 0
+    }
+
+    .sitemap-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: .88rem;
+      transition: .2s;
+      line-height: 1.4
+    }
+
+    .sitemap-links a:hover {
+      color: var(--primary)
+    }
+
+    .sitemap-links .badge {
+      font-size: .7rem;
+      padding: 2px 8px;
+      border-radius: 50px;
+      font-weight: 600;
+      margin-left: 6px;
+      vertical-align: middle
+    }
+
+    .badge-new {
+      background: rgba(14, 165, 233, .15);
+      color: var(--primary)
+    }
+
+    .badge-soon {
+      background: rgba(148, 163, 184, .1);
+      color: var(--muted)
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 32px;
+      display: flex;
+      align-items: center;
+      gap: 12px
+    }
+
+    .section-title span {
+      width: 40px;
+      height: 2px;
+      background: var(--grad);
+      border-radius: 2px
+    }
+
+    .xml-box {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px;
+      margin-top: 48px
+    }
+
+    .xml-box h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--primary)
+    }
+
+    .xml-code {
+      background: rgba(0, 0, 0, .3);
+      border-radius: 8px;
+      padding: 16px;
+      font-family: monospace;
+      font-size: .82rem;
+      color: #94a3b8;
+      overflow-x: auto;
+      line-height: 1.8
+    }
+
+    .xml-code .tag {
+      color: #0ea5e9
+    }
+
+    .xml-code .url-text {
+      color: #10b981
+    }
+  </style>
+</head>
+
+<body>
+  <nav>
+    <div class="logo"><img src="../images/DoctorsCoat.png" alt="Doctors Coat" /><span class="logo-text">Doctors Coat</span></div>
+    <ul class="nav-links">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="jobs.html">Jobs</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="support.html">Support</a></li>
+    </ul>
+    <div class="nav-cta">
+      <a href="jobs.html" class="btn-outline">Find Jobs</a>
+      <a href="hire-doctors.html" class="btn-primary">Hire Doctors</a>
+    </div>
+    <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+  </nav>
+  <div class="mobile-overlay" id="mobileOverlay"></div>
+  <nav class="mobile-menu" id="mobileMenu">
+    <a href="../index.html">Home</a><a href="jobs.html">Jobs</a><a href="support.html">Support</a>
+  </nav>
+
+  <section class="page-hero">
+    <div class="hero-badge" style="margin:0 auto 20px"><i class="fa-solid fa-map"></i> Site Navigation</div>
+    <h1>Site<span
+        style="background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent">map</span></h1>
+    <p>A complete guide to every page and section on the Doctors Coat platform.</p>
+  </section>
+
+  <div class="sitemap-wrap">
+    <div class="section-title"><span></span> Main Pages</div>
+    <div class="sitemap-grid">
+
+      <div class="sitemap-card">
+        <div class="sitemap-card-header">
+          <div class="ico"><i class="fa-solid fa-house"></i></div>
+          <h3>Main Website</h3>
+        </div>
+        <ul class="sitemap-links">
+          <li><a href="../index.html">Home — Hero Section</a></li>
+          <li><a href="../index.html">Trusted By Hospitals</a></li>
+          <li><a href="services.html">Services Overview</a></li>
+          <li><a href="why-us.html">Why Doctors Coat</a></li>
+          <li><a href="jobs.html">Featured Job Listings</a></li>
+          <li><a href="testimonials.html">Doctor &amp; Hospital Testimonials</a></li>
+          <li><a href="contact.html">Contact &amp; Enquiry Form</a></li>
+        </ul>
+      </div>
+
+      <div class="sitemap-card">
+        <div class="sitemap-card-header">
+          <div class="ico"><i class="fa-solid fa-building-columns"></i></div>
+          <h3>Company</h3>
+        </div>
+        <ul class="sitemap-links">
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="why-us.html">Why Doctors Coat</a></li>
+          <li><a href="testimonials.html">Success Stories</a></li>
+          <li><a href="careers.html">Careers</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="hire-doctors.html">Hire Doctors</a></li>
+        </ul>
+      </div>
+
+      <div class="sitemap-card">
+        <div class="sitemap-card-header">
+          <div class="ico"><i class="fa-solid fa-briefcase-medical"></i></div>
+          <h3>Jobs & Recruitment</h3>
+        </div>
+        <ul class="sitemap-links">
+          <li><a href="jobs.html">Featured Job Listings</a></li>
+          <li><a href="job-details.html?id=s1">Cardiologist — Delhi <span class="badge badge-new">Urgent</span></a></li>
+          <li><a href="job-details.html?id=s2">MBBS Doctor — Jaipur <span class="badge badge-new">New</span></a></li>
+          <li><a href="job-details.html?id=s3">Radiologist — Mumbai</a></li>
+          <li><a href="job-details.html?id=s4">Paediatrician — Bangalore</a></li>
+          <li><a href="job-details.html?id=s5">Orthopaedic Surgeon — Hyderabad</a></li>
+          <li><a href="job-details.html?id=s6">Gynaecologist — Lucknow</a></li>
+          <li><a href="jobs.html">All Jobs — Register to View</a></li>
+        </ul>
+      </div>
+
+      <div class="sitemap-card">
+        <div class="sitemap-card-header">
+          <div class="ico"><i class="fa-solid fa-stethoscope"></i></div>
+          <h3>Services</h3>
+        </div>
+        <ul class="sitemap-links">
+          <li><a href="service-details.html?service=doctor-recruitment">Doctor Recruitment</a></li>
+          <li><a href="service-details.html?service=hospital-hiring">Hospital Hiring</a></li>
+          <li><a href="service-details.html?service=medical-staffing">Medical Staffing</a></li>
+          <li><a href="service-details.html?service=career-guidance">Career Guidance</a></li>
+          <li><a href="service-details.html?service=resume-support">Resume Support</a></li>
+          <li><a href="service-details.html?service=emergency-hiring">Emergency Hiring</a></li>
+        </ul>
+      </div>
+
+      <div class="sitemap-card">
+        <div class="sitemap-card-header">
+          <div class="ico"><i class="fa-solid fa-user-lock"></i></div>
+          <h3>User Account</h3>
+        </div>
+        <ul class="sitemap-links">
+          <li><a href="login.html">Login <span class="badge badge-new">Live</span></a></li>
+          <li><a href="register.html">Register — Doctor</a></li>
+          <li><a href="hire-doctors.html">Register — Hospital</a></li>
+          <li><a href="support.html">Forgot Password</a></li>
+          <li><a href="#" style="opacity:.5">Doctor Dashboard <span class="badge badge-soon">Soon</span></a></li>
+          <li><a href="#" style="opacity:.5">Hospital Dashboard <span class="badge badge-soon">Soon</span></a></li>
+          <li><a href="#" style="opacity:.5">Application Tracker <span class="badge badge-soon">Soon</span></a></li>
+        </ul>
+      </div>
+
+      <div class="sitemap-card">
+        <div class="sitemap-card-header">
+          <div class="ico"><i class="fa-solid fa-headset"></i></div>
+          <h3>Support &amp; Help</h3>
+        </div>
+        <ul class="sitemap-links">
+          <li><a href="support.html">Support Center</a></li>
+          <li><a href="support.html#faqContainer">FAQ — For Doctors</a></li>
+          <li><a href="support.html#faqContainer">FAQ — For Hospitals</a></li>
+          <li><a href="support.html#faqContainer">FAQ — Account &amp; Privacy</a></li>
+          <li><a href="support.html#ticket">Submit a Support Ticket</a></li>
+          <li><a href="mailto:hello@doctorscoat.in">Email Support</a></li>
+          <li><a href="tel:+918445461195">Phone Support</a></li>
+        </ul>
+      </div>
+
+      <div class="sitemap-card">
+        <div class="sitemap-card-header">
+          <div class="ico"><i class="fa-solid fa-scale-balanced"></i></div>
+          <h3>Legal &amp; Policies</h3>
+        </div>
+        <ul class="sitemap-links">
+          <li><a href="privacy-policy.html">Privacy Policy</a></li>
+          <li><a href="privacy-policy.html#info-collect">— Information We Collect</a></li>
+          <li><a href="privacy-policy.html#info-use">— How We Use Data</a></li>
+          <li><a href="privacy-policy.html#your-rights">— Your Data Rights</a></li>
+          <li><a href="terms.html">Terms of Service</a></li>
+          <li><a href="terms.html#doctor-terms">— Doctor Terms</a></li>
+          <li><a href="terms.html#hospital-terms">— Hospital Terms</a></li>
+          <li><a href="sitemap.html">Sitemap</a></li>
+        </ul>
+      </div>
+
+      <div class="sitemap-card">
+        <div class="sitemap-card-header">
+          <div class="ico"><i class="fa-solid fa-envelope"></i></div>
+          <h3>Contact &amp; Social</h3>
+        </div>
+        <ul class="sitemap-links">
+          <li><a href="contact.html">Contact Form</a></li>
+          <li><a href="tel:+918445461195">+91 84454 61195</a></li>
+          <li><a href="mailto:hello@doctorscoat.in">hello@doctorscoat.in</a></li>
+          <li><a href="https://wa.me/918445461195" target="_blank">WhatsApp Chat</a></li>
+          <li><a href="https://www.linkedin.com/company/doctorscoattalent/posts/?feedView=all" target="_blank">LinkedIn Page</a></li>
+        </ul>
+      </div>
+
+      <div class="sitemap-card">
+        <div class="sitemap-card-header">
+          <div class="ico"><i class="fa-solid fa-clock-rotate-left"></i></div>
+          <h3>Coming Soon</h3>
+        </div>
+        <ul class="sitemap-links">
+          <li><a href="#" style="opacity:.55">Doctor Profile Pages <span class="badge badge-soon">Soon</span></a></li>
+          <li><a href="#" style="opacity:.55">Hospital Listings <span class="badge badge-soon">Soon</span></a></li>
+          <li><a href="blog.html">Blog / Career Advice</a></li>
+          <li><a href="#" style="opacity:.55">Job Alerts by Email <span class="badge badge-soon">Soon</span></a></li>
+          <li><a href="#" style="opacity:.55">CV Builder Tool <span class="badge badge-soon">Soon</span></a></li>
+          <li><a href="#" style="opacity:.55">Admin Dashboard <span class="badge badge-soon">Soon</span></a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- XML Sitemap Preview -->
+    <div class="xml-box">
+      <h3><i class="fa-solid fa-code"></i> XML Sitemap (for Google Search Console)</h3>
+      <p style="color:var(--muted);font-size:.85rem;margin-bottom:16px">Submit the following URLs to Google Search
+        Console to improve your search indexing.</p>
+      <div class="xml-code">
+        <span class="tag">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span><br />
+        <span class="tag">&lt;urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"&gt;</span><br />
+        &nbsp;&nbsp;<span class="tag">&lt;url&gt;&lt;loc&gt;</span><span
+          class="url-text">https://doctorscoat.in/</span><span class="tag">&lt;/loc&gt;&lt;priority&gt;</span>1.0<span
+          class="tag">&lt;/priority&gt;&lt;/url&gt;</span><br />
+        &nbsp;&nbsp;<span class="tag">&lt;url&gt;&lt;loc&gt;</span><span
+          class="url-text">https://doctorscoat.in/support.html</span><span
+          class="tag">&lt;/loc&gt;&lt;priority&gt;</span>0.8<span class="tag">&lt;/priority&gt;&lt;/url&gt;</span><br />
+        &nbsp;&nbsp;<span class="tag">&lt;url&gt;&lt;loc&gt;</span><span
+          class="url-text">https://doctorscoat.in/privacy-policy.html</span><span
+          class="tag">&lt;/loc&gt;&lt;priority&gt;</span>0.6<span class="tag">&lt;/priority&gt;&lt;/url&gt;</span><br />
+        &nbsp;&nbsp;<span class="tag">&lt;url&gt;&lt;loc&gt;</span><span
+          class="url-text">https://doctorscoat.in/terms.html</span><span
+          class="tag">&lt;/loc&gt;&lt;priority&gt;</span>0.6<span class="tag">&lt;/priority&gt;&lt;/url&gt;</span><br />
+        &nbsp;&nbsp;<span class="tag">&lt;url&gt;&lt;loc&gt;</span><span
+          class="url-text">https://doctorscoat.in/sitemap.html</span><span
+          class="tag">&lt;/loc&gt;&lt;priority&gt;</span>0.4<span class="tag">&lt;/priority&gt;&lt;/url&gt;</span><br />
+        <span class="tag">&lt;/urlset&gt;</span>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo"><img src="../images/DoctorsCoat.png" alt="" /><span class="logo-text">Doctors Coat</span></div>
+        <p>India's premier doctor recruitment platform across 28 states.</p>
+        <div class="social-links">
+          <a href="https://www.linkedin.com/company/doctorscoattalent/posts/?feedView=all" target="_blank" class="social-link" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+          <a href="https://wa.me/918445461195" target="_blank" class="social-link" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Platform</h4>
+        <ul>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="jobs.html">Jobs</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="support.html">Support Center</a></li>
+          <li><a href="privacy-policy.html">Privacy Policy</a></li>
+          <li><a href="terms.html">Terms of Service</a></li>
+          <li><a href="sitemap.html">Sitemap</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="tel:+918445461195">+91 84454 61195</a></li>
+          <li><a href="mailto:hello@doctorscoat.in">hello@doctorscoat.in</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Doctors Coat. All rights reserved.</p>
+      <div class="footer-bottom-links"><a href="privacy-policy.html">Privacy Policy</a><a href="terms.html">Terms</a><a
+          href="sitemap.html">Sitemap</a></div>
+    </div>
+  </footer>
+  <script>
+const hb=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu'),mo=document.getElementById('mobileOverlay');
+hb.addEventListener('click',()=>{const o=mm.classList.toggle('open');mm.style.visibility=o?'visible':'hidden';mm.style.right=o?'0':'-100%';mo.classList.toggle('open');});
+mo.addEventListener('click',()=>{mm.classList.remove('open');mm.style.visibility='hidden';mm.style.right='-100%';mo.classList.remove('open');});
+window.addEventListener('scroll',()=>{document.querySelector('nav').style.boxShadow=window.scrollY>50?'0 8px 32px rgba(0,0,0,.4)':'none';});
+  </script>
+</body>
+
+</html>

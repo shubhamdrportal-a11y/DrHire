@@ -1,0 +1,8 @@
+RewriteEngine On
+
+# Block direct access to PHP files outside /public
+RewriteCond %{REQUEST_URI} !^/api/
+RewriteRule ^.*\.php$ - [F,L]
+
+# Route all /api/* requests to public/index.php
+RewriteRule ^api/(.*)$ backend/public/index.php [QSA,L]

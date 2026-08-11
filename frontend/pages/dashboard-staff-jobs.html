@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Job Opportunities – Staff Dashboard | Doctors Coat</title>
+    <meta name="description" content="Browse and apply for medical staff and student job opportunities." />
+    <link rel="icon" type="image/png" href="../images/DoctorsCoat.png" />
+    <link rel="stylesheet" href="../css/dashboard-shared.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <style>
+        .job-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 20px; transition: .2s; height: 100%; display: flex; flex-direction: column; }
+        .job-card:hover { border-color: rgba(14,165,233,.3); transform: translateY(-2px); box-shadow: var(--shadow); }
+        .job-card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+        .job-hosp-logo { width: 48px; height: 48px; border-radius: 8px; background: rgba(255,255,255,.05); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: var(--accent); flex-shrink: 0; }
+        .job-title { font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 4px; line-height: 1.3; }
+        .job-hosp-name { font-size: .8rem; color: var(--accent); font-weight: 500; display: flex; align-items: center; gap: 6px; }
+        .job-tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 14px 0; }
+        .job-tag { background: rgba(255,255,255,.04); border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; font-size: .7rem; color: var(--text2); display: flex; align-items: center; gap: 4px; }
+        .job-tag i { color: var(--text3); }
+        .job-desc { font-size: .8rem; color: var(--text3); line-height: 1.5; margin-bottom: 16px; flex: 1; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+        .job-footer { display: flex; justify-content: space-between; align-items: center; padding-top: 14px; border-top: 1px solid var(--border); margin-top: auto; }
+        .job-salary { font-size: .88rem; font-weight: 700; color: var(--success); }
+        .job-posted { font-size: .7rem; color: var(--text3); }
+    </style>
+</head>
+<body>
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<!-- ── SIDEBAR ─────────────────────────────────────────────── -->
+<aside class="sidebar" id="dashSidebar">
+    <div class="sidebar-top"><div class="sidebar-logo-icon">DC</div><span class="sidebar-brand">Doctors Coat</span></div>
+    <div class="sidebar-role-badge"><i class="fa-solid fa-id-badge" style="margin-right:5px"></i>Staff / Student</div>
+    <nav class="sidebar-nav">
+        <span class="sidebar-section-label">Overview</span>
+        <a href="dashboard-staff.html" class="nav-link"><i class="fa-solid fa-chart-pie"></i> Dashboard</a>
+        <span class="sidebar-section-label">Career</span>
+        <a href="dashboard-staff-jobs.html" class="nav-link active"><i class="fa-solid fa-briefcase"></i> Job Opportunities</a>
+        <a href="dashboard-staff-applications.html" class="nav-link"><i class="fa-solid fa-file-contract"></i> My Applications <span class="nav-badge">2</span></a>
+        <span class="sidebar-section-label">Account</span>
+        <a href="dashboard-staff-profile.html" class="nav-link"><i class="fa-solid fa-user"></i> My Profile</a>
+        <a href="dashboard-staff-settings.html" class="nav-link"><i class="fa-solid fa-gear"></i> Settings</a>
+    </nav>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-footer">
+        <div class="sidebar-user"><div class="sidebar-avatar" data-user-avatar>ST</div><div><div class="sidebar-uname" data-user-name>Demo User</div><div class="sidebar-urole">Staff/Student</div></div></div>
+        <button class="sidebar-logout" data-logout><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+    </div>
+</aside>
+
+<div class="main-wrap">
+    <header class="top-header">
+        <div class="header-left">
+            <button class="hamburger-mob" id="hamburgerMob"><i class="fa-solid fa-bars"></i></button>
+            <div class="header-title"><h1>Job Opportunities</h1><p>Find and apply for open positions</p></div>
+        </div>
+        <div class="header-right">
+            <div class="header-user-pill"><div class="sidebar-avatar" style="width:26px;height:26px;font-size:.68rem" data-user-avatar>ST</div><span data-user-name>User</span></div>
+        </div>
+    </header>
+
+    <div class="content">
+        <div class="page-title"><h1><i class="fa-solid fa-briefcase"></i> Job Opportunities</h1><p>Browse the latest job openings for medical staff and students</p></div>
+
+        <div class="filter-bar">
+            <div class="filter-search"><i class="fa-solid fa-magnifying-glass"></i><input type="text" placeholder="Search by role, keyword, or hospital…" id="jobSearch" /></div>
+            <select class="filter-select" id="roleFilter">
+                <option value="">All Roles</option>
+                <option value="nurse">Nursing</option>
+                <option value="technician">Lab Technician</option>
+                <option value="paramedic">Paramedic</option>
+                <option value="intern">Internship</option>
+            </select>
+            <select class="filter-select" id="locFilter">
+                <option value="">Any Location</option>
+                <option value="delhi">Delhi</option>
+                <option value="mumbai">Mumbai</option>
+                <option value="bangalore">Bangalore</option>
+            </select>
+            <button class="btn-primary" style="padding:9px 16px"><i class="fa-solid fa-filter"></i> Filter</button>
+        </div>
+
+        <div class="three-col" id="jobsGrid">
+            
+            <div class="job-card" data-role="nurse" data-loc="delhi">
+                <div class="job-card-top">
+                    <div class="job-hosp-logo"><i class="fa-solid fa-hospital"></i></div>
+                    <button class="header-icon-btn" style="width:30px;height:30px;font-size:.8rem" title="Save Job"><i class="fa-regular fa-bookmark"></i></button>
+                </div>
+                <div class="job-title">Senior Staff Nurse (ICU)</div>
+                <div class="job-hosp-name"><i class="fa-solid fa-building" style="font-size:.75rem"></i> Apollo Hospitals</div>
+                <div class="job-tags">
+                    <div class="job-tag"><i class="fa-solid fa-location-dot"></i> New Delhi</div>
+                    <div class="job-tag"><i class="fa-solid fa-clock"></i> Full Time</div>
+                    <div class="job-tag"><i class="fa-solid fa-briefcase"></i> 3+ Yrs Exp</div>
+                </div>
+                <div class="job-desc">Looking for an experienced ICU nurse to join our critical care team. Must have valid registration and experience handling ventilators. Night shifts required.</div>
+                <div class="job-footer">
+                    <div class="job-salary">₹40k - ₹55k / mo</div>
+                    <div class="job-posted">Posted 2d ago</div>
+                </div>
+                <button class="btn-primary" style="width:100%;justify-content:center;margin-top:14px" onclick="alert('Application submitted successfully!')">Apply Now</button>
+            </div>
+
+            <div class="job-card" data-role="technician" data-loc="mumbai">
+                <div class="job-card-top">
+                    <div class="job-hosp-logo" style="color:var(--success)"><i class="fa-solid fa-microscope"></i></div>
+                    <button class="header-icon-btn" style="width:30px;height:30px;font-size:.8rem" title="Save Job"><i class="fa-regular fa-bookmark"></i></button>
+                </div>
+                <div class="job-title">Senior Lab Technician</div>
+                <div class="job-hosp-name"><i class="fa-solid fa-building" style="font-size:.75rem"></i> Kokilaben Hospital</div>
+                <div class="job-tags">
+                    <div class="job-tag"><i class="fa-solid fa-location-dot"></i> Mumbai</div>
+                    <div class="job-tag"><i class="fa-solid fa-clock"></i> Full Time</div>
+                    <div class="job-tag"><i class="fa-solid fa-briefcase"></i> 5+ Yrs Exp</div>
+                </div>
+                <div class="job-desc">Require a skilled lab technician for our central pathology lab. Expertise in hematology and biochemistry analyzers is mandatory.</div>
+                <div class="job-footer">
+                    <div class="job-salary">₹35k - ₹45k / mo</div>
+                    <div class="job-posted">Posted 1w ago</div>
+                </div>
+                <button class="btn-primary" style="width:100%;justify-content:center;margin-top:14px" onclick="alert('Application submitted successfully!')">Apply Now</button>
+            </div>
+
+            <div class="job-card" data-role="intern" data-loc="bangalore">
+                <div class="job-card-top">
+                    <div class="job-hosp-logo" style="color:var(--warning)"><i class="fa-solid fa-user-graduate"></i></div>
+                    <button class="header-icon-btn" style="width:30px;height:30px;font-size:.8rem" title="Save Job"><i class="fa-regular fa-bookmark"></i></button>
+                </div>
+                <div class="job-title">Medical Intern (Pediatrics)</div>
+                <div class="job-hosp-name"><i class="fa-solid fa-building" style="font-size:.75rem"></i> Fortis Healthcare</div>
+                <div class="job-tags">
+                    <div class="job-tag"><i class="fa-solid fa-location-dot"></i> Bangalore</div>
+                    <div class="job-tag"><i class="fa-solid fa-clock"></i> Internship</div>
+                    <div class="job-tag"><i class="fa-solid fa-graduation-cap"></i> Final Yr MBBS</div>
+                </div>
+                <div class="job-desc">6-month internship in the pediatrics department. Great learning opportunity under senior pediatricians. Stipend provided.</div>
+                <div class="job-footer">
+                    <div class="job-salary">₹15k Stipend</div>
+                    <div class="job-posted">Posted 5h ago</div>
+                </div>
+                <button class="btn-primary" style="width:100%;justify-content:center;margin-top:14px" onclick="alert('Application submitted successfully!')">Apply Now</button>
+            </div>
+            
+            <div class="job-card" data-role="paramedic" data-loc="delhi">
+                <div class="job-card-top">
+                    <div class="job-hosp-logo" style="color:var(--danger)"><i class="fa-solid fa-truck-medical"></i></div>
+                    <button class="header-icon-btn" style="width:30px;height:30px;font-size:.8rem" title="Save Job"><i class="fa-regular fa-bookmark"></i></button>
+                </div>
+                <div class="job-title">Emergency Paramedic / EMT</div>
+                <div class="job-hosp-name"><i class="fa-solid fa-building" style="font-size:.75rem"></i> Max Super Specialty</div>
+                <div class="job-tags">
+                    <div class="job-tag"><i class="fa-solid fa-location-dot"></i> New Delhi</div>
+                    <div class="job-tag"><i class="fa-solid fa-clock"></i> Contract</div>
+                    <div class="job-tag"><i class="fa-solid fa-briefcase"></i> 1-2 Yrs Exp</div>
+                </div>
+                <div class="job-desc">Looking for certified emergency medical technicians to staff our advanced life support ambulances. High pressure environment.</div>
+                <div class="job-footer">
+                    <div class="job-salary">₹25k - ₹35k / mo</div>
+                    <div class="job-posted">Posted 3d ago</div>
+                </div>
+                <button class="btn-primary" style="width:100%;justify-content:center;margin-top:14px" onclick="alert('Application submitted successfully!')">Apply Now</button>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

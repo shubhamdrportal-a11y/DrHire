@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Hospital Dashboard – Doctors Coat</title>
+    <meta name="description" content="Hospital dashboard for managing doctors, jobs, and applications." />
+    <link rel="icon" type="image/png" href="../images/DoctorsCoat.png" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <style>
+        *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+        :root{--sidebar-w:220px;--header-h:60px;--bg:#0d1117;--bg2:#161b22;--bg3:#1c2230;--card:#1c2230;--border:rgba(255,255,255,.07);--accent:#0ea5e9;--grad:linear-gradient(135deg,#0ea5e9,#06b6d4);--text:#e2e8f0;--text2:#94a3b8;--text3:#64748b;--success:#10b981;--warning:#f59e0b;--danger:#ef4444;--purple:#8b5cf6}
+        body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;overflow-x:hidden}
+        body.light-theme {--bg:#f8fafc; --bg2:#ffffff; --bg3:#f1f5f9; --card:#ffffff; --border:rgba(0,0,0,0.08); --text:#0f172a; --text2:#475569; --text3:#64748b;}
+        .sidebar{width:var(--sidebar-w);background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;left:0;height:100vh;z-index:100;transition:transform .3s;overflow-y:auto;scrollbar-width:none}
+        .sidebar::-webkit-scrollbar{display:none}
+        .sidebar-top{display:flex;align-items:center;gap:10px;padding:18px 16px;border-bottom:1px solid var(--border)}
+        .sidebar-logo-icon{width:32px;height:32px;background:var(--grad);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:800;color:#fff;flex-shrink:0}
+        .sidebar-brand{font-size:.95rem;font-weight:700;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;white-space:nowrap}
+        .sidebar-nav{flex:1;padding:12px 10px;display:flex;flex-direction:column;gap:2px}
+        .nav-link{display:flex;align-items:center;gap:11px;padding:9px 12px;border-radius:8px;color:var(--text2);text-decoration:none;font-size:.845rem;font-weight:500;transition:.2s;position:relative;white-space:nowrap}
+        .nav-link:hover{background:rgba(255,255,255,.05);color:var(--text)}
+        .nav-link.active{background:rgba(14,165,233,.14);color:var(--accent);font-weight:600}
+        .nav-link.active::before{content:'';position:absolute;left:0;top:20%;height:60%;width:3px;background:var(--accent);border-radius:0 3px 3px 0}
+        .nav-link i{width:16px;text-align:center;font-size:.9rem;flex-shrink:0}
+        .nav-badge{margin-left:auto;background:var(--danger);color:#fff;font-size:.62rem;font-weight:700;padding:2px 6px;border-radius:50px}
+        .sidebar-divider{height:1px;background:var(--border);margin:6px 10px}
+        .sidebar-footer{padding:12px 10px;border-top:1px solid var(--border)}
+        .sidebar-user{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:8px;cursor:pointer;transition:.2s}
+        .sidebar-user:hover{background:rgba(255,255,255,.05)}
+        .sidebar-avatar{width:32px;height:32px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;color:#fff;flex-shrink:0}
+        .sidebar-uname{font-size:.8rem;font-weight:600;color:var(--text)}
+        .sidebar-urole{font-size:.7rem;color:var(--text3)}
+        .sidebar-logout{display:flex;align-items:center;gap:11px;padding:9px 12px;color:var(--danger);background:none;border:none;border-radius:8px;font-size:.845rem;font-weight:500;cursor:pointer;width:100%;transition:.2s;font-family:'Inter',sans-serif;margin-top:4px}
+        .sidebar-logout:hover{background:rgba(239,68,68,.08)}
+        .sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:99;backdrop-filter:blur(2px)}
+        .main-wrap{margin-left:var(--sidebar-w);flex:1;display:flex;flex-direction:column;min-height:100vh;min-width:0}
+        .top-header{height:var(--header-h);background:var(--bg2);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 24px;position:sticky;top:0;z-index:50;gap:16px}
+        .header-left{display:flex;align-items:center;gap:14px}
+        .hamburger-mob{display:none;width:34px;height:34px;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:8px;color:var(--text2);cursor:pointer;align-items:center;justify-content:center;font-size:.95rem;transition:.2s}
+        .header-title h1{font-size:1.1rem;font-weight:700}
+        .header-title p{font-size:.73rem;color:var(--text2);margin-top:1px}
+        .header-right{display:flex;align-items:center;gap:10px}
+        .header-search{display:flex;align-items:center;gap:8px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:7px 14px;min-width:200px}
+        .header-search input{background:none;border:none;outline:none;color:var(--text);font-family:'Inter',sans-serif;font-size:.82rem;width:100%}
+        .header-search input::placeholder{color:var(--text3)}
+        .header-search i{color:var(--text3);font-size:.8rem}
+        .header-icon-btn{width:34px;height:34px;border-radius:50%;background:var(--bg3);border:1px solid var(--border);color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.88rem;transition:.2s;position:relative}
+        .header-icon-btn:hover{background:rgba(14,165,233,.1);color:var(--accent)}
+        .notif-dot{position:absolute;top:1px;right:1px;width:8px;height:8px;background:var(--danger);border-radius:50%;border:2px solid var(--bg2)}
+        .header-user-pill{display:flex;align-items:center;gap:8px;background:var(--bg3);border:1px solid var(--border);border-radius:50px;padding:4px 12px 4px 4px;cursor:pointer}
+        .header-user-pill span{font-size:.8rem;font-weight:600}
+        .content{padding:24px;flex:1}
+        .mini-stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px}
+        .mini-stat{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px;display:flex;align-items:center;gap:14px;transition:.2s}
+        .mini-stat:hover{border-color:rgba(14,165,233,.2);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.3)}
+        .mini-ico{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.15rem;flex-shrink:0}
+        .ico-blue{background:rgba(14,165,233,.12);color:var(--accent)}
+        .ico-yellow{background:rgba(245,158,11,.12);color:var(--warning)}
+        .ico-green{background:rgba(16,185,129,.12);color:var(--success)}
+        .ico-cyan{background:rgba(6,182,212,.12);color:#06b6d4}
+        .mini-val{font-size:1.5rem;font-weight:800;color:var(--text);line-height:1}
+        .mini-label{font-size:.72rem;color:var(--text2);margin-top:2px}
+        .mini-change{font-size:.68rem;font-weight:600;margin-top:3px;color:var(--success)}
+        .mini-change.warn{color:var(--warning)}
+        .dash-card{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:18px}
+        .dash-card:last-child{margin-bottom:0}
+        .dash-card-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--border)}
+        .dash-card-title{font-size:.88rem;font-weight:700;color:var(--text);display:flex;align-items:center;gap:8px}
+        .dash-card-title i{color:var(--accent);font-size:.82rem}
+        .dash-card-action{font-size:.72rem;color:var(--accent);text-decoration:none;font-weight:600;padding:4px 10px;border-radius:50px;border:1px solid rgba(14,165,233,.25);background:rgba(14,165,233,.08);transition:.2s}
+        .dash-card-action:hover{background:var(--accent);color:#fff}
+        .two-col{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+        .dash-table{width:100%;border-collapse:collapse;font-size:.82rem}
+        .dash-table th{text-align:left;padding:10px 20px;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--text3);background:rgba(255,255,255,.02);border-bottom:1px solid var(--border);white-space:nowrap}
+        .dash-table td{padding:12px 20px;border-bottom:1px solid rgba(255,255,255,.04);color:var(--text2);vertical-align:middle}
+        .dash-table tr:last-child td{border-bottom:none}
+        .dash-table tr:hover td{background:rgba(255,255,255,.02)}
+        .user-cell{display:flex;align-items:center;gap:10px}
+        .ua{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.68rem;color:#fff;flex-shrink:0}
+        .ua-blue{background:var(--grad)}.ua-green{background:linear-gradient(135deg,#10b981,#059669)}.ua-purple{background:linear-gradient(135deg,#8b5cf6,#6d28d9)}.ua-orange{background:linear-gradient(135deg,#f59e0b,#d97706)}.ua-pink{background:linear-gradient(135deg,#ec4899,#be185d)}
+        .td-name{font-weight:600;color:var(--text);font-size:.84rem}.td-sub{font-size:.7rem;color:var(--text3)}
+        .badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:50px;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.3px}
+        .badge::before{content:'';width:5px;height:5px;border-radius:50%;background:currentColor;flex-shrink:0}
+        .badge-active{background:rgba(16,185,129,.1);color:var(--success);border:1px solid rgba(16,185,129,.2)}
+        .badge-new{background:rgba(14,165,233,.1);color:var(--accent);border:1px solid rgba(14,165,233,.2)}
+        .badge-confirmed{background:rgba(6,182,212,.1);color:#06b6d4;border:1px solid rgba(6,182,212,.2)}
+        .badge-completed{background:rgba(16,185,129,.1);color:var(--success);border:1px solid rgba(16,185,129,.2)}
+        .badge-pending{background:rgba(245,158,11,.1);color:var(--warning);border:1px solid rgba(245,158,11,.2)}
+        .badge-cancelled{background:rgba(239,68,68,.1);color:var(--danger);border:1px solid rgba(239,68,68,.2)}
+        .badge-inactive{background:rgba(100,116,139,.1);color:var(--text3);border:1px solid rgba(100,116,139,.2)}
+        .btn-sm{display:inline-flex;align-items:center;gap:4px;padding:5px 10px;border-radius:6px;font-size:.72rem;font-weight:600;cursor:pointer;border:none;transition:.2s;font-family:'Inter',sans-serif}
+        .btn-outline-sm{background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--text2)}
+        .btn-outline-sm:hover{border-color:var(--accent);color:var(--accent);background:rgba(14,165,233,.08)}
+        .btn-danger-sm{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);color:var(--danger)}
+        .btn-danger-sm:hover{background:var(--danger);color:#fff}
+        .btn-success-sm{background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);color:var(--success)}
+        .btn-success-sm:hover{background:var(--success);color:#fff}
+        .act-list{display:flex;flex-direction:column}
+        .act-item{display:flex;gap:10px;align-items:flex-start;padding:12px 20px;border-bottom:1px solid rgba(255,255,255,.04)}
+        .act-item:last-child{border-bottom:none}
+        .act-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);margin-top:5px;flex-shrink:0}
+        .act-dot.g{background:var(--success)}.act-dot.y{background:var(--warning)}.act-dot.r{background:var(--danger)}
+        .act-text{font-size:.82rem;color:var(--text2);line-height:1.5;flex:1}
+        .act-text strong{color:var(--text);font-weight:600}
+        .act-time{font-size:.7rem;color:var(--text3);margin-top:2px}
+        @media(max-width:900px){.sidebar{transform:translateX(-100%)}.sidebar.open{transform:translateX(0);box-shadow:8px 0 40px rgba(0,0,0,.4)}.sidebar-overlay.active{display:block}.main-wrap{margin-left:0}.hamburger-mob{display:flex}.header-search{display:none}.content{padding:16px}.mini-stat-row{grid-template-columns:repeat(2,1fr)}.two-col{grid-template-columns:1fr}}
+        @media(max-width:600px){.mini-stat-row{grid-template-columns:1fr 1fr}}
+    </style>
+</head>
+<body>
+<script src="../js/theme.js"></script>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<aside class="sidebar" id="dashSidebar">
+    <div class="sidebar-top">
+        <div class="sidebar-logo-icon">DC</div>
+        <span class="sidebar-brand">Doctors Coat</span>
+    </div>
+    <nav class="sidebar-nav">
+        <a href="dashboard-hospital.html" class="nav-link active"><i class="fa-solid fa-chart-pie"></i> Dashboard</a>
+        <a href="dashboard-hospital-doctors.html" class="nav-link"><i class="fa-solid fa-user-doctor"></i> Doctors</a>
+        <a href="dashboard-hospital-jobs.html" class="nav-link"><i class="fa-solid fa-briefcase-medical"></i> Job Listings</a>
+        <a href="dashboard-hospital-applications.html" class="nav-link"><i class="fa-solid fa-file-user"></i> Applications</a>
+        <a href="dashboard-hospital-appointments.html" class="nav-link"><i class="fa-solid fa-calendar-check"></i> Appointments</a>
+        <a href="dashboard-hospital-reports.html" class="nav-link"><i class="fa-solid fa-chart-line"></i> Reports</a>
+        <a href="dashboard-hospital-profile.html" class="nav-link"><i class="fa-solid fa-building-columns"></i> Hospital Profile</a>
+        <a href="dashboard-hospital-settings.html" class="nav-link"><i class="fa-solid fa-gear"></i> Settings</a>
+    </nav>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-footer">
+        <div class="sidebar-user">
+            <div class="sidebar-avatar" style="background:linear-gradient(135deg,#10b981,#059669)" data-user-avatar>AH</div>
+            <div>
+                <div class="sidebar-uname" data-user-name>Apollo Hospitals</div>
+                <div class="sidebar-urole">Hospital Admin</div>
+            </div>
+        </div>
+        <button class="sidebar-logout" data-logout><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+    </div>
+</aside>
+
+<div class="main-wrap">
+    <header class="top-header">
+        <div class="header-left">
+            <button class="hamburger-mob" id="hamburgerBtn"><i class="fa-solid fa-bars"></i></button>
+            <div class="header-title">
+                <h1>Hospital Dashboard</h1>
+                <p id="dashDate">Loading…</p>
+            </div>
+        </div>
+        <div class="header-right">
+            <div class="header-search"><i class="fa-solid fa-magnifying-glass"></i><input type="text" placeholder="Search doctors, jobs…" /></div>
+            <div class="header-icon-btn"><i class="fa-solid fa-bell"></i><div class="notif-dot"></div></div>
+            <a href="#" style="display:flex;align-items:center;gap:6px;padding:8px 16px;background:var(--grad);color:#fff;border-radius:8px;font-size:.8rem;font-weight:600;text-decoration:none">
+                <i class="fa-solid fa-plus"></i> Post Job
+            </a>
+            <div class="header-user-pill">
+                <div class="sidebar-avatar" style="width:26px;height:26px;font-size:.65rem;background:linear-gradient(135deg,#10b981,#059669)" data-user-avatar>AH</div>
+                <span data-user-name>Hospital</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="content">
+
+        <div class="mini-stat-row">
+            <div class="mini-stat">
+                <div class="mini-ico ico-cyan"><i class="fa-solid fa-user-doctor"></i></div>
+                <div><div class="mini-val" data-stat-num="48">0</div><div class="mini-label">Total Doctors</div><div class="mini-change">↑ +2 this month</div></div>
+            </div>
+            <div class="mini-stat">
+                <div class="mini-ico ico-blue"><i class="fa-solid fa-briefcase-medical"></i></div>
+                <div><div class="mini-val" data-stat-num="3">0</div><div class="mini-label">Active Job Listings</div><div class="mini-change warn">1 expiring soon</div></div>
+            </div>
+            <div class="mini-stat">
+                <div class="mini-ico ico-yellow"><i class="fa-solid fa-file-user"></i></div>
+                <div><div class="mini-val" data-stat-num="28">0</div><div class="mini-label">New Applications</div><div class="mini-change">↑ +8 this week</div></div>
+            </div>
+            <div class="mini-stat">
+                <div class="mini-ico ico-green"><i class="fa-solid fa-calendar-check"></i></div>
+                <div><div class="mini-val" data-stat-num="186">0</div><div class="mini-label">Appointments Today</div><div class="mini-change">142 completed</div></div>
+            </div>
+        </div>
+
+        <div class="two-col">
+            <div class="dash-card">
+                <div class="dash-card-header">
+                    <div class="dash-card-title"><i class="fa-solid fa-briefcase-medical"></i> Active Job Listings</div>
+                    <a href="#" class="dash-card-action">+ Post New</a>
+                </div>
+                <div style="overflow-x:auto">
+                    <table class="dash-table">
+                        <thead><tr><th>Position</th><th>Applications</th><th>Status</th><th>Action</th></tr></thead>
+                        <tbody>
+                            <tr><td style="font-weight:600;color:var(--text)">Cardiologist</td><td style="font-weight:700;color:var(--text)">12</td><td><span class="badge badge-active">Active</span></td><td><div style="display:flex;gap:6px"><button class="btn-sm btn-outline-sm">View</button><button class="btn-sm btn-danger-sm">Close</button></div></td></tr>
+                            <tr><td style="font-weight:600;color:var(--text)">Neurologist</td><td style="font-weight:700;color:var(--text)">8</td><td><span class="badge badge-active">Active</span></td><td><div style="display:flex;gap:6px"><button class="btn-sm btn-outline-sm">View</button><button class="btn-sm btn-danger-sm">Close</button></div></td></tr>
+                            <tr><td style="font-weight:600;color:var(--text)">Radiologist</td><td style="font-weight:700;color:var(--text)">8</td><td><span class="badge badge-pending">Expiring</span></td><td><div style="display:flex;gap:6px"><button class="btn-sm btn-outline-sm">View</button><button class="btn-sm btn-success-sm">Renew</button></div></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="dash-card">
+                <div class="dash-card-header">
+                    <div class="dash-card-title"><i class="fa-solid fa-file-user"></i> Recent Applications</div>
+                    <a href="#" class="dash-card-action">View All</a>
+                </div>
+                <div style="overflow-x:auto">
+                    <table class="dash-table">
+                        <thead><tr><th>Applicant</th><th>Applied For</th><th>Status</th></tr></thead>
+                        <tbody>
+                            <tr><td><div class="user-cell"><div class="ua ua-blue">RS</div><div><div class="td-name">Dr. Rohit S.</div><div class="td-sub">MD Cardiology</div></div></div></td><td>Cardiologist</td><td><span class="badge badge-new">New</span></td></tr>
+                            <tr><td><div class="user-cell"><div class="ua ua-green">AK</div><div><div class="td-name">Dr. Anjali K.</div><div class="td-sub">DM Neurology</div></div></div></td><td>Neurologist</td><td><span class="badge badge-new">New</span></td></tr>
+                            <tr><td><div class="user-cell"><div class="ua ua-purple">VP</div><div><div class="td-name">Dr. Vivek P.</div><div class="td-sub">MD Radiology</div></div></div></td><td>Radiologist</td><td><span class="badge badge-confirmed">Reviewed</span></td></tr>
+                            <tr><td><div class="user-cell"><div class="ua ua-orange">SM</div><div><div class="td-name">Dr. Sneha M.</div><div class="td-sub">MS Cardiac</div></div></div></td><td>Cardiologist</td><td><span class="badge badge-completed">Shortlisted</span></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="two-col">
+            <div class="dash-card">
+                <div class="dash-card-header">
+                    <div class="dash-card-title"><i class="fa-solid fa-user-doctor"></i> Our Doctors</div>
+                    <a href="#" class="dash-card-action">View All</a>
+                </div>
+                <div style="overflow-x:auto">
+                    <table class="dash-table">
+                        <thead><tr><th>Doctor</th><th>Specialization</th><th>Exp.</th><th>Status</th></tr></thead>
+                        <tbody>
+                            <tr><td><div class="user-cell"><div class="ua ua-blue">AM</div><div><div class="td-name">Dr. A. Mehta</div><div class="td-sub">Cardiologist</div></div></div></td><td>Cardiac Surgery</td><td>15 yrs</td><td><span class="badge badge-active">On Duty</span></td></tr>
+                            <tr><td><div class="user-cell"><div class="ua ua-green">RS</div><div><div class="td-name">Dr. R. Singh</div><div class="td-sub">Neurologist</div></div></div></td><td>Neurosurgery</td><td>11 yrs</td><td><span class="badge badge-active">On Duty</span></td></tr>
+                            <tr><td><div class="user-cell"><div class="ua ua-purple">PN</div><div><div class="td-name">Dr. P. Nair</div><div class="td-sub">Radiologist</div></div></div></td><td>Diagnostic Radiology</td><td>9 yrs</td><td><span class="badge badge-inactive">Off Duty</span></td></tr>
+                            <tr><td><div class="user-cell"><div class="ua ua-orange">VR</div><div><div class="td-name">Dr. V. Reddy</div><div class="td-sub">Orthopaedic</div></div></div></td><td>Orthopaedic Surgery</td><td>13 yrs</td><td><span class="badge badge-active">On Duty</span></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="dash-card">
+                <div class="dash-card-header">
+                    <div class="dash-card-title"><i class="fa-solid fa-clock-rotate-left"></i> Recent Activity</div>
+                </div>
+                <div class="act-list">
+                    <div class="act-item"><div class="act-dot"></div><div><div class="act-text">New application from <strong>Dr. Rohit S.</strong> for Cardiologist</div><div class="act-time">5 min ago</div></div></div>
+                    <div class="act-item"><div class="act-dot g"></div><div><div class="act-text"><strong>Dr. A. Mehta</strong> completed 8 appointments today</div><div class="act-time">1 hour ago</div></div></div>
+                    <div class="act-item"><div class="act-dot y"></div><div><div class="act-text">Radiologist job listing expires in <strong>3 days</strong></div><div class="act-time">2 hours ago</div></div></div>
+                    <div class="act-item"><div class="act-dot g"></div><div><div class="act-text"><strong>Dr. Sneha M.</strong> shortlisted for Cardiologist position</div><div class="act-time">Yesterday</div></div></div>
+                    <div class="act-item"><div class="act-dot"></div><div><div class="act-text">Hospital profile updated successfully</div><div class="act-time">Yesterday</div></div></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+</body>
+</html>

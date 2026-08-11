@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Settings – Staff Dashboard | Doctors Coat</title>
+    <meta name="description" content="Manage your staff/student account settings." />
+    <link rel="icon" type="image/png" href="../images/DoctorsCoat.png" />
+    <link rel="stylesheet" href="../css/dashboard-shared.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <style>
+        .toggle-row { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; border-bottom: 1px solid var(--border); }
+        .toggle-row:last-child { border-bottom: none; }
+        .toggle-info h4 { font-size: .88rem; font-weight: 600; color: var(--text); }
+        .toggle-info p { font-size: .75rem; color: var(--text3); margin-top: 2px; }
+        .toggle-switch { position: relative; width: 42px; height: 22px; flex-shrink: 0; }
+        .toggle-switch input { opacity: 0; width: 0; height: 0; }
+        .toggle-slider { position: absolute; inset: 0; background: rgba(255,255,255,.1); border-radius: 22px; cursor: pointer; transition: .3s; }
+        .toggle-slider::before { content: ''; position: absolute; left: 3px; top: 3px; width: 16px; height: 16px; background: var(--text3); border-radius: 50%; transition: .3s; }
+        .toggle-switch input:checked + .toggle-slider { background: var(--accent); }
+        .toggle-switch input:checked + .toggle-slider::before { transform: translateX(20px); background: #fff; }
+    </style>
+</head>
+<body>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<aside class="sidebar" id="dashSidebar">
+    <div class="sidebar-top"><div class="sidebar-logo-icon">DC</div><span class="sidebar-brand">Doctors Coat</span></div>
+    <div class="sidebar-role-badge"><i class="fa-solid fa-id-badge" style="margin-right:5px"></i>Staff / Student</div>
+    <nav class="sidebar-nav">
+        <span class="sidebar-section-label">Overview</span>
+        <a href="dashboard-staff.html" class="nav-link"><i class="fa-solid fa-chart-pie"></i> Dashboard</a>
+        <span class="sidebar-section-label">Career</span>
+        <a href="dashboard-staff-jobs.html" class="nav-link"><i class="fa-solid fa-briefcase"></i> Job Opportunities</a>
+        <a href="dashboard-staff-applications.html" class="nav-link"><i class="fa-solid fa-file-contract"></i> My Applications <span class="nav-badge">2</span></a>
+        <span class="sidebar-section-label">Account</span>
+        <a href="dashboard-staff-profile.html" class="nav-link"><i class="fa-solid fa-user"></i> My Profile</a>
+        <a href="dashboard-staff-settings.html" class="nav-link active"><i class="fa-solid fa-gear"></i> Settings</a>
+    </nav>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-footer">
+        <div class="sidebar-user"><div class="sidebar-avatar" data-user-avatar>ST</div><div><div class="sidebar-uname" data-user-name>Demo User</div><div class="sidebar-urole">Staff/Student</div></div></div>
+        <button class="sidebar-logout" data-logout><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+    </div>
+</aside>
+
+<div class="main-wrap">
+    <header class="top-header">
+        <div class="header-left">
+            <button class="hamburger-mob" id="hamburgerMob"><i class="fa-solid fa-bars"></i></button>
+            <div class="header-title"><h1>Settings</h1><p>Account preferences</p></div>
+        </div>
+        <div class="header-right">
+            <div class="header-user-pill"><div class="sidebar-avatar" style="width:26px;height:26px;font-size:.68rem" data-user-avatar>ST</div><span data-user-name>User</span></div>
+        </div>
+    </header>
+
+    <div class="content">
+        <div class="page-title"><h1><i class="fa-solid fa-gear"></i> Settings</h1><p>Control your account and notification preferences</p></div>
+
+        <div class="settings-tabs">
+            <button class="settings-tab active" data-settings-tab="general">General</button>
+            <button class="settings-tab" data-settings-tab="notifications">Notifications</button>
+            <button class="settings-tab" data-settings-tab="security">Security</button>
+        </div>
+
+        <!-- General -->
+        <div class="settings-panel active" id="settings-general">
+            <div class="two-col">
+                <div class="dash-card">
+                    <div class="dash-card-header"><span class="dash-card-title"><i class="fa-solid fa-user"></i> Account Info</span></div>
+                    <div style="padding:20px">
+                        <div class="form-group"><label class="form-label">Display Name</label><input class="form-input" type="text" value="Demo User" /></div>
+                        <div class="form-group"><label class="form-label">Email</label><input class="form-input" type="email" value="user@demo.com" /></div>
+                        <div class="form-group"><label class="form-label">Phone</label><input class="form-input" type="tel" value="+91 98765 00001" /></div>
+                        <div class="form-group"><label class="form-label">Language</label>
+                            <select class="form-select"><option>English</option><option>Hindi</option><option>Marathi</option></select>
+                        </div>
+                        <button class="btn-primary"><i class="fa-solid fa-save"></i> Save Changes</button>
+                    </div>
+                </div>
+                <div class="dash-card">
+                    <div class="dash-card-header"><span class="dash-card-title"><i class="fa-solid fa-palette"></i> Appearance</span></div>
+                    <div style="padding:20px">
+                        <div class="form-group"><label class="form-label">Theme</label>
+                            <select class="form-select"><option>Dark (Default)</option><option>Light</option><option>System</option></select>
+                        </div>
+                        <div class="form-group"><label class="form-label">Date Format</label>
+                            <select class="form-select"><option>DD/MM/YYYY</option><option>MM/DD/YYYY</option></select>
+                        </div>
+                        <button class="btn-primary" style="margin-top:8px"><i class="fa-solid fa-save"></i> Save Preferences</button>
+                    </div>
+                </div>
+            </div>
+            <div class="dash-card" style="border-color:rgba(239,68,68,.2)">
+                <div class="dash-card-header" style="border-color:rgba(239,68,68,.15)"><span class="dash-card-title" style="color:var(--danger)"><i class="fa-solid fa-triangle-exclamation"></i> Danger Zone</span></div>
+                <div style="padding:20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+                    <div><div style="font-size:.88rem;font-weight:600;color:var(--text)">Delete Account</div><div style="font-size:.78rem;color:var(--text3)">Permanently delete your account and all data.</div></div>
+                    <button class="btn-sm btn-danger-sm" style="padding:8px 16px"><i class="fa-solid fa-trash"></i> Delete</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notifications -->
+        <div class="settings-panel" id="settings-notifications">
+            <div class="dash-card">
+                <div class="dash-card-header"><span class="dash-card-title"><i class="fa-solid fa-bell"></i> Notification Preferences</span></div>
+                <div style="padding:4px 20px">
+                    <div class="toggle-row"><div class="toggle-info"><h4>Appointment Confirmation</h4><p>Get notified when your appointment is confirmed</p></div><label class="toggle-switch"><input type="checkbox" checked /><span class="toggle-slider"></span></label></div>
+                    <div class="toggle-row"><div class="toggle-info"><h4>Appointment Reminders</h4><p>Receive reminders 24h and 1h before appointments</p></div><label class="toggle-switch"><input type="checkbox" checked /><span class="toggle-slider"></span></label></div>
+                    <div class="toggle-row"><div class="toggle-info"><h4>Appointment Cancellation</h4><p>Notify if your appointment is cancelled</p></div><label class="toggle-switch"><input type="checkbox" checked /><span class="toggle-slider"></span></label></div>
+                    <div class="toggle-row"><div class="toggle-info"><h4>Health Tips</h4><p>Receive weekly health and wellness tips</p></div><label class="toggle-switch"><input type="checkbox" /><span class="toggle-slider"></span></label></div>
+                    <div class="toggle-row"><div class="toggle-info"><h4>Platform Updates</h4><p>News and feature updates from Doctors Coat</p></div><label class="toggle-switch"><input type="checkbox" /><span class="toggle-slider"></span></label></div>
+                </div>
+                <div style="padding:16px 20px;border-top:1px solid var(--border)"><button class="btn-primary"><i class="fa-solid fa-save"></i> Save</button></div>
+            </div>
+        </div>
+
+        <!-- Security -->
+        <div class="settings-panel" id="settings-security">
+            <div class="two-col">
+                <div class="dash-card">
+                    <div class="dash-card-header"><span class="dash-card-title"><i class="fa-solid fa-lock"></i> Change Password</span></div>
+                    <div style="padding:20px">
+                        <div class="form-group"><label class="form-label">Current Password</label><input class="form-input" type="password" placeholder="••••••••" /></div>
+                        <div class="form-group"><label class="form-label">New Password</label><input class="form-input" type="password" placeholder="Min 8 characters" /></div>
+                        <div class="form-group"><label class="form-label">Confirm New Password</label><input class="form-input" type="password" placeholder="Repeat new password" /></div>
+                        <button class="btn-primary"><i class="fa-solid fa-key"></i> Update Password</button>
+                    </div>
+                </div>
+                <div class="dash-card">
+                    <div class="dash-card-header"><span class="dash-card-title"><i class="fa-solid fa-shield-halved"></i> Account Security</span></div>
+                    <div style="padding:20px">
+                        <div style="display:flex;align-items:center;gap:12px;padding:14px;background:rgba(239,68,68,.05);border:1px solid rgba(239,68,68,.15);border-radius:var(--radius-sm);margin-bottom:16px">
+                            <i class="fa-solid fa-shield-xmark" style="color:var(--danger);font-size:1.2rem"></i>
+                            <div><div style="font-size:.86rem;font-weight:600;color:var(--text)">2FA Disabled</div><div style="font-size:.75rem;color:var(--text3)">Enable for extra security</div></div>
+                        </div>
+                        <button class="btn-primary"><i class="fa-solid fa-shield-halved"></i> Enable 2FA</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

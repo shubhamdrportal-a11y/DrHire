@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Settings – Doctor Dashboard | Doctors Coat</title>
+    <meta name="description" content="Manage your doctor account settings." />
+    <link rel="icon" type="image/png" href="../images/DoctorsCoat.png" />
+    <link rel="stylesheet" href="../css/dashboard-shared.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <style>
+        .toggle-row { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; border-bottom: 1px solid var(--border); }
+        .toggle-row:last-child { border-bottom: none; }
+        .toggle-info h4 { font-size: .88rem; font-weight: 600; color: var(--text); }
+        .toggle-info p { font-size: .75rem; color: var(--text3); margin-top: 2px; }
+        .toggle-switch { position: relative; width: 42px; height: 22px; flex-shrink: 0; }
+        .toggle-switch input { opacity: 0; width: 0; height: 0; }
+        .toggle-slider { position: absolute; inset: 0; background: rgba(255,255,255,.1); border-radius: 22px; cursor: pointer; transition: .3s; }
+        .toggle-slider::before { content: ''; position: absolute; left: 3px; top: 3px; width: 16px; height: 16px; background: var(--text3); border-radius: 50%; transition: .3s; }
+        .toggle-switch input:checked + .toggle-slider { background: var(--accent); }
+        .toggle-switch input:checked + .toggle-slider::before { transform: translateX(20px); background: #fff; }
+    </style>
+</head>
+<body>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<aside class="sidebar" id="dashSidebar">
+    <div class="sidebar-top"><div class="sidebar-logo-icon">DC</div><span class="sidebar-brand">Doctors Coat</span></div>
+    <div class="sidebar-role-badge"><i class="fa-solid fa-user-doctor" style="margin-right:5px"></i>Doctor Portal</div>
+    <nav class="sidebar-nav">
+        <span class="sidebar-section-label">Overview</span>
+        <a href="dashboard-doctor.html" class="nav-link"><i class="fa-solid fa-chart-pie"></i> Dashboard</a>
+        <span class="sidebar-section-label">Patient Care</span>
+        <a href="dashboard-doctor-appointments.html" class="nav-link"><i class="fa-solid fa-calendar-check"></i> Appointments</a>
+        <a href="dashboard-doctor-patients.html" class="nav-link"><i class="fa-solid fa-users"></i> Patients</a>
+        <a href="#" class="nav-link"><i class="fa-solid fa-clock"></i> Availability</a>
+        <span class="sidebar-section-label">Professional</span>
+        <a href="dashboard-doctor-reports.html" class="nav-link"><i class="fa-solid fa-chart-line"></i> Reports</a>
+        <a href="dashboard-doctor-jobs.html" class="nav-link"><i class="fa-solid fa-briefcase"></i> Jobs</a>
+        <a href="dashboard-doctor-profile.html" class="nav-link"><i class="fa-solid fa-user-circle"></i> My Profile</a>
+        <a href="dashboard-doctor-settings.html" class="nav-link active"><i class="fa-solid fa-gear"></i> Settings</a>
+    </nav>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-footer">
+        <div class="sidebar-user"><div class="sidebar-avatar" data-user-avatar>DR</div><div><div class="sidebar-uname" data-user-name>Dr. Demo</div><div class="sidebar-urole">Cardiologist</div></div></div>
+        <button class="sidebar-logout" data-logout><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+    </div>
+</aside>
+
+<div class="main-wrap">
+    <header class="top-header">
+        <div class="header-left">
+            <button class="hamburger-mob" id="hamburgerMob"><i class="fa-solid fa-bars"></i></button>
+            <div class="header-title"><h1>Settings</h1><p>Manage your account preferences</p></div>
+        </div>
+        <div class="header-right">
+            <div class="header-user-pill"><div class="sidebar-avatar" style="width:26px;height:26px;font-size:.68rem" data-user-avatar>DR</div><span data-user-name>Doctor</span></div>
+        </div>
+    </header>
+
+    <div class="content">
+        <div class="page-title"><h1><i class="fa-solid fa-gear"></i> Settings</h1><p>Control your account, notifications and security preferences</p></div>
+
+        <div class="settings-tabs">
+            <button class="settings-tab active" data-settings-tab="general">General</button>
+            <button class="settings-tab" data-settings-tab="notifications">Notifications</button>
+            <button class="settings-tab" data-settings-tab="availability">Availability</button>
+            <button class="settings-tab" data-settings-tab="security">Security</button>
+        </div>
+
+        <!-- General -->
+        <div class="settings-panel active" id="settings-general">
+            <div class="two-col">
+                <div class="dash-card">
+                    <div class="dash-card-header"><span class="dash-card-title"><i class="fa-solid fa-user"></i> Account Information</span></div>
+                    <div style="padding:20px">
+                        <div class="form-group"><label class="form-label">Display Name</label><input class="form-input" type="text" value="Dr. Demo User" /></div>
+                        <div class="form-group"><label class="form-label">Email</label><input class="form-input" type="email" value="doctor@demo.com" /></div>
+                        <div class="form-group"><label class="form-label">Phone</label><input class="form-input" type="tel" value="+91 98765 43210" /></div>
+                        <div class="form-group">
+                            <label class="form-label">Language</label>
+                            <select class="form-select"><option>English</option><option>Hindi</option><option>Marathi</option></select>
+                        </div>
+                        <button class="btn-primary"><i class="fa-solid fa-save"></i> Save Changes</button>
+                    </div>
+                </div>
+                <div class="dash-card">
+                    <div class="dash-card-header"><span class="dash-card-title"><i class="fa-solid fa-palette"></i> Appearance</span></div>
+                    <div style="padding:20px">
+                        <div class="form-group"><label class="form-label">Theme</label>
+                            <select class="form-select"><option>Dark (Default)</option><option>Light</option><option>System</option></select>
+                        </div>
+                        <div class="form-group"><label class="form-label">Date Format</label>
+                            <select class="form-select"><option>DD/MM/YYYY</option><option>MM/DD/YYYY</option><option>YYYY-MM-DD</option></select>
+                        </div>
+                        <div class="form-group"><label class="form-label">Time Format</label>
+                            <select class="form-select"><option>12-hour (AM/PM)</option><option>24-hour</option></select>
+                        </div>
+                        <button class="btn-primary"><i class="fa-solid fa-save"></i> Save Preferences</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Danger Zone -->
+            <div class="dash-card" style="border-color:rgba(239,68,68,.2)">
+                <div class="dash-card-header" style="border-color:rgba(239,68,68,.15)"><span class="dash-card-title" style="color:var(--danger)"><i class="fa-solid fa-triangle-exclamation"></i> Danger Zone</span></div>
+                <div style="padding:20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+                    <div><div style="font-size:.88rem;font-weight:600;color:var(--text)">Delete Account</div><div style="font-size:.78rem;color:var(--text3)">Permanently delete your account and all data. This cannot be undone.</div></div>
+                    <button class="btn-sm btn-danger-sm" style="padding:8px 16px"><i class="fa-solid fa-trash"></i> Delete Account</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notifications -->
+        <div class="settings-panel" id="settings-notifications">
+            <div class="dash-card">
+                <div class="dash-card-header"><span class="dash-card-title"><i class="fa-solid fa-bell"></i> Notification Preferences</span></div>
+                <div style="padding:4px 20px">
+                    <div class="toggle-row"><div class="toggle-info"><h4>New Appointment Booking</h4><p>Get notified when a patient books an appointment</p></div><label class="toggle-switch"><input type="checkbox" checked /><span class="toggle-slider"></span></label></div>
+                    <div class="toggle-row"><div class="toggle-info"><h4>Appointment Cancellation</h4><p>Get notified when an appointment is cancelled</p></div><label class="toggle-switch"><input type="checkbox" checked /><span class="toggle-slider"></span></label></div>
+                    <div class="toggle-row"><div class="toggle-info"><h4>Daily Summary</h4><p>Receive a daily digest of your appointments</p></div><label class="toggle-switch"><input type="checkbox" checked /><span class="toggle-slider"></span></label></div>
+                    <div class="toggle-row"><div class="toggle-info"><h4>Patient Messages</h4><p>Notify when patients send messages</p></div><label class="toggle-switch"><input type="checkbox" /><span class="toggle-slider"></span></label></div>
+                    <div class="toggle-row"><div class="toggle-info"><h4>System Updates</h4><p>Platform maintenance and feature announcements</p></div><label class="toggle-switch"><input type="checkbox" /><span class="toggle-slider"></span></label></div>
+                </div>
+                <div style="padding:16px 20px;border-top:1px solid var(--border)"><button class="btn-primary"><i class="fa-solid fa-save"></i> Save Notifications</button></div>
+            </div>
+        </div>
+
+        <!-- Availability -->
+        <div class="settings-panel" id="settings-availability">
+            <div class="dash-card">
+                <div class="dash-card-header"><span class="dash-card-title"><i class="fa-solid fa-clock"></i> Consultation Hours</span></div>
+                <div style="padding:20px">
+                    <div style="display:grid;gap:12px">
+                        <div style="display:flex;align-items:center;gap:14px;padding:12px;background:var(--bg3);border-radius:var(--radius-sm);border:1px solid var(--border)">
+                            <label class="toggle-switch" style="margin:0"><input type="checkbox" checked /><span class="toggle-slider"></span></label>
+                            <span style="font-weight:600;color:var(--text);min-width:60px">Monday</span>
+                            <input class="form-input" type="time" value="09:00" style="width:auto;flex:1" />
+                            <span style="color:var(--text3)">to</span>
+                            <input class="form-input" type="time" value="17:00" style="width:auto;flex:1" />
+                        </div>
+                        <div style="display:flex;align-items:center;gap:14px;padding:12px;background:var(--bg3);border-radius:var(--radius-sm);border:1px solid var(--border)">
+                            <label class="toggle-switch" style="margin:0"><input type="checkbox" checked /><span class="toggle-slider"></span></label>
+                            <span style="font-weight:600;color:var(--text);min-width:60px">Tuesday</span>
+                            <input class="form-input" type="time" value="09:00" style="width:auto;flex:1" />
+                            <span style="color:var(--text3)">to</span>
+                            <input class="form-input" type="time" value="17:00" style="width:auto;flex:1" />
+                        </div>
+                        <div style="display:flex;align-items:center;gap:14px;padding:12px;background:var(--bg3);border-radius:var(--radius-sm);border:1px solid var(--border)">
+                            <label class="toggle-switch" style="margin:0"><input type="checkbox" checked /><span class="toggle-slider"></span></label>
+                            <span style="font-weight:600;color:var(--text);min-width:60px">Wednesday</span>
+                            <input class="form-input" type="time" value="09:00" style="width:auto;flex:1" />
+                            <span style="color:var(--text3)">to</span>
+                            <input class="form-input" type="time" value="13:00" style="width:auto;flex:1" />
+                        </div>
+                        <div style="display:flex;align-items:center;gap:14px;padding:12px;background:var(--bg3);border-radius:var(--radius-sm);border:1px solid var(--border)">
+                            <label class="toggle-switch" style="margin:0"><input type="checkbox" checked /><span class="toggle-slider"></span></label>
+                            <span style="font-weight:600;color:var(--text);min-width:60px">Thursday</span>
+                            <input class="form-input" type="time" value="09:00" style="width:auto;flex:1" />
+                            <span style="color:var(--text3)">to</span>
+                            <input class="form-input" type="time" value="17:00" style="width:auto;flex:1" />
+                        </div>
+                        <div style="display:flex;align-items:center;gap:14px;padding:12px;background:var(--bg3);border-radius:var(--radius-sm);border:1px solid var(--border)">
+                            <label class="toggle-switch" style="margin:0"><input type="checkbox" checked /><span class="toggle-slider"></span></label>
+                            <span style="font-weight:600;color:var(--text);min-width:60px">Friday</span>
+                            <input class="form-input" type="time" value="09:00" style="width:auto;flex:1" />
+                            <span style="color:var(--text3)">to</span>
+                            <input class="form-input" type="time" value="17:00" style="width:auto;flex:1" />
+                        </div>
+                        <div style="display:flex;align-items:center;gap:14px;padding:12px;background:var(--bg3);border-radius:var(--radius-sm);border:1px solid var(--border)">
+                            <label class="toggle-switch" style="margin:0"><input type="checkbox" /><span class="toggle-slider"></span></label>
+                            <span style="font-weight:600;color:var(--text3);min-width:60px">Saturday</span>
+                            <input class="form-input" type="time" value="09:00" style="width:auto;flex:1;opacity:.4" disabled />
+                            <span style="color:var(--text3)">to</span>
+                            <input class="form-input" type="time" value="13:00" style="width:auto;flex:1;opacity:.4" disabled />
+                        </div>
+                        <div style="display:flex;align-items:center;gap:14px;padding:12px;background:var(--bg3);border-radius:var(--radius-sm);border:1px solid var(--border)">
+                            <label class="toggle-switch" style="margin:0"><input type="checkbox" /><span class="toggle-slider"></span></label>
+                            <span style="font-weight:600;color:var(--text3);min-width:60px">Sunday</span>
+                            <span style="font-size:.8rem;color:var(--text3)">Day off</span>
+                        </div>
+                    </div>
+                    <div style="margin-top:16px"><button class="btn-primary"><i class="fa-solid fa-save"></i> Save Availability</button></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Security -->
+        <div class="settings-panel" id="settings-security">
+            <div class="two-col">
+                <div class="dash-card">
+                    <div class="dash-card-header"><span class="dash-card-title"><i class="fa-solid fa-lock"></i> Change Password</span></div>
+                    <div style="padding:20px">
+                        <div class="form-group"><label class="form-label">Current Password</label><input class="form-input" type="password" placeholder="••••••••" /></div>
+                        <div class="form-group"><label class="form-label">New Password</label><input class="form-input" type="password" placeholder="Min 8 characters" /></div>
+                        <div class="form-group"><label class="form-label">Confirm New Password</label><input class="form-input" type="password" placeholder="Repeat new password" /></div>
+                        <button class="btn-primary"><i class="fa-solid fa-key"></i> Update Password</button>
+                    </div>
+                </div>
+                <div class="dash-card">
+                    <div class="dash-card-header"><span class="dash-card-title"><i class="fa-solid fa-shield-halved"></i> Two-Factor Auth</span></div>
+                    <div style="padding:20px">
+                        <div style="display:flex;align-items:center;gap:12px;padding:14px;background:rgba(16,185,129,.06);border:1px solid rgba(16,185,129,.15);border-radius:var(--radius-sm);margin-bottom:16px">
+                            <i class="fa-solid fa-circle-check" style="color:var(--success);font-size:1.2rem"></i>
+                            <div><div style="font-size:.86rem;font-weight:600;color:var(--text)">2FA Disabled</div><div style="font-size:.75rem;color:var(--text3)">Enable for extra security</div></div>
+                        </div>
+                        <p style="font-size:.82rem;color:var(--text2);margin-bottom:16px">Two-factor authentication adds an extra layer of security to your account.</p>
+                        <button class="btn-primary"><i class="fa-solid fa-shield-halved"></i> Enable 2FA</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

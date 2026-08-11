@@ -1,0 +1,157 @@
+/**
+ * auth-guard.js
+ * Must be loaded on EVERY dashboard page.
+ * - Checks session via GET /api/auth/me
+ * - Redirects to login if unauthenticated
+ * - Populates [data-user-name], [data-user-email], [data-user-avatar]
+ * - Handles logout for all [data-logout] buttons
+ * - Optionally enforces expected role (set window.__expectedRole before including this)
+ */
+
+(function () {
+  'use strict';
+
+  // Show a page-level loading overlay while we verify auth
+  function showPageLoading() {
+    const el = document.createElement('div');
+    el.id = '_authLoader';
+    el.style.cssText = 'position:fixed;inset:0;z-index:99999;background:var(--bg,#0d1117);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:14px;';
+    el.innerHTML = '<i class="fa-solid fa-spinner fa-spin fa-2x" style="color:#0ea5e9"></i><span style="font-size:.82rem;color:#64748b">Verifying session…</span>';
+    document.body.appendChild(el);
+  }
+
+  function hidePageLoading() {
+    const el = document.getElementById('_authLoader');
+    if (el) el.remove();
+  }
+
+  function redirectToLogin() {
+    const isPages = window.location.pathname.includes('/pages/');
+    window.location.href = isPages ? 'login.html' : '/pages/login.html';
+  }
+
+  // Populate all [data-user-*] elements
+  function populateUser(user, profile) {
+    const displayName = profile?.full_name || profile?.hospital_name || user.email.split('@')[0];
+    const initials    = displayName.split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase();
+
+    document.querySelectorAll('[data-user-name]').forEach(el => el.textContent = displayName);
+    document.querySelectorAll('[data-user-email]').forEach(el => el.textContent = user.email);
+    document.querySelectorAll('[data-user-avatar]').forEach(el => el.textContent = initials);
+    document.querySelectorAll('[data-user-role]').forEach(el => el.textContent = user.role);
+
+    // Update profile photo if stored
+    const photoUrl = profile?.photo_url;
+    if (photoUrl) {
+      document.querySelectorAll('[data-user-photo]').forEach(img => {
+        img.src = photoUrl;
+        img.style.display = '';
+      });
+    }
+
+    // Store in window for other scripts to use
+    window.__currentUser    = user;
+    window.__currentProfile = profile;
+  }
+
+  // Wire logout buttons
+  function initLogout() {
+    document.querySelectorAll('[data-logout]').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        try { await api.post('/auth/logout'); } catch {}
+        redirectToLogin();
+      });
+    });
+  }
+
+  // Load notifications badge
+  async function loadNotifications() {
+    try {
+      const data = await api.get('/notifications?unread=1');
+      const count = data.unread_count || 0;
+      document.querySelectorAll('.notif-dot').forEach(dot => {
+        dot.style.display = count > 0 ? '' : 'none';
+      });
+      document.querySelectorAll('[data-notif-count]').forEach(el => {
+        el.textContent = count > 0 ? String(count) : '';
+      });
+    } catch {}
+  }
+
+  // Main guard function
+  async function guard() {
+    showPageLoading();
+
+    let user, profile;
+    try {
+      const me = await api.get('/auth/me');
+      user    = { id: me.id, email: me.email, role: me.role, status: me.status };
+      profile = me.profile || null;
+    } catch {
+      hidePageLoading();
+      redirectToLogin();
+      return;
+    }
+
+    // Role check
+    const expectedRole = window.__expectedRole || null;
+    if (expectedRole && user.role !== expectedRole && user.role !== 'admin') {
+      // Redirect to their own dashboard
+      const dashMap = {
+        admin:    'dashboard-admin.html',
+        doctor:   'dashboard-doctor.html',
+        hospital: 'dashboard-hospital.html',
+        staff:    'dashboard-staff.html',
+      };
+      const isPages = window.location.pathname.includes('/pages/');
+      window.location.href = dashMap[user.role] || 'login.html';
+      return;
+    }
+
+    populateUser(user, profile);
+    initLogout();
+    hidePageLoading();
+
+    // Set current date in [id="dashDate"] if present
+    const dateEl = document.getElementById('dashDate');
+    if (dateEl) {
+      dateEl.textContent = new Date().toLocaleDateString('en-IN', {
+        weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
+      });
+    }
+
+    // Load notifications async (non-blocking)
+    loadNotifications();
+
+    // Dispatch event so page-specific scripts can run
+    document.dispatchEvent(new CustomEvent('drhire:auth', { detail: { user, profile } }));
+  }
+
+  // Mobile sidebar toggle (shared across all dashboard pages)
+  function initMobileSidebar() {
+    const hamburger = document.getElementById('hamburgerMob') || document.getElementById('hamburgerBtn');
+    const sidebar   = document.getElementById('dashSidebar');
+    const overlay   = document.getElementById('sidebarOverlay');
+
+    function open() {
+      sidebar?.classList.add('open');
+      overlay?.classList.add('active');
+    }
+    function close() {
+      sidebar?.classList.remove('open');
+      overlay?.classList.remove('active');
+    }
+
+    hamburger?.addEventListener('click', open);
+    overlay?.addEventListener('click', close);
+    document.getElementById('sidebarCloseBtn')?.addEventListener('click', close);
+  }
+
+  // Run on DOM ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => { initMobileSidebar(); guard(); });
+  } else {
+    initMobileSidebar();
+    guard();
+  }
+})();

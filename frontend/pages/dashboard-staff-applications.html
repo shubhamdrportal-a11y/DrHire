@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>My Applications – Staff Dashboard | Doctors Coat</title>
+    <meta name="description" content="Track your job and internship applications." />
+    <link rel="icon" type="image/png" href="../images/DoctorsCoat.png" />
+    <link rel="stylesheet" href="../css/dashboard-shared.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<!-- ── SIDEBAR ─────────────────────────────────────────────── -->
+<aside class="sidebar" id="dashSidebar">
+    <div class="sidebar-top"><div class="sidebar-logo-icon">DC</div><span class="sidebar-brand">Doctors Coat</span></div>
+    <div class="sidebar-role-badge"><i class="fa-solid fa-id-badge" style="margin-right:5px"></i>Staff / Student</div>
+    <nav class="sidebar-nav">
+        <span class="sidebar-section-label">Overview</span>
+        <a href="dashboard-staff.html" class="nav-link"><i class="fa-solid fa-chart-pie"></i> Dashboard</a>
+        <span class="sidebar-section-label">Career</span>
+        <a href="dashboard-staff-jobs.html" class="nav-link"><i class="fa-solid fa-briefcase"></i> Job Opportunities</a>
+        <a href="dashboard-staff-applications.html" class="nav-link active"><i class="fa-solid fa-file-contract"></i> My Applications <span class="nav-badge">2</span></a>
+        <span class="sidebar-section-label">Account</span>
+        <a href="dashboard-staff-profile.html" class="nav-link"><i class="fa-solid fa-user"></i> My Profile</a>
+        <a href="dashboard-staff-settings.html" class="nav-link"><i class="fa-solid fa-gear"></i> Settings</a>
+    </nav>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-footer">
+        <div class="sidebar-user"><div class="sidebar-avatar" data-user-avatar>ST</div><div><div class="sidebar-uname" data-user-name>Demo User</div><div class="sidebar-urole">Staff/Student</div></div></div>
+        <button class="sidebar-logout" data-logout><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+    </div>
+</aside>
+
+<div class="main-wrap">
+    <header class="top-header">
+        <div class="header-left">
+            <button class="hamburger-mob" id="hamburgerMob"><i class="fa-solid fa-bars"></i></button>
+            <div class="header-title"><h1>My Applications</h1><p>Track your job application status</p></div>
+        </div>
+        <div class="header-right">
+            <a href="dashboard-staff-jobs.html" class="btn-primary" style="padding:7px 14px;font-size:.82rem"><i class="fa-solid fa-plus"></i> Find Jobs</a>
+            <div class="header-user-pill"><div class="sidebar-avatar" style="width:26px;height:26px;font-size:.68rem" data-user-avatar>ST</div><span data-user-name>User</span></div>
+        </div>
+    </header>
+
+    <div class="content">
+        <div class="page-title"><h1><i class="fa-solid fa-file-contract"></i> My Applications</h1><p>Manage and track all the jobs and internships you've applied for.</p></div>
+
+        <div class="tab-pills">
+            <button class="tab-pill active" data-tab-target="all-tab">All Applications (4)</button>
+            <button class="tab-pill" data-tab-target="interview-tab">Interviews (1)</button>
+        </div>
+
+        <div class="tab-panel active" id="all-tab">
+            <div class="dash-card">
+                <div class="table-wrap">
+                    <table class="dash-table">
+                        <thead>
+                            <tr>
+                                <th>Role</th>
+                                <th>Hospital</th>
+                                <th>Date Applied</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div style="font-weight:700;color:var(--text);font-size:.88rem">Senior Staff Nurse (ICU)</div>
+                                    <div style="font-size:.75rem;color:var(--text3);margin-top:2px">Full Time</div>
+                                </td>
+                                <td>
+                                    <div style="display:flex;align-items:center;gap:8px">
+                                        <div style="width:28px;height:28px;background:rgba(255,255,255,.05);border-radius:4px;display:flex;align-items:center;justify-content:center;color:var(--accent)"><i class="fa-solid fa-hospital"></i></div>
+                                        <span style="font-weight:600;color:var(--text);font-size:.82rem">Apollo Hospitals</span>
+                                    </div>
+                                </td>
+                                <td>Aug 10, 2026</td>
+                                <td><span class="badge badge-pending">Under Review</span></td>
+                                <td><button class="btn-sm btn-outline-sm">Details</button></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div style="font-weight:700;color:var(--text);font-size:.88rem">Medical Intern (Pediatrics)</div>
+                                    <div style="font-size:.75rem;color:var(--text3);margin-top:2px">Internship</div>
+                                </td>
+                                <td>
+                                    <div style="display:flex;align-items:center;gap:8px">
+                                        <div style="width:28px;height:28px;background:rgba(255,255,255,.05);border-radius:4px;display:flex;align-items:center;justify-content:center;color:var(--warning)"><i class="fa-solid fa-hospital"></i></div>
+                                        <span style="font-weight:600;color:var(--text);font-size:.82rem">Fortis Healthcare</span>
+                                    </div>
+                                </td>
+                                <td>Aug 5, 2026</td>
+                                <td><span class="badge badge-confirmed">Interview Scheduled</span></td>
+                                <td><button class="btn-sm btn-outline-sm">Details</button></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div style="font-weight:700;color:var(--text);font-size:.88rem">Lab Technician</div>
+                                    <div style="font-size:.75rem;color:var(--text3);margin-top:2px">Contract</div>
+                                </td>
+                                <td>
+                                    <div style="display:flex;align-items:center;gap:8px">
+                                        <div style="width:28px;height:28px;background:rgba(255,255,255,.05);border-radius:4px;display:flex;align-items:center;justify-content:center;color:var(--success)"><i class="fa-solid fa-microscope"></i></div>
+                                        <span style="font-weight:600;color:var(--text);font-size:.82rem">Kokilaben Hospital</span>
+                                    </div>
+                                </td>
+                                <td>Jul 28, 2026</td>
+                                <td><span class="badge badge-rejected">Rejected</span></td>
+                                <td><button class="btn-sm btn-outline-sm">Details</button></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div style="font-weight:700;color:var(--text);font-size:.88rem">Night Duty Nurse</div>
+                                    <div style="font-size:.75rem;color:var(--text3);margin-top:2px">Part Time</div>
+                                </td>
+                                <td>
+                                    <div style="display:flex;align-items:center;gap:8px">
+                                        <div style="width:28px;height:28px;background:rgba(255,255,255,.05);border-radius:4px;display:flex;align-items:center;justify-content:center;color:var(--accent)"><i class="fa-solid fa-hospital"></i></div>
+                                        <span style="font-weight:600;color:var(--text);font-size:.82rem">Max Super Specialty</span>
+                                    </div>
+                                </td>
+                                <td>Jun 12, 2026</td>
+                                <td><span class="badge badge-inactive">Position Closed</span></td>
+                                <td><button class="btn-sm btn-outline-sm">Details</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <div class="tab-panel" id="interview-tab">
+            <div class="dash-card">
+                <div style="padding:20px">
+                    <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+                        <div style="width:64px;height:64px;border-radius:12px;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3);display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--warning);flex-shrink:0">
+                            <span style="font-size:.7rem;font-weight:700;text-transform:uppercase">Aug</span>
+                            <span style="font-size:1.3rem;font-weight:800;line-height:1">15</span>
+                        </div>
+                        <div style="flex:1">
+                            <div style="font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:4px">Medical Intern (Pediatrics) Interview</div>
+                            <div style="font-size:.85rem;color:var(--text2);margin-bottom:8px">Fortis Healthcare · Video Call</div>
+                            <div style="display:flex;gap:14px;flex-wrap:wrap;font-size:.76rem;color:var(--text3)">
+                                <span><i class="fa-solid fa-clock" style="color:var(--accent);margin-right:4px"></i>11:30 AM (IST)</span>
+                                <span><i class="fa-solid fa-user-doctor" style="color:var(--accent);margin-right:4px"></i>Interviewer: Dr. Amit Sharma</span>
+                            </div>
+                        </div>
+                        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px">
+                            <span class="badge badge-confirmed">Confirmed</span>
+                            <button class="btn-primary" style="padding:6px 14px;font-size:.8rem"><i class="fa-solid fa-video"></i> Join Link</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+</body>
+</html>

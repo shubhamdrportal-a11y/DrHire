@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Applications – Hospital Dashboard | Doctors Coat</title>
+    <meta name="description" content="Review and manage doctor job applications." />
+    <link rel="icon" type="image/png" href="../images/DoctorsCoat.png" />
+    <link rel="stylesheet" href="../css/dashboard-shared.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<aside class="sidebar" id="dashSidebar">
+    <div class="sidebar-top"><div class="sidebar-logo-icon">DC</div><span class="sidebar-brand">Doctors Coat</span></div>
+    <div class="sidebar-role-badge"><i class="fa-solid fa-hospital" style="margin-right:5px"></i>Hospital Portal</div>
+    <nav class="sidebar-nav">
+        <span class="sidebar-section-label">Overview</span>
+        <a href="dashboard-hospital.html" class="nav-link"><i class="fa-solid fa-chart-pie"></i> Dashboard</a>
+        <span class="sidebar-section-label">Recruitment</span>
+        <a href="dashboard-hospital-jobs.html" class="nav-link"><i class="fa-solid fa-briefcase"></i> Job Listings</a>
+        <a href="dashboard-hospital-applications.html" class="nav-link active"><i class="fa-solid fa-file-lines"></i> Applications <span class="nav-badge">8</span></a>
+        <span class="sidebar-section-label">Operations</span>
+        <a href="dashboard-hospital-doctors.html" class="nav-link"><i class="fa-solid fa-user-doctor"></i> Doctors</a>
+        <a href="dashboard-hospital-appointments.html" class="nav-link"><i class="fa-solid fa-calendar-check"></i> Appointments</a>
+        <a href="dashboard-hospital-reports.html" class="nav-link"><i class="fa-solid fa-chart-line"></i> Reports</a>
+        <span class="sidebar-section-label">Account</span>
+        <a href="dashboard-hospital-profile.html" class="nav-link"><i class="fa-solid fa-hospital"></i> Hospital Profile</a>
+        <a href="dashboard-hospital-settings.html" class="nav-link"><i class="fa-solid fa-gear"></i> Settings</a>
+    </nav>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-footer">
+        <div class="sidebar-user"><div class="sidebar-avatar" data-user-avatar>HS</div><div><div class="sidebar-uname" data-user-name>Hospital Admin</div><div class="sidebar-urole">Administrator</div></div></div>
+        <button class="sidebar-logout" data-logout><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+    </div>
+</aside>
+
+<div class="main-wrap">
+    <header class="top-header">
+        <div class="header-left">
+            <button class="hamburger-mob" id="hamburgerMob"><i class="fa-solid fa-bars"></i></button>
+            <div class="header-title"><h1>Applications</h1><p>Doctor job applications</p></div>
+        </div>
+        <div class="header-right">
+            <div class="header-search"><i class="fa-solid fa-magnifying-glass"></i><input type="text" placeholder="Search applicants…" /></div>
+            <button class="header-icon-btn"><i class="fa-solid fa-bell"></i><div class="notif-dot"></div></button>
+            <div class="header-user-pill"><div class="sidebar-avatar" style="width:26px;height:26px;font-size:.68rem" data-user-avatar>HS</div><span data-user-name>Admin</span></div>
+        </div>
+    </header>
+
+    <div class="content">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:20px">
+            <div class="page-title" style="margin-bottom:0"><h1><i class="fa-solid fa-file-lines"></i> Job Applications</h1><p>Review applications for your open positions</p></div>
+        </div>
+
+        <!-- Mini Stats -->
+        <div class="mini-stat-row">
+            <div class="mini-stat"><div class="mini-ico ico-blue"><i class="fa-solid fa-file-lines"></i></div><div><div class="mini-val">32</div><div class="mini-label">Total Applications</div></div></div>
+            <div class="mini-stat"><div class="mini-ico ico-yellow"><i class="fa-solid fa-clock"></i></div><div><div class="mini-val">8</div><div class="mini-label">Pending Review</div></div></div>
+            <div class="mini-stat"><div class="mini-ico ico-green"><i class="fa-solid fa-check"></i></div><div><div class="mini-val">14</div><div class="mini-label">Accepted</div></div></div>
+            <div class="mini-stat"><div class="mini-ico ico-red"><i class="fa-solid fa-xmark"></i></div><div><div class="mini-val">10</div><div class="mini-label">Rejected</div></div></div>
+        </div>
+
+        <!-- Filter -->
+        <div class="filter-bar">
+            <div class="filter-search"><i class="fa-solid fa-magnifying-glass"></i><input type="text" placeholder="Search by name, specialization…" /></div>
+            <select class="filter-select"><option value="">All Status</option><option>Pending</option><option>Accepted</option><option>Rejected</option></select>
+            <select class="filter-select"><option value="">All Positions</option><option>Senior Cardiologist</option><option>Radiologist</option><option>Orthopedic Surgeon</option></select>
+        </div>
+
+        <!-- Applications Table -->
+        <div class="dash-card">
+            <div class="dash-card-header">
+                <span class="dash-card-title"><i class="fa-solid fa-list"></i> All Applications</span>
+                <span class="dash-card-action">Export</span>
+            </div>
+            <div class="table-wrap">
+                <table class="dash-table">
+                    <thead>
+                        <tr><th>Applicant</th><th>Position Applied</th><th>Experience</th><th>Applied On</th><th>Status</th><th>Actions</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><div class="user-cell"><div class="ua ua-blue">RK</div><div><div class="td-name">Dr. Rajesh Kumar</div><div class="td-sub">Cardiology · MBBS, MD</div></div></div></td>
+                            <td>Senior Cardiologist</td>
+                            <td>12 years</td>
+                            <td>Aug 8, 2026</td>
+                            <td><span class="badge badge-pending">Pending</span></td>
+                            <td><div style="display:flex;gap:6px"><button class="btn-sm btn-outline-sm"><i class="fa-solid fa-eye"></i> View</button><button class="btn-sm btn-success-sm"><i class="fa-solid fa-check"></i></button><button class="btn-sm btn-danger-sm"><i class="fa-solid fa-xmark"></i></button></div></td>
+                        </tr>
+                        <tr>
+                            <td><div class="user-cell"><div class="ua ua-green">SM</div><div><div class="td-name">Dr. Sunita Mehra</div><div class="td-sub">Radiology · MBBS, DNB</div></div></div></td>
+                            <td>Senior Radiologist</td>
+                            <td>8 years</td>
+                            <td>Aug 7, 2026</td>
+                            <td><span class="badge badge-confirmed">Accepted</span></td>
+                            <td><div style="display:flex;gap:6px"><button class="btn-sm btn-outline-sm"><i class="fa-solid fa-eye"></i> View</button></div></td>
+                        </tr>
+                        <tr>
+                            <td><div class="user-cell"><div class="ua ua-purple">AJ</div><div><div class="td-name">Dr. Amit Joshi</div><div class="td-sub">Orthopedics · MS (Ortho)</div></div></div></td>
+                            <td>Orthopedic Surgeon</td>
+                            <td>6 years</td>
+                            <td>Aug 6, 2026</td>
+                            <td><span class="badge badge-pending">Pending</span></td>
+                            <td><div style="display:flex;gap:6px"><button class="btn-sm btn-outline-sm"><i class="fa-solid fa-eye"></i> View</button><button class="btn-sm btn-success-sm"><i class="fa-solid fa-check"></i></button><button class="btn-sm btn-danger-sm"><i class="fa-solid fa-xmark"></i></button></div></td>
+                        </tr>
+                        <tr>
+                            <td><div class="user-cell"><div class="ua ua-orange">PG</div><div><div class="td-name">Dr. Pooja Gupta</div><div class="td-sub">Neurology · DM (Neuro)</div></div></div></td>
+                            <td>Neurologist</td>
+                            <td>10 years</td>
+                            <td>Aug 5, 2026</td>
+                            <td><span class="badge badge-rejected">Rejected</span></td>
+                            <td><div style="display:flex;gap:6px"><button class="btn-sm btn-outline-sm"><i class="fa-solid fa-eye"></i> View</button></div></td>
+                        </tr>
+                        <tr>
+                            <td><div class="user-cell"><div class="ua ua-cyan">VB</div><div><div class="td-name">Dr. Vikram Bhat</div><div class="td-sub">General Surgery · MS</div></div></div></td>
+                            <td>General Surgeon</td>
+                            <td>15 years</td>
+                            <td>Aug 4, 2026</td>
+                            <td><span class="badge badge-pending">Pending</span></td>
+                            <td><div style="display:flex;gap:6px"><button class="btn-sm btn-outline-sm"><i class="fa-solid fa-eye"></i> View</button><button class="btn-sm btn-success-sm"><i class="fa-solid fa-check"></i></button><button class="btn-sm btn-danger-sm"><i class="fa-solid fa-xmark"></i></button></div></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

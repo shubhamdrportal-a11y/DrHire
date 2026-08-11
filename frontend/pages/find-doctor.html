@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Find a Doctor – Doctors Coat</title>
+    <meta name="description" content="Browse verified doctors across all specializations and book an appointment online." />
+    <link rel="icon" type="image/png" href="../images/DoctorsCoat.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/dashboard.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+<div class="dash-root">
+
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- ── SIDEBAR ─────────────────────────────────────────────── -->
+    <aside class="dash-sidebar" id="dashSidebar">
+        <a href="../index.html" class="sidebar-logo">
+            <img src="../images/DoctorsCoat.png" alt="Logo" />
+            <span class="sidebar-logo-text">Doctors Coat</span>
+        </a>
+        <div class="sidebar-role-badge"><i class="fa-solid fa-user-graduate" style="margin-right:6px"></i> Staff / Student</div>
+        <nav class="sidebar-nav">
+            <span class="sidebar-section-label">Overview</span>
+            <a href="dashboard-staff.html" class="sidebar-link"><i class="fa-solid fa-chart-pie"></i> Dashboard</a>
+            <span class="sidebar-section-label">Healthcare</span>
+            <a href="find-doctor.html" class="sidebar-link active"><i class="fa-solid fa-stethoscope"></i> Find a Doctor</a>
+            <a href="#" class="sidebar-link"><i class="fa-solid fa-calendar-check"></i> My Appointments<span class="nav-badge">2</span></a>
+            <a href="#" class="sidebar-link"><i class="fa-solid fa-bookmark"></i> My Bookings</a>
+            <span class="sidebar-section-label">Account</span>
+            <a href="#" class="sidebar-link"><i class="fa-solid fa-user-circle"></i> Profile</a>
+            <a href="#" class="sidebar-link"><i class="fa-solid fa-gear"></i> Settings</a>
+        </nav>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-footer">
+            <div class="sidebar-user">
+                <div class="sidebar-avatar av-purple" data-user-avatar>PK</div>
+                <div class="sidebar-user-info">
+                    <div class="sidebar-user-name" data-user-name>Demo User</div>
+                    <div class="sidebar-user-role">Staff / Student</div>
+                </div>
+            </div>
+            <button class="sidebar-logout-btn" data-logout><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+        </div>
+    </aside>
+
+    <!-- ── MAIN ────────────────────────────────────────────────── -->
+    <main class="dash-main">
+        <header class="dash-header">
+            <div class="dash-header-left">
+                <button class="hamburger-btn" id="hamburgerBtn"><i class="fa-solid fa-bars"></i></button>
+                <div class="dash-breadcrumb">
+                    <i class="fa-solid fa-house" style="font-size:0.7rem"></i>
+                    <i class="fa-solid fa-chevron-right"></i>
+                    <a href="dashboard-staff.html" style="color:var(--dash-text-muted);text-decoration:none">Dashboard</a>
+                    <i class="fa-solid fa-chevron-right"></i>
+                    <span>Find a Doctor</span>
+                </div>
+            </div>
+            <div class="dash-header-right">
+                <div class="dash-header-btn" style="cursor:pointer"><i class="fa-solid fa-bell"></i><div class="dash-notif-dot"></div></div>
+                <div class="dash-header-user">
+                    <div class="sidebar-avatar av-purple" style="width:32px;height:32px;font-size:.78rem" data-user-avatar>PK</div>
+                    <span class="dash-header-user-name" data-user-name>User</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="dash-content">
+
+            <div class="dash-page-title">
+                <h1><i class="fa-solid fa-stethoscope" style="color:var(--dash-accent);margin-right:10px;font-size:1.2rem"></i>Find a Doctor</h1>
+                <p>Browse our verified network of 386+ doctors. Book an appointment in minutes.</p>
+            </div>
+
+            <!-- Search & Filter -->
+            <div class="dash-search">
+                <div class="dash-search-input-wrap" style="flex:2">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" class="dash-search-input" id="doctorSearchInput" placeholder="Search doctor name or specialization…" />
+                </div>
+                <div class="dash-filter-group">
+                    <select class="dash-filter-select" id="doctorSpecFilter">
+                        <option value="">All Specializations</option>
+                        <option value="cardiologist">Cardiology</option>
+                        <option value="neurologist">Neurology</option>
+                        <option value="orthopaedic">Orthopaedics</option>
+                        <option value="paediatrician">Paediatrics</option>
+                        <option value="gynaecologist">Gynaecology</option>
+                        <option value="radiologist">Radiology</option>
+                        <option value="general physician">General Medicine</option>
+                    </select>
+                    <select class="dash-filter-select">
+                        <option value="">Any Location</option>
+                        <option>Delhi</option>
+                        <option>Mumbai</option>
+                        <option>Bangalore</option>
+                        <option>Hyderabad</option>
+                        <option>Jaipur</option>
+                    </select>
+                    <select class="dash-filter-select">
+                        <option value="">Any Experience</option>
+                        <option>0–5 Years</option>
+                        <option>5–10 Years</option>
+                        <option>10+ Years</option>
+                    </select>
+                </div>
+            </div>
+
+            <div style="font-size:0.82rem;color:var(--dash-text-muted);margin-bottom:16px">Showing <strong style="color:var(--dash-text)">8</strong> doctors</div>
+
+            <!-- Doctor Cards Grid -->
+            <div class="doctor-cards-grid">
+
+                <!-- Doctor 1 -->
+                <div class="doctor-card-ui"
+                     data-doc-name="dr. anand mehta"
+                     data-doc-spec="cardiologist">
+                    <div class="doctor-card-top">
+                        <div class="doctor-photo">AM</div>
+                        <div class="doctor-card-info">
+                            <div class="doctor-card-name">Dr. Anand Mehta</div>
+                            <div class="doctor-card-spec">Cardiologist</div>
+                            <div class="star-rating">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                <span>5.0 (142 reviews)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="doctor-card-body">
+                        <div class="doctor-meta-item"><i class="fa-solid fa-graduation-cap"></i> MBBS, MD Cardiology, DM</div>
+                        <div class="doctor-meta-item"><i class="fa-solid fa-briefcase"></i> 15 Years Experience</div>
+                        <div class="doctor-meta-item"><i class="fa-solid fa-location-dot"></i> Apollo Hospitals, New Delhi</div>
+                        <div class="doctor-meta-item"><i class="fa-solid fa-calendar-check"></i>
+                            <span class="avail-badge" style="color:var(--dash-success)">Available Today</span>
+                        </div>
+                    </div>
+                    <div class="doctor-card-footer">
+                        <div class="doctor-fee">₹800 <span>/ consultation</span></div>
+                        <button class="btn-dash btn-dash-primary"
+                                data-book-doctor="Dr. Anand Mehta"
+                                data-book-spec="Cardiologist"
+                                data-book-initials="AM">
+                            <i class="fa-solid fa-calendar-plus"></i> Book
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Doctor 2 -->
+                <div class="doctor-card-ui" data-doc-name="dr. rajiv singh" data-doc-spec="neurologist">
+                    <div class="doctor-card-top">
+                        <div class="doctor-photo" style="background:linear-gradient(135deg,#10b981,#059669)">RS</div>
+                        <div class="doctor-card-info">
+                            <div class="doctor-card-name">Dr. Rajiv Singh</div>
+                            <div class="doctor-card-spec">Neurologist</div>
+                            <div class="star-rating">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
+                                <span>4.8 (98 reviews)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="doctor-card-body">
+                        <div class="doctor-meta-item"><i class="fa-solid fa-graduation-cap"></i> MBBS, MD Neurology, DM</div>
+                        <div class="doctor-meta-item"><i class="fa-solid fa-briefcase"></i> 11 Years Experience</div>
+                        <div class="doctor-meta-item"><i class="fa-solid fa-location-dot"></i> Fortis, Mumbai</div>
+                        <div class="doctor-meta-item"><i class="fa-solid fa-calendar-check"></i>
+                            <span class="avail-badge" style="color:var(--dash-success)">Available Tomorrow</span>
+                        </div>
+                    </div>
+                    <div class="doctor-card-footer">
+                        <div class="doctor-fee">₹1,000 <span>/ consultation</span></div>
+                        <button class="btn-dash btn-dash-primary" data-book-doctor="Dr. Rajiv Singh" data-book-spec="Neurologist" data-book-initials="RS">
+                            <i class="fa-solid fa-calendar-plus"></i> Book
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Doctor 3 -->
+                <div class="doctor-card-ui" data-doc-name="dr. priya nair" data-doc-spec="paediatrician">
+                    <div class="doctor-card-top">
+                        <div class="doctor-photo" style="background:linear-gradient(135deg,#8b5cf6,#6d28d9)">PN</div>
+                        <div class="doctor-card-info">
+                            <div class="doctor-card-name">Dr. Priya Nair</div>
+                            <div class="doctor-card-spec">Paediatrician</div>
+                            <div class="star-rating">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                <span>4.9 (215 reviews)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="doctor-card-body">
+                        <div class="doctor-meta-item"><i class="fa-solid fa-graduation-cap"></i> MBBS, MD Paediatrics</div>
+                        <div class="doctor-meta-item"><i class="fa-solid fa-briefcase"></i> 9 Years Experience</div>
+                        <div class="doctor-meta-item"><i class="fa-solid fa-location-dot"></i> Max Hospital, Bangalore</div>
+                        <div class="doctor-meta-item"><i class="fa-solid fa-calendar-check"></i>
+                            <span class="avail-badge" style="color:var(--dash-success)">Available Today</span>
+                        </div>
+                    </div>
+                    <div class="doctor-card-footer">
+                        <div class="doctor-fee">₹600 <span>/ consultation</span></div>
+                        <button class="btn-dash btn-dash-primary" data-book-doctor="Dr. Priya Nair" data-book-spec="Paediatrician" data-book-initials="PN">
+                            <i class="fa-solid fa-calendar-plus"></i> Book
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Doctor 4 -->
+                <div class="doctor-card-ui" data-doc-name="dr. vikram reddy" data-doc-spec="orthopaedic">
+                    <div class="doctor-card-top">
+                        <div class="doctor-photo" style="background:linear-gradient(135deg,#f59e0b,#d97706)">VR</div>
+                        <div class="doctor-card-info">
+                            <div class="doctor-card-name">Dr. Vikram Reddy</div>
+                            <div class="doctor-card-spec">Orthopaedic Surgeon</div>
+                            <div class="star-rating">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i>
+                                <span>4.6 (87 reviews)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="doctor-card-body">
+                        <div class="doctor-meta-item"><i class="fa-solid fa-graduation-cap"></i> MBBS, MS Orthopaedics</div>
+                        <div class="doctor-meta-item"><i class="fa-solid fa-briefcase"></i> 13 Years Experience</div>
+                        <div class="doctor-meta-item"><i class="fa-solid fa-location-dot"></i> Manipal, Hyderabad</div>
+                        <div class="doctor-meta-item"><i class="fa-solid fa-calendar-check"></i>
+                            <span style="color:var(--dash-warning);font-size:0.72rem;font-weight:600"><i class="fa-solid fa-clock" style="margin-right:4px"></i>Next: Aug 13</span>
+                        </div>
+                    </div>
+                    <div class="doctor-card-footer">
+                        <div class="doctor-fee">₹900 <span>/ consultation</span></div>
+                        <button class="btn-dash btn-dash-primary" data-book-doctor="Dr. Vikram Reddy" data-book-spec="Orthopaedic Surgeon" data-book-initials="VR">
+                            <i class="fa-solid fa-calendar-plus"></i> Book
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Doctor 5 -->
+                <div class="doctor-card-ui" data-doc-name="dr. kavitha sharma" data-doc-spec="gynaecologist">
+                    <div class="doctor-card-top">
+                        <div class="doctor-photo" style="background:linear-gradient(135deg,#ec4899,#be185d)">KS</div>
+                        <div class="doctor-card-info">
+                            <div class="doctor-card-name">Dr. Kavitha Sharma</div>
+                            <div class="doctor-card-spec">Gynaecologist</div>
+                            <div class="star-rating">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                <span>5.0 (184 reviews)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="doctor-card-body">
+                        <div class="doctor-meta-item"><i class="fa-solid fa-graduation-cap"></i> MBBS, MS Obstetrics & Gynaecology</div>
+                        <div class="doctor-meta-item"><i class="fa-solid fa-briefcase"></i> 18 Years Experience</div>
+                        <div class="doctor-meta-item"><i class="fa-solid fa-location-dot"></i> AIIMS, Lucknow</div>
+                        <div class="doctor-meta-item"><i class="fa-solid fa-calendar-check"></i>
+                            <span class="avail-badge" style="color:var(--dash-success)">Available Today</span>
+                        </div>
+                    </div>
+                    <div class="doctor-card-footer">
+                        <div class="doctor-fee">₹750 <span>/ consultation</span></div>
+                        <button class="btn-dash btn-dash-primary" data-book-doctor="Dr. Kavitha Sharma" data-book-spec="Gynaecologist" data-book-initials="KS">
+                            <i class="fa-solid fa-calendar-plus"></i> Book
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Doctor 6 -->
+                <div class="doctor-card-ui" data-doc-name="dr. suresh gupta" data-doc-spec="radiologist">
+                    <div class="doctor-card-top">
+                        <div class="doctor-photo" style="background:linear-gradient(135deg,#06b6d4,#0891b2)">SG</div>
+                        <div class="doctor-card-info">
+                            <div class="doctor-card-name">Dr. Suresh Gupta</div>
+                            <div class="doctor-card-spec">Radiologist</div>
+                            <div class="star-rating">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
+                                <span>4.7 (63 reviews)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="doctor-card-body">
+                        <div class="doctor-meta-item"><i class="fa-solid fa-graduation-cap"></i> MBBS, MD Radiology</div>
+                        <div class="doctor-meta-item"><i class="fa-solid fa-briefcase"></i> 12 Years Experience</div>
+                        <div class="doctor-meta-item"><i class="fa-solid fa-location-dot"></i> Medanta, Mumbai</div>
+                        <div class="doctor-meta-item"><i class="fa-solid fa-calendar-check"></i>
+                            <span class="avail-badge" style="color:var(--dash-success)">Available Tomorrow</span>
+                        </div>
+                    </div>
+                    <div class="doctor-card-footer">
+                        <div class="doctor-fee">₹700 <span>/ consultation</span></div>
+                        <button class="btn-dash btn-dash-primary" data-book-doctor="Dr. Suresh Gupta" data-book-spec="Radiologist" data-book-initials="SG">
+                            <i class="fa-solid fa-calendar-plus"></i> Book
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Doctor 7 -->
+                <div class="doctor-card-ui" data-doc-name="dr. meena verma" data-doc-spec="general physician">
+                    <div class="doctor-card-top">
+                        <div class="doctor-photo" style="background:linear-gradient(135deg,#0ea5e9,#0284c7)">MV</div>
+                        <div class="doctor-card-info">
+                            <div class="doctor-card-name">Dr. Meena Verma</div>
+                            <div class="doctor-card-spec">General Physician</div>
+                            <div class="star-rating">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                <span>4.9 (327 reviews)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="doctor-card-body">
+                        <div class="doctor-meta-item"><i class="fa-solid fa-graduation-cap"></i> MBBS, DNB Internal Medicine</div>
+                        <div class="doctor-meta-item"><i class="fa-solid fa-briefcase"></i> 8 Years Experience</div>
+                        <div class="doctor-meta-item"><i class="fa-solid fa-location-dot"></i> Fortis, Jaipur</div>
+                        <div class="doctor-meta-item"><i class="fa-solid fa-calendar-check"></i>
+                            <span class="avail-badge" style="color:var(--dash-success)">Available Today</span>
+                        </div>
+                    </div>
+                    <div class="doctor-card-footer">
+                        <div class="doctor-fee">₹500 <span>/ consultation</span></div>
+                        <button class="btn-dash btn-dash-primary" data-book-doctor="Dr. Meena Verma" data-book-spec="General Physician" data-book-initials="MV">
+                            <i class="fa-solid fa-calendar-plus"></i> Book
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Doctor 8 -->
+                <div class="doctor-card-ui" data-doc-name="dr. rakesh patel" data-doc-spec="cardiologist">
+                    <div class="doctor-card-top">
+                        <div class="doctor-photo" style="background:linear-gradient(135deg,#14b8a6,#0d9488)">RP</div>
+                        <div class="doctor-card-info">
+                            <div class="doctor-card-name">Dr. Rakesh Patel</div>
+                            <div class="doctor-card-spec">Cardiologist</div>
+                            <div class="star-rating">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i>
+                                <span>4.5 (51 reviews)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="doctor-card-body">
+                        <div class="doctor-meta-item"><i class="fa-solid fa-graduation-cap"></i> MBBS, MD Cardiology</div>
+                        <div class="doctor-meta-item"><i class="fa-solid fa-briefcase"></i> 6 Years Experience</div>
+                        <div class="doctor-meta-item"><i class="fa-solid fa-location-dot"></i> Narayana, Kolkata</div>
+                        <div class="doctor-meta-item"><i class="fa-solid fa-calendar-check"></i>
+                            <span style="color:var(--dash-warning);font-size:0.72rem;font-weight:600"><i class="fa-solid fa-clock" style="margin-right:4px"></i>Next: Aug 12</span>
+                        </div>
+                    </div>
+                    <div class="doctor-card-footer">
+                        <div class="doctor-fee">₹650 <span>/ consultation</span></div>
+                        <button class="btn-dash btn-dash-primary" data-book-doctor="Dr. Rakesh Patel" data-book-spec="Cardiologist" data-book-initials="RP">
+                            <i class="fa-solid fa-calendar-plus"></i> Book
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </main>
+</div>
+
+<!-- ── BOOKING MODAL ──────────────────────────────────────────── -->
+<div class="booking-modal-overlay" id="bookingModalOverlay">
+    <div class="booking-modal">
+        <div class="booking-modal-header">
+            <div class="booking-modal-title"><i class="fa-solid fa-calendar-plus" style="color:var(--dash-accent);margin-right:8px"></i>Book Appointment</div>
+            <button class="booking-modal-close" id="bookingModalClose"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="booking-modal-body">
+
+            <!-- Success Message (hidden) -->
+            <div id="bookingSuccess" style="display:none;text-align:center;padding:32px 0">
+                <i class="fa-solid fa-circle-check fa-3x" style="color:var(--dash-success);margin-bottom:16px"></i>
+                <h3 style="font-size:1.1rem;font-weight:700;color:var(--dash-text);margin-bottom:8px">Appointment Booked!</h3>
+                <p style="color:var(--dash-text-secondary);font-size:0.85rem">You'll receive a confirmation shortly. We'll redirect you back.</p>
+            </div>
+
+            <!-- Booking Form -->
+            <form id="bookingForm">
+
+                <!-- Doctor Info Strip -->
+                <div class="booking-doctor-strip">
+                    <div class="doctor-photo" id="bookDoctorInitials">DR</div>
+                    <div>
+                        <div class="booking-doctor-name" id="bookDoctorName">Dr. Name</div>
+                        <div class="booking-doctor-spec" id="bookDoctorSpec">Specialization</div>
+                    </div>
+                </div>
+
+                <div class="auth-section-label">Patient Information</div>
+
+                <div class="dash-form-row">
+                    <div class="dash-form-group">
+                        <label>Full Name *</label>
+                        <input type="text" class="dash-input" id="bookPatientName" placeholder="Your full name" required />
+                    </div>
+                    <div class="dash-form-group">
+                        <label>Phone Number *</label>
+                        <input type="tel" class="dash-input" id="bookPhone" placeholder="+91 98765 43210" required />
+                    </div>
+                </div>
+
+                <div class="dash-form-group">
+                    <label>Address</label>
+                    <input type="text" class="dash-input" id="bookAddress" placeholder="Your full address" />
+                </div>
+
+                <div class="dash-form-row">
+                    <div class="dash-form-group">
+                        <label>Age</label>
+                        <input type="number" class="dash-input" id="bookAge" placeholder="e.g. 35" min="1" max="120" />
+                    </div>
+                    <div class="dash-form-group">
+                        <label>Gender</label>
+                        <select class="dash-input" id="bookGender" style="cursor:pointer">
+                            <option value="">Select</option>
+                            <option>Male</option>
+                            <option>Female</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="dash-form-group">
+                    <label>Reason for Visit / Health Issue *</label>
+                    <textarea class="dash-input" id="bookReason" rows="3" placeholder="Describe your symptoms or reason for consultation…" required style="resize:vertical;min-height:80px"></textarea>
+                </div>
+
+                <div class="auth-section-label">Appointment Schedule</div>
+
+                <div class="dash-form-row">
+                    <div class="dash-form-group">
+                        <label>Preferred Date *</label>
+                        <input type="date" class="dash-input" id="bookDate" required />
+                    </div>
+                    <div class="dash-form-group">
+                        <label>Preferred Time *</label>
+                        <select class="dash-input" id="bookTime" required style="cursor:pointer">
+                            <option value="">Select time slot</option>
+                            <option>09:00 AM</option>
+                            <option>09:30 AM</option>
+                            <option>10:00 AM</option>
+                            <option>10:30 AM</option>
+                            <option>11:00 AM</option>
+                            <option>11:30 AM</option>
+                            <option>02:00 PM</option>
+                            <option>02:30 PM</option>
+                            <option>03:00 PM</option>
+                            <option>03:30 PM</option>
+                            <option>04:00 PM</option>
+                            <option>05:00 PM</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="dash-form-group">
+                    <label>Additional Notes <span style="color:var(--dash-text-muted);font-weight:400">(optional)</span></label>
+                    <textarea class="dash-input" id="bookNotes" rows="2" placeholder="Any additional information for the doctor…" style="resize:vertical;min-height:60px"></textarea>
+                </div>
+
+                <div style="display:flex;gap:10px;margin-top:8px">
+                    <button type="button" class="btn-dash btn-dash-outline" id="bookingCancelBtn" style="flex:1;justify-content:center;padding:12px">
+                        <i class="fa-solid fa-xmark"></i> Cancel
+                    </button>
+                    <button type="submit" class="btn-dash btn-dash-primary" style="flex:2;justify-content:center;padding:12px">
+                        <i class="fa-solid fa-calendar-check"></i> Book Appointment
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="../js/dashboard.js"></script>
+<script>
+    // Set min date for booking to today
+    const bookDateInput = document.getElementById('bookDate');
+    if (bookDateInput) {
+        const today = new Date().toISOString().split('T')[0];
+        bookDateInput.min = today;
+    }
+
+    // Cancel button inside booking form
+    document.getElementById('bookingCancelBtn')?.addEventListener('click', () => {
+        document.getElementById('bookingModalOverlay')?.classList.remove('active');
+        document.body.style.overflow = '';
+    });
+</script>
+</body>
+</html>

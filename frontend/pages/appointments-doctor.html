@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Appointments – Doctor Dashboard | Doctors Coat</title>
+    <meta name="description" content="Manage your patient appointments — view, confirm, complete or cancel appointments." />
+    <link rel="icon" type="image/png" href="../images/DoctorsCoat.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/dashboard.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+<div class="dash-root">
+
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- ── SIDEBAR ─────────────────────────────────────────────── -->
+    <aside class="dash-sidebar" id="dashSidebar">
+        <a href="../index.html" class="sidebar-logo">
+            <img src="../images/DoctorsCoat.png" alt="Logo" />
+            <span class="sidebar-logo-text">Doctors Coat</span>
+        </a>
+        <div class="sidebar-role-badge"><i class="fa-solid fa-user-doctor" style="margin-right:6px"></i> Doctor Portal</div>
+        <nav class="sidebar-nav">
+            <span class="sidebar-section-label">Overview</span>
+            <a href="dashboard-doctor.html" class="sidebar-link"><i class="fa-solid fa-chart-pie"></i> Dashboard</a>
+            <span class="sidebar-section-label">Patient Care</span>
+            <a href="appointments-doctor.html" class="sidebar-link active"><i class="fa-solid fa-calendar-check"></i> Appointments<span class="nav-badge">5</span></a>
+            <a href="#" class="sidebar-link"><i class="fa-solid fa-users"></i> Patients</a>
+            <a href="#" class="sidebar-link"><i class="fa-solid fa-clock"></i> Availability</a>
+            <span class="sidebar-section-label">Professional</span>
+            <a href="#" class="sidebar-link"><i class="fa-solid fa-chart-line"></i> Reports</a>
+            <a href="#" class="sidebar-link"><i class="fa-solid fa-user-circle"></i> My Profile</a>
+            <a href="#" class="sidebar-link"><i class="fa-solid fa-gear"></i> Settings</a>
+        </nav>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-footer">
+            <div class="sidebar-user">
+                <div class="sidebar-avatar" data-user-avatar>DR</div>
+                <div class="sidebar-user-info">
+                    <div class="sidebar-user-name" data-user-name>Dr. Demo</div>
+                    <div class="sidebar-user-role">Cardiologist</div>
+                </div>
+            </div>
+            <button class="sidebar-logout-btn" data-logout><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+        </div>
+    </aside>
+
+    <!-- ── MAIN ────────────────────────────────────────────────── -->
+    <main class="dash-main">
+        <header class="dash-header">
+            <div class="dash-header-left">
+                <button class="hamburger-btn" id="hamburgerBtn"><i class="fa-solid fa-bars"></i></button>
+                <div class="dash-breadcrumb">
+                    <i class="fa-solid fa-house" style="font-size:0.7rem"></i>
+                    <i class="fa-solid fa-chevron-right"></i>
+                    <a href="dashboard-doctor.html" style="color:var(--dash-text-muted);text-decoration:none">Dashboard</a>
+                    <i class="fa-solid fa-chevron-right"></i>
+                    <span>Appointments</span>
+                </div>
+            </div>
+            <div class="dash-header-right">
+                <div class="dash-header-btn" style="cursor:pointer"><i class="fa-solid fa-bell"></i><div class="dash-notif-dot"></div></div>
+                <div class="dash-header-user">
+                    <div class="sidebar-avatar" style="width:32px;height:32px;font-size:.78rem" data-user-avatar>DR</div>
+                    <span class="dash-header-user-name" data-user-name>Doctor</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="dash-content">
+
+            <div class="dash-page-title" style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px">
+                <div>
+                    <h1><i class="fa-solid fa-calendar-check" style="color:var(--dash-accent);margin-right:10px;font-size:1.2rem"></i>Appointments</h1>
+                    <p>Manage all your patient appointments in one place.</p>
+                </div>
+                <div style="display:flex;gap:10px">
+                    <div style="background:var(--dash-success-bg);border:1px solid rgba(16,185,129,0.2);border-radius:var(--dash-radius-sm);padding:8px 16px;text-align:center">
+                        <div style="font-size:1.2rem;font-weight:800;color:var(--dash-success)">8</div>
+                        <div style="font-size:0.68rem;color:var(--dash-text-muted)">Today</div>
+                    </div>
+                    <div style="background:var(--dash-accent-glow);border:1px solid var(--dash-border-active);border-radius:var(--dash-radius-sm);padding:8px 16px;text-align:center">
+                        <div style="font-size:1.2rem;font-weight:800;color:var(--dash-accent)">24</div>
+                        <div style="font-size:0.68rem;color:var(--dash-text-muted)">Upcoming</div>
+                    </div>
+                    <div style="background:var(--dash-warning-bg);border:1px solid rgba(245,158,11,0.2);border-radius:var(--dash-radius-sm);padding:8px 16px;text-align:center">
+                        <div style="font-size:1.2rem;font-weight:800;color:var(--dash-warning)">5</div>
+                        <div style="font-size:0.68rem;color:var(--dash-text-muted)">Pending</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Search & Filter Bar -->
+            <div class="dash-search">
+                <div class="dash-search-input-wrap">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" class="dash-search-input" id="doctorSearchInput" placeholder="Search patient name, reason…" />
+                </div>
+                <div class="dash-filter-group">
+                    <select class="dash-filter-select" id="statusFilter">
+                        <option value="">All Status</option>
+                        <option value="pending">Pending</option>
+                        <option value="confirmed">Confirmed</option>
+                        <option value="completed">Completed</option>
+                        <option value="cancelled">Cancelled</option>
+                    </select>
+                    <select class="dash-filter-select">
+                        <option value="">All Dates</option>
+                        <option>Today</option>
+                        <option>This Week</option>
+                        <option>This Month</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="dash-tabs">
+                <button class="dash-tab active" data-tab="today">
+                    <i class="fa-solid fa-calendar-day"></i> Today
+                    <span class="tab-count">8</span>
+                </button>
+                <button class="dash-tab" data-tab="upcoming">
+                    <i class="fa-solid fa-calendar-week"></i> Upcoming
+                    <span class="tab-count">24</span>
+                </button>
+                <button class="dash-tab" data-tab="past">
+                    <i class="fa-solid fa-clock-rotate-left"></i> Past
+                    <span class="tab-count">1087</span>
+                </button>
+            </div>
+
+            <!-- TODAY TAB -->
+            <div data-panel="today">
+                <div class="dash-card">
+                    <div class="dash-table-wrap">
+                        <table class="dash-table">
+                            <thead>
+                                <tr>
+                                    <th>Patient</th>
+                                    <th>Time</th>
+                                    <th>Phone</th>
+                                    <th>Reason / Issue</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Row 1 -->
+                                <tr data-appt-row data-appt-status="completed">
+                                    <td>
+                                        <div class="user-cell">
+                                            <div class="user-avatar">RK</div>
+                                            <div>
+                                                <div class="user-name">Ramesh Kumar</div>
+                                                <div class="user-sub">Age 48 · Male</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="td-bold">09:30 AM</td>
+                                    <td>+91 98765 43210</td>
+                                    <td>Chest Pain, Shortness of Breath</td>
+                                    <td><span class="badge badge-completed">Completed</span></td>
+                                    <td>
+                                        <div class="action-btns">
+                                            <button class="btn-dash btn-dash-outline" style="font-size:0.72rem" data-view-appt><i class="fa-solid fa-eye"></i> View</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <!-- Row 2 -->
+                                <tr data-appt-row data-appt-status="confirmed">
+                                    <td>
+                                        <div class="user-cell">
+                                            <div class="user-avatar av-green">SP</div>
+                                            <div>
+                                                <div class="user-name">Sunita Patel</div>
+                                                <div class="user-sub">Age 62 · Female</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="td-bold">11:00 AM</td>
+                                    <td>+91 87654 32109</td>
+                                    <td>Hypertension Follow-up</td>
+                                    <td><span class="badge badge-confirmed">Confirmed</span></td>
+                                    <td>
+                                        <div class="action-btns">
+                                            <button class="btn-dash btn-dash-success" style="font-size:0.72rem" data-appt-action="complete"><i class="fa-solid fa-check"></i> Complete</button>
+                                            <button class="btn-dash btn-dash-danger" style="font-size:0.72rem" data-appt-action="cancel"><i class="fa-solid fa-xmark"></i></button>
+                                            <button class="btn-dash btn-dash-outline" style="font-size:0.72rem" data-view-appt><i class="fa-solid fa-eye"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <!-- Row 3 -->
+                                <tr data-appt-row data-appt-status="pending">
+                                    <td>
+                                        <div class="user-cell">
+                                            <div class="user-avatar av-purple">AS</div>
+                                            <div>
+                                                <div class="user-name">Arjun Singh</div>
+                                                <div class="user-sub">Age 35 · Male</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="td-bold">02:30 PM</td>
+                                    <td>+91 76543 21098</td>
+                                    <td>Routine Cardiac Check-up</td>
+                                    <td><span class="badge badge-pending">Pending</span></td>
+                                    <td>
+                                        <div class="action-btns">
+                                            <button class="btn-dash btn-dash-info" style="font-size:0.72rem" data-appt-action="confirm"><i class="fa-solid fa-check"></i> Confirm</button>
+                                            <button class="btn-dash btn-dash-danger" style="font-size:0.72rem" data-appt-action="cancel"><i class="fa-solid fa-xmark"></i></button>
+                                            <button class="btn-dash btn-dash-outline" style="font-size:0.72rem" data-view-appt><i class="fa-solid fa-eye"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <!-- Row 4 -->
+                                <tr data-appt-row data-appt-status="pending">
+                                    <td>
+                                        <div class="user-cell">
+                                            <div class="user-avatar av-orange">MV</div>
+                                            <div>
+                                                <div class="user-name">Meera Verma</div>
+                                                <div class="user-sub">Age 29 · Female</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="td-bold">04:00 PM</td>
+                                    <td>+91 65432 10987</td>
+                                    <td>Heart Palpitations, Anxiety</td>
+                                    <td><span class="badge badge-pending">Pending</span></td>
+                                    <td>
+                                        <div class="action-btns">
+                                            <button class="btn-dash btn-dash-info" style="font-size:0.72rem" data-appt-action="confirm"><i class="fa-solid fa-check"></i> Confirm</button>
+                                            <button class="btn-dash btn-dash-danger" style="font-size:0.72rem" data-appt-action="cancel"><i class="fa-solid fa-xmark"></i></button>
+                                            <button class="btn-dash btn-dash-outline" style="font-size:0.72rem" data-view-appt><i class="fa-solid fa-eye"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <!-- Row 5 -->
+                                <tr data-appt-row data-appt-status="cancelled">
+                                    <td>
+                                        <div class="user-cell">
+                                            <div class="user-avatar av-pink">NK</div>
+                                            <div>
+                                                <div class="user-name">Neha Khan</div>
+                                                <div class="user-sub">Age 41 · Female</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="td-bold">05:30 PM</td>
+                                    <td>+91 54321 09876</td>
+                                    <td>Blood Pressure Check</td>
+                                    <td><span class="badge badge-cancelled">Cancelled</span></td>
+                                    <td>
+                                        <div class="action-btns">
+                                            <button class="btn-dash btn-dash-outline" style="font-size:0.72rem" data-view-appt><i class="fa-solid fa-eye"></i> View</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- UPCOMING TAB -->
+            <div data-panel="upcoming" style="display:none">
+                <div class="dash-card">
+                    <div class="dash-table-wrap">
+                        <table class="dash-table">
+                            <thead>
+                                <tr><th>Patient</th><th>Date & Time</th><th>Phone</th><th>Address</th><th>Reason</th><th>Status</th><th>Actions</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr data-appt-row>
+                                    <td><div class="user-cell"><div class="user-avatar">DM</div><div><div class="user-name">Deepak Malhotra</div><div class="user-sub">Age 55 · Male</div></div></div></td>
+                                    <td class="td-bold">Aug 11 · 10:30 AM</td>
+                                    <td>+91 92345 67890</td>
+                                    <td>Laxmi Nagar, Delhi</td>
+                                    <td>Annual Heart Screening</td>
+                                    <td><span class="badge badge-confirmed">Confirmed</span></td>
+                                    <td><div class="action-btns"><button class="btn-dash btn-dash-success" style="font-size:0.72rem" data-appt-action="complete">Complete</button><button class="btn-dash btn-dash-danger" style="font-size:0.72rem" data-appt-action="cancel">Cancel</button><button class="btn-dash btn-dash-outline" style="font-size:0.72rem" data-view-appt><i class="fa-solid fa-eye"></i></button></div></td>
+                                </tr>
+                                <tr data-appt-row>
+                                    <td><div class="user-cell"><div class="user-avatar av-green">GS</div><div><div class="user-name">Geeta Sharma</div><div class="user-sub">Age 68 · Female</div></div></div></td>
+                                    <td class="td-bold">Aug 12 · 09:00 AM</td>
+                                    <td>+91 81234 56789</td>
+                                    <td>Rohini, Delhi</td>
+                                    <td>Cardiac Arrhythmia Follow-up</td>
+                                    <td><span class="badge badge-pending">Pending</span></td>
+                                    <td><div class="action-btns"><button class="btn-dash btn-dash-info" style="font-size:0.72rem" data-appt-action="confirm">Confirm</button><button class="btn-dash btn-dash-danger" style="font-size:0.72rem" data-appt-action="cancel">Cancel</button><button class="btn-dash btn-dash-outline" style="font-size:0.72rem" data-view-appt><i class="fa-solid fa-eye"></i></button></div></td>
+                                </tr>
+                                <tr data-appt-row>
+                                    <td><div class="user-cell"><div class="user-avatar av-purple">VK</div><div><div class="user-name">Vijay Kumar</div><div class="user-sub">Age 45 · Male</div></div></div></td>
+                                    <td class="td-bold">Aug 13 · 03:00 PM</td>
+                                    <td>+91 70123 45678</td>
+                                    <td>Dwarka, Delhi</td>
+                                    <td>Cholesterol Management</td>
+                                    <td><span class="badge badge-confirmed">Confirmed</span></td>
+                                    <td><div class="action-btns"><button class="btn-dash btn-dash-success" style="font-size:0.72rem" data-appt-action="complete">Complete</button><button class="btn-dash btn-dash-danger" style="font-size:0.72rem" data-appt-action="cancel">Cancel</button><button class="btn-dash btn-dash-outline" style="font-size:0.72rem" data-view-appt><i class="fa-solid fa-eye"></i></button></div></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PAST TAB -->
+            <div data-panel="past" style="display:none">
+                <div class="dash-card">
+                    <div class="dash-table-wrap">
+                        <table class="dash-table">
+                            <thead>
+                                <tr><th>Patient</th><th>Date & Time</th><th>Reason</th><th>Status</th><th>Action</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr data-appt-row>
+                                    <td><div class="user-cell"><div class="user-avatar">RK</div><div><div class="user-name">Ramesh Kumar</div><div class="user-sub">Age 48 · Male</div></div></div></td>
+                                    <td>Aug 5, 2026 · 09:30 AM</td>
+                                    <td>Chest Pain (Initial Visit)</td>
+                                    <td><span class="badge badge-completed">Completed</span></td>
+                                    <td><button class="btn-dash btn-dash-outline" style="font-size:0.72rem" data-view-appt><i class="fa-solid fa-eye"></i> View</button></td>
+                                </tr>
+                                <tr data-appt-row>
+                                    <td><div class="user-cell"><div class="user-avatar av-green">SP</div><div><div class="user-name">Sunita Patel</div><div class="user-sub">Age 62 · Female</div></div></div></td>
+                                    <td>Aug 2, 2026 · 11:00 AM</td>
+                                    <td>Hypertension Management</td>
+                                    <td><span class="badge badge-completed">Completed</span></td>
+                                    <td><button class="btn-dash btn-dash-outline" style="font-size:0.72rem" data-view-appt><i class="fa-solid fa-eye"></i> View</button></td>
+                                </tr>
+                                <tr data-appt-row>
+                                    <td><div class="user-cell"><div class="user-avatar av-orange">PK</div><div><div class="user-name">Priya Kapoor</div><div class="user-sub">Age 33 · Female</div></div></div></td>
+                                    <td>Jul 28, 2026 · 02:00 PM</td>
+                                    <td>Routine ECG</td>
+                                    <td><span class="badge badge-cancelled">Cancelled</span></td>
+                                    <td><button class="btn-dash btn-dash-outline" style="font-size:0.72rem" data-view-appt><i class="fa-solid fa-eye"></i> View</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+</div>
+
+<!-- ── APPOINTMENT DETAILS MODAL ──────────────────────────────── -->
+<div class="booking-modal-overlay" id="apptDetailsModal">
+    <div class="booking-modal" style="max-width:640px">
+        <div class="booking-modal-header">
+            <div class="booking-modal-title"><i class="fa-solid fa-calendar-check" style="color:var(--dash-accent);margin-right:8px"></i>Appointment Details</div>
+            <button class="booking-modal-close" id="apptDetailsClose"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="booking-modal-body">
+
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:10px">
+                <div style="font-size:0.8rem;color:var(--dash-text-muted)">Appointment ID: <span style="color:var(--dash-accent);font-weight:700">#APT-2847</span></div>
+                <span class="badge badge-confirmed">Confirmed</span>
+            </div>
+
+            <div class="appt-detail-grid">
+                <div class="appt-detail-block">
+                    <h4><i class="fa-solid fa-user" style="margin-right:6px;color:var(--dash-accent)"></i>Patient Information</h4>
+                    <div class="appt-detail-row"><span class="label">Name</span><span class="value">Sunita Patel</span></div>
+                    <div class="appt-detail-row"><span class="label">Age / Gender</span><span class="value">62 yrs · Female</span></div>
+                    <div class="appt-detail-row"><span class="label">Phone</span><span class="value">+91 87654 32109</span></div>
+                    <div class="appt-detail-row"><span class="label">Address</span><span class="value">Janakpuri, Delhi</span></div>
+                </div>
+                <div class="appt-detail-block">
+                    <h4><i class="fa-solid fa-calendar" style="margin-right:6px;color:var(--dash-accent)"></i>Appointment Info</h4>
+                    <div class="appt-detail-row"><span class="label">Date</span><span class="value">Aug 10, 2026</span></div>
+                    <div class="appt-detail-row"><span class="label">Time</span><span class="value">11:00 AM</span></div>
+                    <div class="appt-detail-row"><span class="label">Doctor</span><span class="value">Dr. Demo User</span></div>
+                    <div class="appt-detail-row"><span class="label">Type</span><span class="value">In-person</span></div>
+                </div>
+            </div>
+
+            <div class="appt-detail-block" style="margin-top:16px">
+                <h4><i class="fa-solid fa-stethoscope" style="margin-right:6px;color:var(--dash-accent)"></i>Reason for Visit</h4>
+                <p style="font-size:0.85rem;color:var(--dash-text-secondary);line-height:1.6;margin-top:6px">Hypertension Follow-up. Patient has been experiencing elevated blood pressure readings over the past 2 weeks. Requires medication review and lifestyle advice.</p>
+            </div>
+
+            <div style="display:flex;gap:10px;margin-top:20px;flex-wrap:wrap">
+                <button class="btn-dash btn-dash-success" style="flex:1;justify-content:center;padding:11px" data-appt-action="complete"><i class="fa-solid fa-check"></i> Mark Complete</button>
+                <button class="btn-dash btn-dash-danger" style="flex:1;justify-content:center;padding:11px" data-appt-action="cancel"><i class="fa-solid fa-xmark"></i> Cancel Appointment</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="../js/dashboard.js"></script>
+</body>
+</html>

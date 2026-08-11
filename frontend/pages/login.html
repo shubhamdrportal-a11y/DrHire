@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Login – Doctors Coat | Choose Your Role</title>
+    <meta name="description" content="Login to your Doctors Coat account. Select your role to continue — Admin, Doctor, Hospital, or Staff/Student." />
+    <link rel="canonical" href="https://doctorscoat.in/pages/login.html" />
+    <link rel="icon" type="image/png" href="../images/DoctorsCoat.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://doctorscoat.in/pages/login.html" />
+    <meta property="og:title" content="Login – Doctors Coat" />
+    <meta property="og:description" content="Login to your Doctors Coat account." />
+
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/dashboard.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <script>window.__authFlow = 'login';</script>
+</head>
+
+<body>
+    <!-- ── STEP 1: ROLE SELECTION ─────────────────────────────── -->
+    <div class="auth-step active" id="step-role-select">
+        <div class="role-select-page">
+            <div class="role-select-container">
+
+                <!-- Logo -->
+                <a href="../index.html" class="role-select-logo">
+                    <img src="../images/DoctorsCoat.png" alt="Doctors Coat" />
+                    <span class="role-select-logo-text">Doctors Coat</span>
+                </a>
+
+                <!-- Header -->
+                <div class="role-select-header">
+                    <h1>Welcome Back</h1>
+                    <p>Select how you want to continue</p>
+                </div>
+
+                <!-- Role Cards Grid -->
+                <div class="role-cards-grid">
+
+                    <!-- Admin -->
+                    <div class="role-card" data-role="admin">
+                        <div class="role-card-icon">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </div>
+                        <div class="role-card-title">Admin</div>
+                        <div class="role-card-desc">Manage users, hospitals, doctors and platform activities.</div>
+                        <i class="fa-solid fa-chevron-right role-card-arrow"></i>
+                    </div>
+
+                    <!-- Doctor -->
+                    <div class="role-card" data-role="doctor">
+                        <div class="role-card-icon">
+                            <i class="fa-solid fa-user-doctor"></i>
+                        </div>
+                        <div class="role-card-title">Doctor</div>
+                        <div class="role-card-desc">Manage your profile, appointments and patients.</div>
+                        <i class="fa-solid fa-chevron-right role-card-arrow"></i>
+                    </div>
+
+                    <!-- Hospital -->
+                    <div class="role-card" data-role="hospital">
+                        <div class="role-card-icon">
+                            <i class="fa-solid fa-hospital"></i>
+                        </div>
+                        <div class="role-card-title">Hospital</div>
+                        <div class="role-card-desc">Manage hospital information, doctors and job opportunities.</div>
+                        <i class="fa-solid fa-chevron-right role-card-arrow"></i>
+                    </div>
+
+                    <!-- Staff / Student -->
+                    <div class="role-card" data-role="staff">
+                        <div class="role-card-icon">
+                            <i class="fa-solid fa-user-graduate"></i>
+                        </div>
+                        <div class="role-card-title">Staff / Student</div>
+                        <div class="role-card-desc">Find doctors, book appointments and manage your activities.</div>
+                        <i class="fa-solid fa-chevron-right role-card-arrow"></i>
+                    </div>
+
+                </div>
+
+                <!-- Alert message -->
+                <p id="roleSelectMsg" style="display:none;text-align:center;color:#ef4444;font-size:.85rem;margin-bottom:12px;font-weight:600;"></p>
+
+                <!-- Continue Button -->
+                <button class="auth-submit-btn" id="roleSelectContinue" style="max-width:100%;margin-bottom:20px;">
+                    Continue <i class="fa-solid fa-arrow-right" style="margin-left:8px"></i>
+                </button>
+
+                <!-- Footer -->
+                <div class="role-select-footer">
+                    Don't have an account? <a href="register.html">Register here</a>
+                    &nbsp;·&nbsp; <a href="../index.html">Back to Home</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- ── STEP 2: LOGIN FORM ──────────────────────────────────── -->
+    <div class="auth-step" id="step-auth-form">
+        <div class="role-select-page">
+            <div class="register-step-container">
+
+                <!-- Logo -->
+                <a href="../index.html" class="role-select-logo" style="margin-bottom:28px">
+                    <img src="../images/DoctorsCoat.png" alt="Doctors Coat" />
+                    <span class="role-select-logo-text">Doctors Coat</span>
+                </a>
+
+                <div class="auth-form-card">
+
+                    <!-- Role Indicator -->
+                    <div class="auth-role-indicator">
+                        <div class="auth-role-indicator-left">
+                            <div class="auth-role-indicator-icon">
+                                <i id="roleIndicatorIconEl" class="fa-solid fa-user"></i>
+                            </div>
+                            <div>
+                                <div class="auth-role-indicator-text">Signing in as</div>
+                                <div class="auth-role-indicator-name" id="roleIndicatorName">—</div>
+                            </div>
+                        </div>
+                        <button class="auth-change-role-btn" id="changeRoleBtn" type="button">
+                            <i class="fa-solid fa-rotate-left" style="margin-right:4px"></i> Change Role
+                        </button>
+                    </div>
+
+                    <!-- Form -->
+                    <h2 class="auth-form-title">Welcome Back</h2>
+                    <p class="auth-form-sub">Sign in to your Doctors Coat account.</p>
+
+                    <form id="uiLoginForm" novalidate>
+                        <div class="auth-input-wrap">
+                            <label class="auth-input-label" for="authEmail">Email Address</label>
+                            <input class="auth-input" type="email" id="authEmail" placeholder="you@example.com" required />
+                        </div>
+
+                        <div class="auth-input-wrap" style="position:relative">
+                            <label class="auth-input-label" for="authPassword">Password</label>
+                            <input class="auth-input auth-input-with-icon" type="password" id="authPassword" placeholder="••••••••" required />
+                            <span class="auth-input-icon" id="toggleLoginPass"><i class="fa-solid fa-eye"></i></span>
+                        </div>
+
+                        <a href="support.html" class="auth-forgot-link">Forgot password?</a>
+
+                        <p class="auth-msg" id="loginFormMsg"></p>
+
+                        <button type="submit" class="auth-submit-btn">
+                            <i class="fa-solid fa-right-to-bracket" style="margin-right:8px"></i>Sign In
+                        </button>
+                    </form>
+
+                    <p class="auth-divider-text">
+                        Don't have an account? <a href="register.html">Register here</a>
+                    </p>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/role-selection.js"></script>
+    <script src="../js/api.js"></script>
+    <script>
+        // Password visibility toggle
+        const toggleBtn = document.getElementById('toggleLoginPass');
+        const passInput = document.getElementById('authPassword');
+        if (toggleBtn && passInput) {
+            toggleBtn.addEventListener('click', () => {
+                const isPass = passInput.type === 'password';
+                passInput.type = isPass ? 'text' : 'password';
+                toggleBtn.querySelector('i').className = isPass ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye';
+            });
+        }
+
+        // ── Real PHP API Login ─────────────────────────────────────
+        document.getElementById('uiLoginForm')?.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const btn = this.querySelector('button[type=submit]');
+            const msg = document.getElementById('loginFormMsg');
+            const email = document.getElementById('authEmail')?.value?.trim();
+            const password = document.getElementById('authPassword')?.value;
+
+            if (!email || !password) {
+                msg.textContent = 'Please enter your email and password.';
+                msg.className = 'auth-msg error';
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin" style="margin-right:8px"></i>Signing in…';
+            msg.textContent = '';
+            msg.className = 'auth-msg';
+
+            try {
+                const data = await api.post('/auth/login', { email, password });
+                const role = data.user?.role || 'staff';
+
+                const dashMap = {
+                    admin:    'dashboard-admin.html',
+                    doctor:   'dashboard-doctor.html',
+                    hospital: 'dashboard-hospital.html',
+                    staff:    'dashboard-staff.html',
+                };
+
+                msg.textContent = 'Sign in successful! Redirecting…';
+                msg.className = 'auth-msg success';
+
+                setTimeout(() => {
+                    window.location.href = dashMap[role] || 'dashboard-staff.html';
+                }, 500);
+
+            } catch (err) {
+                msg.textContent = err.message || 'Login failed. Please try again.';
+                msg.className = 'auth-msg error';
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fa-solid fa-right-to-bracket" style="margin-right:8px"></i>Sign In';
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Doctor Dashboard – Doctors Coat</title>
+    <meta name="description" content="Doctor dashboard for managing appointments, patients and profile." />
+    <link rel="icon" type="image/png" href="../images/DoctorsCoat.png" />
+    <link rel="stylesheet" href="../css/dashboard-shared.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<!-- ── SIDEBAR ─────────────────────────────────────────────── -->
+<aside class="sidebar" id="dashSidebar">
+    <div class="sidebar-top">
+        <div class="sidebar-logo-icon">DC</div>
+        <span class="sidebar-brand">Doctors Coat</span>
+    </div>
+    <div class="sidebar-role-badge"><i class="fa-solid fa-user-doctor" style="margin-right:5px"></i>Doctor Portal</div>
+    <nav class="sidebar-nav">
+        <span class="sidebar-section-label">Overview</span>
+        <a href="dashboard-doctor.html" class="nav-link active"><i class="fa-solid fa-chart-pie"></i> Dashboard</a>
+        <span class="sidebar-section-label">Patient Care</span>
+        <a href="dashboard-doctor-appointments.html" class="nav-link"><i class="fa-solid fa-calendar-check"></i> Appointments <span class="nav-badge">5</span></a>
+        <a href="dashboard-doctor-patients.html" class="nav-link"><i class="fa-solid fa-users"></i> Patients</a>
+        <span class="sidebar-section-label">Professional</span>
+        <a href="dashboard-doctor-reports.html" class="nav-link"><i class="fa-solid fa-chart-line"></i> Reports</a>
+        <a href="dashboard-doctor-jobs.html" class="nav-link"><i class="fa-solid fa-briefcase"></i> Jobs</a>
+        <a href="dashboard-doctor-profile.html" class="nav-link"><i class="fa-solid fa-user-circle"></i> My Profile</a>
+        <a href="dashboard-doctor-settings.html" class="nav-link"><i class="fa-solid fa-gear"></i> Settings</a>
+    </nav>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-footer">
+        <div class="sidebar-user">
+            <div class="sidebar-avatar" data-user-avatar>DR</div>
+            <div>
+                <div class="sidebar-uname" data-user-name>Dr. Demo</div>
+                <div class="sidebar-urole">Cardiologist</div>
+            </div>
+        </div>
+        <button class="sidebar-logout" data-logout><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+    </div>
+</aside>
+
+<!-- ── MAIN ────────────────────────────────────────────────── -->
+<div class="main-wrap">
+    <header class="top-header">
+        <div class="header-left">
+            <button class="hamburger-mob" id="hamburgerMob"><i class="fa-solid fa-bars"></i></button>
+            <div class="header-title">
+                <h1>Doctor Dashboard</h1>
+                <p id="dashDate">Loading…</p>
+            </div>
+        </div>
+        <div class="header-right">
+            <div class="header-search">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" placeholder="Search patients…" />
+            </div>
+            <button class="header-icon-btn" title="Notifications">
+                <i class="fa-solid fa-bell"></i>
+                <div class="notif-dot"></div>
+            </button>
+            <a href="dashboard-doctor-appointments.html" class="btn-primary" style="padding:7px 14px;font-size:.82rem">
+                <i class="fa-solid fa-calendar-plus"></i> Appointments
+            </a>
+            <div class="header-user-pill">
+                <div class="sidebar-avatar" style="width:26px;height:26px;font-size:.68rem" data-user-avatar>DR</div>
+                <span data-user-name>Doctor</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="content">
+
+        <!-- STAT CARDS -->
+        <div class="mini-stat-row">
+            <div class="mini-stat">
+                <div class="mini-ico ico-blue"><i class="fa-solid fa-calendar-day"></i></div>
+                <div>
+                    <div class="mini-val" data-stat-num="8">0</div>
+                    <div class="mini-label">Today's Appointments</div>
+                    <div class="mini-change">3 remaining today</div>
+                </div>
+            </div>
+            <div class="mini-stat">
+                <div class="mini-ico ico-yellow"><i class="fa-solid fa-calendar-week"></i></div>
+                <div>
+                    <div class="mini-val" data-stat-num="24">0</div>
+                    <div class="mini-label">Upcoming</div>
+                    <div class="mini-change warn">Next 7 days</div>
+                </div>
+            </div>
+            <div class="mini-stat">
+                <div class="mini-ico ico-green"><i class="fa-solid fa-users"></i></div>
+                <div>
+                    <div class="mini-val" data-stat-num="312">0</div>
+                    <div class="mini-label">Total Patients</div>
+                    <div class="mini-change">↑ +7 this month</div>
+                </div>
+            </div>
+            <div class="mini-stat">
+                <div class="mini-ico ico-cyan"><i class="fa-solid fa-circle-check"></i></div>
+                <div>
+                    <div class="mini-val" data-stat-num="1087">0</div>
+                    <div class="mini-label">Completed</div>
+                    <div class="mini-change">All time</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MAIN GRID -->
+        <div class="two-col">
+
+            <!-- Today's Appointments -->
+            <div>
+                <div class="dash-card">
+                    <div class="dash-card-header">
+                        <div class="dash-card-title"><i class="fa-solid fa-calendar-day"></i> Today's Appointments</div>
+                        <a href="dashboard-doctor-appointments.html" class="dash-card-action">View All</a>
+                    </div>
+                    <div class="appt-list">
+                        <div class="appt-item">
+                            <div class="appt-time-box"><div class="appt-time-h">09:30</div><div class="appt-time-p">AM</div></div>
+                            <div class="appt-info">
+                                <div class="appt-name">Ramesh Kumar</div>
+                                <div class="appt-meta"><span><i class="fa-solid fa-stethoscope"></i>Chest Pain</span><span><i class="fa-solid fa-phone"></i>+91 98765 43210</span></div>
+                            </div>
+                            <div class="appt-actions"><span class="badge badge-completed">Completed</span></div>
+                        </div>
+                        <div class="appt-item">
+                            <div class="appt-time-box"><div class="appt-time-h">11:00</div><div class="appt-time-p">AM</div></div>
+                            <div class="appt-info">
+                                <div class="appt-name">Sunita Patel</div>
+                                <div class="appt-meta"><span><i class="fa-solid fa-stethoscope"></i>Hypertension</span><span><i class="fa-solid fa-phone"></i>+91 87654 32109</span></div>
+                            </div>
+                            <div class="appt-actions"><span class="badge badge-confirmed">Confirmed</span></div>
+                        </div>
+                        <div class="appt-item">
+                            <div class="appt-time-box"><div class="appt-time-h">02:30</div><div class="appt-time-p">PM</div></div>
+                            <div class="appt-info">
+                                <div class="appt-name">Arjun Singh</div>
+                                <div class="appt-meta"><span><i class="fa-solid fa-stethoscope"></i>Follow-up</span><span><i class="fa-solid fa-phone"></i>+91 76543 21098</span></div>
+                            </div>
+                            <div class="appt-actions">
+                                <span class="badge badge-pending">Pending</span>
+                                <button class="btn-sm btn-outline-sm">Confirm</button>
+                            </div>
+                        </div>
+                        <div class="appt-item">
+                            <div class="appt-time-box"><div class="appt-time-h">04:00</div><div class="appt-time-p">PM</div></div>
+                            <div class="appt-info">
+                                <div class="appt-name">Meera Verma</div>
+                                <div class="appt-meta"><span><i class="fa-solid fa-stethoscope"></i>Palpitations</span><span><i class="fa-solid fa-phone"></i>+91 65432 10987</span></div>
+                            </div>
+                            <div class="appt-actions">
+                                <span class="badge badge-pending">Pending</span>
+                                <button class="btn-sm btn-outline-sm">Confirm</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div style="display:flex;flex-direction:column;gap:18px">
+
+                <!-- Profile Card -->
+                <div class="dash-card">
+                    <div style="height:70px;background:linear-gradient(135deg,rgba(14,165,233,.25),rgba(6,182,212,.15));border-radius:12px 12px 0 0;"></div>
+                    <div style="padding:20px;text-align:center;">
+                        <div style="width:64px;height:64px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:1.5rem;color:#fff;border:3px solid var(--card);margin:-32px auto 10px;"><i class="fa-solid fa-user-doctor"></i></div>
+                        <div style="font-size:.95rem;font-weight:700;margin-bottom:2px;" data-user-name>Dr. Demo User</div>
+                        <div style="font-size:.75rem;color:var(--accent);font-weight:600;">Cardiologist · MBBS, MD</div>
+                        <div style="font-size:.7rem;color:var(--text3);margin-top:3px;display:flex;align-items:center;justify-content:center;gap:4px;"><i class="fa-solid fa-location-dot"></i> Apollo Hospitals, Delhi</div>
+                        <div style="display:flex;gap:1px;margin-top:14px;padding-top:14px;border-top:1px solid var(--border);">
+                            <div style="flex:1;text-align:center;"><div style="font-size:1.1rem;font-weight:800;">312</div><div style="font-size:.65rem;color:var(--text3);">Patients</div></div>
+                            <div style="flex:1;text-align:center;"><div style="font-size:1.1rem;font-weight:800;">8</div><div style="font-size:.65rem;color:var(--text3);">Today</div></div>
+                            <div style="flex:1;text-align:center;"><div style="font-size:1.1rem;font-weight:800;">4.9★</div><div style="font-size:.65rem;color:var(--text3);">Rating</div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Progress Card -->
+                <div class="dash-card">
+                    <div class="dash-card-header">
+                        <div class="dash-card-title"><i class="fa-solid fa-chart-bar"></i> This Month</div>
+                    </div>
+                    <div style="padding:16px 20px;">
+                        <div class="prog-row">
+                            <div class="prog-header"><span class="prog-label">Completed</span><span class="prog-val" style="color:var(--success)">68%</span></div>
+                            <div class="prog-bar"><div class="prog-fill" style="width:68%;background:linear-gradient(90deg,#10b981,#059669)"></div></div>
+                        </div>
+                        <div class="prog-row">
+                            <div class="prog-header"><span class="prog-label">Confirmed</span><span class="prog-val" style="color:#06b6d4">22%</span></div>
+                            <div class="prog-bar"><div class="prog-fill" style="width:22%;background:linear-gradient(90deg,#06b6d4,#0891b2)"></div></div>
+                        </div>
+                        <div class="prog-row">
+                            <div class="prog-header"><span class="prog-label">Pending</span><span class="prog-val" style="color:var(--warning)">7%</span></div>
+                            <div class="prog-bar"><div class="prog-fill" style="width:7%;background:linear-gradient(90deg,#f59e0b,#d97706)"></div></div>
+                        </div>
+                        <div class="prog-row">
+                            <div class="prog-header"><span class="prog-label">Cancelled</span><span class="prog-val" style="color:var(--danger)">3%</span></div>
+                            <div class="prog-bar"><div class="prog-fill" style="width:3%;background:linear-gradient(90deg,#ef4444,#dc2626)"></div></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- PATIENTS TABLE -->
+        <div class="dash-card" style="margin-bottom:20px">
+            <div class="dash-card-header">
+                <div class="dash-card-title"><i class="fa-solid fa-users"></i> Recent Patients</div>
+                <a href="dashboard-doctor-patients.html" class="dash-card-action">View All</a>
+            </div>
+            <div class="table-wrap">
+                <table class="dash-table">
+                    <thead><tr><th>Patient</th><th>Last Visit</th><th>Condition</th><th>Appointments</th><th>Status</th><th>Action</th></tr></thead>
+                    <tbody>
+                        <tr>
+                            <td><div class="user-cell"><div class="ua ua-blue">RK</div><div><div class="td-name">Ramesh Kumar</div><div class="td-sub">Age 48 · M</div></div></div></td>
+                            <td>Aug 10, 2026</td><td>Chest Pain, Hypertension</td><td style="font-weight:700;color:var(--text)">12</td>
+                            <td><span class="badge badge-active">Regular</span></td>
+                            <td><button class="btn-sm btn-outline-sm">View</button></td>
+                        </tr>
+                        <tr>
+                            <td><div class="user-cell"><div class="ua ua-green">SP</div><div><div class="td-name">Sunita Patel</div><div class="td-sub">Age 62 · F</div></div></div></td>
+                            <td>Aug 9, 2026</td><td>Hypertension, Diabetes</td><td style="font-weight:700;color:var(--text)">8</td>
+                            <td><span class="badge badge-active">Regular</span></td>
+                            <td><button class="btn-sm btn-outline-sm">View</button></td>
+                        </tr>
+                        <tr>
+                            <td><div class="user-cell"><div class="ua ua-purple">AS</div><div><div class="td-name">Arjun Singh</div><div class="td-sub">Age 35 · M</div></div></div></td>
+                            <td>Aug 8, 2026</td><td>Routine Check-up</td><td style="font-weight:700;color:var(--text)">3</td>
+                            <td><span class="badge badge-new">New</span></td>
+                            <td><button class="btn-sm btn-outline-sm">View</button></td>
+                        </tr>
+                        <tr>
+                            <td><div class="user-cell"><div class="ua ua-orange">MV</div><div><div class="td-name">Meera Verma</div><div class="td-sub">Age 29 · F</div></div></div></td>
+                            <td>Aug 7, 2026</td><td>Palpitations</td><td style="font-weight:700;color:var(--text)">5</td>
+                            <td><span class="badge badge-active">Regular</span></td>
+                            <td><button class="btn-sm btn-outline-sm">View</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+</body>
+</html>
