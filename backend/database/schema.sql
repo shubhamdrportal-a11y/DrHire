@@ -208,7 +208,7 @@ CREATE TABLE IF NOT EXISTS user_settings (
     id         INT UNSIGNED  AUTO_INCREMENT PRIMARY KEY,
     user_id    INT UNSIGNED  NOT NULL,
     `key`      VARCHAR(100)  NOT NULL,
-    `value`    TEXT          NOT NULL DEFAULT '',
+    `value`    TEXT          NOT NULL,
     updated_at DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     UNIQUE KEY uq_setting (user_id, `key`),
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
