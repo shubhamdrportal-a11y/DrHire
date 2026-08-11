@@ -102,7 +102,7 @@
     post:   (endpoint, body)  => request('POST',   endpoint, body),
     put:    (endpoint, body)  => request('PUT',    endpoint, body),
     patch:  (endpoint, body)  => request('PATCH',  endpoint, body),
-    delete: (endpoint)        => request('DELETE', endpoint),
+    delete: (endpoint, body)  => request('DELETE', endpoint, body ?? null),
     upload: uploadFile,
     fileUrl: getFileUrl,
   };

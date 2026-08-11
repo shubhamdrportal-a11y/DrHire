@@ -12,8 +12,20 @@ class Job
 
     public function getAll(array $filters = [], int $page = 1, int $perPage = 20): array
     {
-        $conditions = ["j.status = 'active'"];
+        $conditions = [];
         $params     = [];
+
+        // Callers that don't pass a 'status' key at all (public job board)
+        // keep the old active-only behaviour. Admin/hospital pass 'status'
+        // explicitly — '' means "all statuses".
+        if (array_key_exists('status', $filters)) {
+            if ($filters['status'] !== '') {
+                $conditions[] = 'j.status = ?';
+                $params[]     = $filters['status'];
+            }
+        } else {
+            $conditions[] = "j.status = 'active'";
+        }
 
         if (!empty($filters['specialization'])) {
             $conditions[] = 'j.specialization LIKE ?';
@@ -33,10 +45,18 @@ class Job
             $params       = array_merge($params, [$like, $like, $like, $like]);
         }
         if (!empty($filters['hospital_id'])) {
+            // A hospital viewing its own listings should see all statuses
+            // unless it explicitly filtered by one — drop the implicit
+            // active-only default added above.
+            if (!array_key_exists('status', $filters)) {
+                $conditions = array_values(array_diff($conditions, ["j.status = 'active'"]));
+            }
             $conditions[] = 'j.hospital_id = ?';
             $params[]     = (int)$filters['hospital_id'];
-            unset($conditions[0]); // allow non-active for hospital's own listings
-            $conditions   = array_values($conditions);
+        }
+
+        if (empty($conditions)) {
+            $conditions[] = '1=1';
         }
 
         $where  = implode(' AND ', $conditions);

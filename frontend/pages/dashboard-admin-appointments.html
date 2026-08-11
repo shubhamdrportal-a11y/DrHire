@@ -84,7 +84,18 @@
 
         <!-- CONTENT -->
         <div class="content">
-<div class="dash-card"><div class="dash-card-header"><div class="dash-card-title"><i class="fa-solid fa-calendar-check"></i> Appointments</div></div><div style="padding:24px;"><p style="color:var(--text2)">This is the Appointments page for Admin. (UI successfully scaffolded)</p></div></div>
+<div class="filter-bar">
+    <div class="filter-search"><i class="fa-solid fa-magnifying-glass"></i><input type="text" id="apptSearchInput" placeholder="Search patient or doctor name…" /></div>
+    <select class="filter-select" id="apptStatusFilter">
+        <option value="">All Statuses</option>
+        <option value="pending">Pending</option>
+        <option value="confirmed">Confirmed</option>
+        <option value="completed">Completed</option>
+        <option value="cancelled">Cancelled</option>
+    </select>
+    <button class="btn-primary" style="padding:9px 16px" id="filterBtn"><i class="fa-solid fa-filter"></i> Filter</button>
+</div>
+<div class="dash-card" id="apptCard"></div>
 </div>
 </div>
 <style>
@@ -92,7 +103,8 @@
 @keyframes countUp { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
 </style>
 
-
-
+<script src="../js/api.js"></script>
+<script src="../js/auth-guard.js"></script>
+<script src="../js/dashboard-admin-appointments.js"></script>
 </body>
 </html>

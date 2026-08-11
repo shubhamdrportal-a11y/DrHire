@@ -185,4 +185,20 @@ class AuthService
         $this->userModel->updatePassword($userId, $newPassword);
         $this->auditLog->log($userId, 'password_changed', 'user', $userId);
     }
+
+    public function deleteAccount(int $userId, string $password): void
+    {
+        $full = $this->db->prepare('SELECT password_hash FROM users WHERE id = ?');
+        $full->execute([$userId]);
+        $row = $full->fetch();
+
+        if (!$row || !$this->userModel->verifyPassword($password, $row['password_hash'])) {
+            jsonError('Password is incorrect.', 401);
+        }
+
+        $this->auditLog->log($userId, 'account_deleted', 'user', $userId);
+        $this->userModel->delete($userId);
+        $_SESSION = [];
+        session_destroy();
+    }
 }

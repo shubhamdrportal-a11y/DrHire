@@ -97,7 +97,10 @@ class AdminController
         requireRole('admin');
         $page    = (int)($_GET['page'] ?? 1);
         $perPage = min((int)($_GET['per_page'] ?? 20), 100);
-        $filters = ['search' => $_GET['search'] ?? ''];
+        $filters = [
+            'search' => $_GET['search'] ?? '',
+            'status' => $_GET['status'] ?? '', // '' = all statuses (admin view)
+        ];
 
         $model = new \DoctorProfile($this->db);
         jsonResponse($model->getAll($filters, $page, $perPage));
@@ -108,7 +111,10 @@ class AdminController
         requireRole('admin');
         $page    = (int)($_GET['page'] ?? 1);
         $perPage = min((int)($_GET['per_page'] ?? 20), 100);
-        $filters = ['search' => $_GET['search'] ?? ''];
+        $filters = [
+            'search' => $_GET['search'] ?? '',
+            'status' => $_GET['status'] ?? '', // '' = all statuses (admin view)
+        ];
 
         $model = new \HospitalProfile($this->db);
         jsonResponse($model->getAll($filters, $page, $perPage));
@@ -121,7 +127,7 @@ class AdminController
         $perPage = min((int)($_GET['per_page'] ?? 20), 100);
         $filters = [
             'search' => $_GET['search'] ?? '',
-            'status' => $_GET['status'] ?? 'active',
+            'status' => $_GET['status'] ?? '', // '' = all statuses (admin view)
         ];
         $model = new \Job($this->db);
         jsonResponse($model->getAll($filters, $page, $perPage));
@@ -132,7 +138,10 @@ class AdminController
         requireRole('admin');
         $page    = (int)($_GET['page'] ?? 1);
         $perPage = min((int)($_GET['per_page'] ?? 20), 100);
-        $filters = ['status' => $_GET['status'] ?? ''];
+        $filters = [
+            'status' => $_GET['status'] ?? '',
+            'search' => $_GET['search'] ?? '',
+        ];
 
         $model = new \Appointment($this->db);
         jsonResponse($model->getAll($filters, $page, $perPage));
@@ -142,10 +151,23 @@ class AdminController
     {
         requireRole('admin');
 
+        // Optional date range (YYYY-MM-DD). Applies to appointment- and
+        // user-registration-based breakdowns.
+        $from = $_GET['from'] ?? '';
+        $to   = $_GET['to']   ?? '';
+        $validDate = fn($d) => (bool)preg_match('/^\d{4}-\d{2}-\d{2}$/', (string)$d);
+        $from = $validDate($from) ? $from : null;
+        $to   = $validDate($to)   ? $to   : null;
+
+        $apptWhere  = '1=1';
+        $apptParams = [];
+        if ($from) { $apptWhere .= ' AND appointment_date >= ?'; $apptParams[] = $from; }
+        if ($to)   { $apptWhere .= ' AND appointment_date <= ?'; $apptParams[] = $to; }
+
         // Appointments by status
-        $apptByStatus = $this->db->query(
-            "SELECT status, COUNT(*) AS count FROM appointments GROUP BY status"
-        )->fetchAll();
+        $stmt = $this->db->prepare("SELECT status, COUNT(*) AS count FROM appointments WHERE {$apptWhere} GROUP BY status");
+        $stmt->execute($apptParams);
+        $apptByStatus = $stmt->fetchAll();
 
         // Applications by status
         $appByStatus = $this->db->query(
@@ -157,14 +179,30 @@ class AdminController
             "SELECT type, COUNT(*) AS count FROM jobs WHERE status='active' GROUP BY type"
         )->fetchAll();
 
-        // New users per month (last 6 months)
-        $usersPerMonth = $this->db->query(
-            "SELECT DATE_FORMAT(created_at,'%b %Y') AS month, COUNT(*) AS count
-             FROM users
-             WHERE created_at >= DATE_SUB(NOW(), INTERVAL 6 MONTH)
-             GROUP BY DATE_FORMAT(created_at,'%Y-%m'), DATE_FORMAT(created_at,'%b %Y')
-             ORDER BY created_at ASC"
-        )->fetchAll();
+        // New users per month (date range if given, else last 6 months)
+        if ($from || $to) {
+            $userWhere  = '1=1';
+            $userParams = [];
+            if ($from) { $userWhere .= ' AND created_at >= ?'; $userParams[] = $from . ' 00:00:00'; }
+            if ($to)   { $userWhere .= ' AND created_at <= ?'; $userParams[] = $to   . ' 23:59:59'; }
+            $stmt = $this->db->prepare(
+                "SELECT DATE_FORMAT(created_at,'%b %Y') AS month, COUNT(*) AS count
+                 FROM users
+                 WHERE {$userWhere}
+                 GROUP BY DATE_FORMAT(created_at,'%Y-%m'), DATE_FORMAT(created_at,'%b %Y')
+                 ORDER BY created_at ASC"
+            );
+            $stmt->execute($userParams);
+            $usersPerMonth = $stmt->fetchAll();
+        } else {
+            $usersPerMonth = $this->db->query(
+                "SELECT DATE_FORMAT(created_at,'%b %Y') AS month, COUNT(*) AS count
+                 FROM users
+                 WHERE created_at >= DATE_SUB(NOW(), INTERVAL 6 MONTH)
+                 GROUP BY DATE_FORMAT(created_at,'%Y-%m'), DATE_FORMAT(created_at,'%b %Y')
+                 ORDER BY created_at ASC"
+            )->fetchAll();
+        }
 
         // Top specializations
         $topSpecializations = $this->db->query(
@@ -177,6 +215,7 @@ class AdminController
             'jobs_by_type'            => $jobsByType,
             'users_per_month'         => $usersPerMonth,
             'top_specializations'     => $topSpecializations,
+            'date_range'              => ['from' => $from, 'to' => $to],
         ]);
     }
 

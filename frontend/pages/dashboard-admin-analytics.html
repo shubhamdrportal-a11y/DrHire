@@ -84,15 +84,25 @@
 
         <!-- CONTENT -->
         <div class="content">
-<div class="dash-card"><div class="dash-card-header"><div class="dash-card-title"><i class="fa-solid fa-chart-bar"></i> Analytics</div></div><div style="padding:24px;"><p style="color:var(--text2)">This is the Analytics page for Admin. (UI successfully scaffolded)</p></div></div>
+<div id="analyticsCounters" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:20px"></div>
+<div id="analyticsContainer"></div>
 </div>
 </div>
 <style>
 @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
 @keyframes countUp { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+.report-bar-row { display:flex; align-items:center; gap:10px; margin-bottom:10px; font-size:.8rem; }
+.report-bar-label { width:140px; flex-shrink:0; color:var(--text2); }
+.report-bar-track { flex:1; height:10px; background:var(--bg3); border-radius:6px; overflow:hidden; }
+.report-bar-fill { height:100%; background:var(--accent); border-radius:6px; }
+.report-bar-count { width:40px; text-align:right; font-weight:600; color:var(--text); }
+.analytics-counter { background:var(--bg2); border:1px solid var(--border); border-radius:12px; padding:16px; }
+.analytics-counter .val { font-size:1.5rem; font-weight:800; color:var(--text); }
+.analytics-counter .label { font-size:.75rem; color:var(--text3); margin-top:4px; }
 </style>
 
-
-
+<script src="../js/api.js"></script>
+<script src="../js/auth-guard.js"></script>
+<script src="../js/dashboard-admin-analytics.js"></script>
 </body>
 </html>

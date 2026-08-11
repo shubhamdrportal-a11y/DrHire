@@ -60,4 +60,13 @@ class AuthController
         $this->auth->changePassword($user['id'], $data['current_password'], $data['new_password']);
         jsonResponse(['success' => true, 'message' => 'Password changed successfully.']);
     }
+
+    public function deleteAccount(): void
+    {
+        $user = requireAuth();
+        $data = getRequestBody();
+        requireField($data, 'password');
+        $this->auth->deleteAccount($user['id'], $data['password']);
+        jsonResponse(['success' => true, 'message' => 'Account deleted.']);
+    }
 }

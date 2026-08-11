@@ -104,6 +104,48 @@
     </div>
 </div>
 
+<div class="dash-card">
+    <div class="dash-card-header"><div class="dash-card-title"><i class="fa-solid fa-bell"></i> Notification Preferences</div></div>
+    <div style="padding:24px">
+        <label style="display:flex;align-items:center;gap:10px;margin-bottom:14px;font-size:.88rem;color:var(--text2)">
+            <input type="checkbox" id="notifEmail" style="width:16px;height:16px" /> Email notifications for new user registrations
+        </label>
+        <label style="display:flex;align-items:center;gap:10px;margin-bottom:14px;font-size:.88rem;color:var(--text2)">
+            <input type="checkbox" id="notifReports" style="width:16px;height:16px" /> Weekly summary report emails
+        </label>
+        <label style="display:flex;align-items:center;gap:10px;margin-bottom:18px;font-size:.88rem;color:var(--text2)">
+            <input type="checkbox" id="notifSecurity" style="width:16px;height:16px" /> Security alert notifications
+        </label>
+        <button class="btn-primary" id="saveNotifBtn" style="padding:9px 20px"><i class="fa-solid fa-floppy-disk"></i> Save Changes</button>
+    </div>
+</div>
+
+<div class="dash-card">
+    <div class="dash-card-header"><div class="dash-card-title"><i class="fa-solid fa-lock"></i> Security</div></div>
+    <div style="padding:24px">
+        <h3 style="margin-bottom:14px;font-size:.9rem">Change Password</h3>
+        <div class="form-row">
+            <div class="form-group"><label class="form-label">Current Password</label><input type="password" class="form-input" id="curPassword" /></div>
+            <div class="form-group"></div>
+        </div>
+        <div class="form-row">
+            <div class="form-group"><label class="form-label">New Password</label><input type="password" class="form-input" id="newPassword" /></div>
+            <div class="form-group"><label class="form-label">Confirm New Password</label><input type="password" class="form-input" id="confirmPassword" /></div>
+        </div>
+        <button class="btn-primary" id="changePwBtn" style="padding:9px 20px;margin-bottom:24px"><i class="fa-solid fa-key"></i> Change Password</button>
+
+        <h3 style="margin:24px 0 6px;font-size:.9rem">Two-Factor Authentication</h3>
+        <p style="color:var(--text3);font-size:.8rem;margin-bottom:14px">
+            2FA is not yet available — this platform's authentication backend doesn't implement TOTP/OTP verification yet.
+            We're not showing a toggle here because it would not actually protect your account.
+        </p>
+
+        <h3 style="margin:24px 0 6px;font-size:.9rem;color:var(--danger)">Delete Account</h3>
+        <p style="color:var(--text3);font-size:.8rem;margin-bottom:14px">This permanently deletes your account and all associated data. This cannot be undone.</p>
+        <button class="btn-sm btn-outline-sm" id="deleteAccountBtn" style="color:var(--danger);border-color:rgba(239,68,68,0.3);padding:9px 20px"><i class="fa-solid fa-trash"></i> Delete My Account</button>
+    </div>
+</div>
+
 </div>
 </div>
 <style>
@@ -111,7 +153,8 @@
 @keyframes countUp { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
 </style>
 
-
-
+<script src="../js/api.js"></script>
+<script src="../js/auth-guard.js"></script>
+<script src="../js/dashboard-admin-settings.js"></script>
 </body>
 </html>

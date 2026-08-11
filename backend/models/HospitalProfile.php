@@ -69,8 +69,20 @@ class HospitalProfile
 
     public function getAll(array $filters = [], int $page = 1, int $perPage = 20): array
     {
-        $conditions = ['u.role = "hospital"', 'u.status = "active"'];
+        $conditions = ['u.role = "hospital"'];
         $params     = [];
+
+        // Callers that don't pass a 'status' key (public listing) keep the
+        // old active-only behaviour. Admin passes 'status' explicitly —
+        // '' means "all statuses".
+        if (array_key_exists('status', $filters)) {
+            if ($filters['status'] !== '') {
+                $conditions[] = 'u.status = ?';
+                $params[]     = $filters['status'];
+            }
+        } else {
+            $conditions[] = 'u.status = "active"';
+        }
 
         if (!empty($filters['city'])) {
             $conditions[] = 'hp.city LIKE ?';

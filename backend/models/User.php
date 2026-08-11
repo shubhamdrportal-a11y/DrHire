@@ -118,6 +118,17 @@ class User
         return $stmt->fetch();
     }
 
+    public function delete(int $id): bool
+    {
+        // Profile tables (doctor_profiles, hospital_profiles, staff_profiles)
+        // and dependent rows (appointments, jobs, applications, notifications,
+        // settings) all declare ON DELETE CASCADE in schema.sql, so removing
+        // the user row is sufficient to fully remove the account's data.
+        $stmt = $this->db->prepare('DELETE FROM users WHERE id = ?');
+        $stmt->execute([$id]);
+        return $stmt->rowCount() > 0;
+    }
+
     public function activateAfterProfileSetup(int $userId): void
     {
         $stmt = $this->db->prepare("UPDATE users SET status = 'active' WHERE id = ? AND status = 'pending'");

@@ -61,56 +61,23 @@
         <div class="page-title"><h1><i class="fa-solid fa-hospital text-success"></i> Hospitals Directory</h1><p>Verify hospital registrations and monitor facility compliance.</p></div>
 
         <div class="filter-bar">
-            <div class="filter-search"><i class="fa-solid fa-magnifying-glass"></i><input type="text" placeholder="Search hospital name…" /></div>
-            <select class="filter-select">
-                <option value="">Verification Status</option>
-                <option value="verified">Verified</option>
-                <option value="pending">Pending Approval</option>
+            <div class="filter-search"><i class="fa-solid fa-magnifying-glass"></i><input type="text" id="hospitalSearchInput" placeholder="Search hospital name or city…" /></div>
+            <select class="filter-select" id="hospitalStatusFilter">
+                <option value="">All Statuses</option>
+                <option value="active">Active</option>
+                <option value="pending">Pending</option>
+                <option value="suspended">Suspended</option>
             </select>
-            <button class="btn-primary" style="padding:9px 16px"><i class="fa-solid fa-filter"></i> Filter</button>
+            <button class="btn-primary" style="padding:9px 16px" id="filterBtn"><i class="fa-solid fa-filter"></i> Filter</button>
         </div>
 
-        <div class="dash-card">
-            <div class="table-wrap">
-                <table class="dash-table">
-                    <thead><tr><th>Hospital Name</th><th>Location</th><th>Registration #</th><th>Verification</th><th>Actions</th></tr></thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <div class="user-cell">
-                                    <div class="ua ua-green">AH</div>
-                                    <div><div class="td-name">Apollo Hospitals</div><div class="td-sub">Multi-Specialty</div></div>
-                                </div>
-                            </td>
-                            <td>Delhi, India</td>
-                            <td>REG-883492</td>
-                            <td><span class="badge badge-active"><i class="fa-solid fa-certificate"></i> Verified</span></td>
-                            <td>
-                                <button class="btn-sm btn-outline-sm" title="View Profile"><i class="fa-solid fa-eye"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="user-cell">
-                                    <div class="ua ua-orange">CC</div>
-                                    <div><div class="td-name">City Care Clinic</div><div class="td-sub">General Practice</div></div>
-                                </div>
-                            </td>
-                            <td>Mumbai, India</td>
-                            <td>REG-331004</td>
-                            <td><span class="badge badge-pending">Pending Review</span></td>
-                            <td>
-                                <button class="btn-sm btn-outline-sm" title="Review Docs"><i class="fa-solid fa-file-contract"></i></button>
-                                <button class="btn-sm btn-outline-sm" style="color:var(--success);border-color:rgba(16,185,129,0.2)" title="Approve"><i class="fa-solid fa-check"></i></button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+        <div class="dash-card" id="hospitalsCard"></div>
     </div>
 </div>
 
-
+<script src="../js/theme.js"></script>
+<script src="../js/api.js"></script>
+<script src="../js/auth-guard.js"></script>
+<script src="../js/dashboard-admin-hospitals.js"></script>
 </body>
 </html>

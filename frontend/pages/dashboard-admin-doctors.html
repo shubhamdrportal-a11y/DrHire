@@ -61,62 +61,23 @@
         <div class="page-title"><h1><i class="fa-solid fa-user-doctor text-accent"></i> Doctors Directory</h1><p>Approve medical licenses and moderate doctor profiles on the platform.</p></div>
 
         <div class="filter-bar">
-            <div class="filter-search"><i class="fa-solid fa-magnifying-glass"></i><input type="text" placeholder="Search doctor name or ID…" /></div>
-            <select class="filter-select">
-                <option value="">All Specializations</option>
-                <option value="cardio">Cardiologist</option>
-                <option value="neuro">Neurologist</option>
+            <div class="filter-search"><i class="fa-solid fa-magnifying-glass"></i><input type="text" id="doctorSearchInput" placeholder="Search doctor name, specialization or city…" /></div>
+            <select class="filter-select" id="doctorStatusFilter">
+                <option value="">All Statuses</option>
+                <option value="active">Active</option>
+                <option value="pending">Pending</option>
+                <option value="suspended">Suspended</option>
             </select>
-            <select class="filter-select">
-                <option value="">Verification Status</option>
-                <option value="verified">Verified</option>
-                <option value="pending">Pending Approval</option>
-            </select>
-            <button class="btn-primary" style="padding:9px 16px"><i class="fa-solid fa-filter"></i> Filter</button>
+            <button class="btn-primary" style="padding:9px 16px" id="filterBtn"><i class="fa-solid fa-filter"></i> Filter</button>
         </div>
 
-        <div class="dash-card">
-            <div class="table-wrap">
-                <table class="dash-table">
-                    <thead><tr><th>Doctor</th><th>Specialization</th><th>Experience</th><th>Verification</th><th>Actions</th></tr></thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <div class="user-cell">
-                                    <div class="ua ua-blue">SJ</div>
-                                    <div><div class="td-name">Dr. Sarah Jenkins</div><div class="td-sub">MBBS, MD (Cardiology)</div></div>
-                                </div>
-                            </td>
-                            <td>Cardiologist</td>
-                            <td>12 Years</td>
-                            <td><span class="badge badge-active"><i class="fa-solid fa-certificate"></i> Verified</span></td>
-                            <td>
-                                <button class="btn-sm btn-outline-sm" title="View Profile"><i class="fa-solid fa-eye"></i></button>
-                                <button class="btn-sm btn-outline-sm" style="color:var(--danger);border-color:rgba(239,68,68,0.2)" title="Revoke License"><i class="fa-solid fa-ban"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="user-cell">
-                                    <div class="ua ua-orange">MK</div>
-                                    <div><div class="td-name">Dr. Manish Kumar</div><div class="td-sub">MBBS, MS (Orthopedics)</div></div>
-                                </div>
-                            </td>
-                            <td>Orthopedic Surgeon</td>
-                            <td>8 Years</td>
-                            <td><span class="badge badge-pending">Pending Review</span></td>
-                            <td>
-                                <button class="btn-sm btn-outline-sm" title="Review Docs"><i class="fa-solid fa-file-contract"></i></button>
-                                <button class="btn-sm btn-outline-sm" style="color:var(--success);border-color:rgba(16,185,129,0.2)" title="Approve"><i class="fa-solid fa-check"></i></button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+        <div class="dash-card" id="doctorsCard"></div>
     </div>
 </div>
 
-
+<script src="../js/theme.js"></script>
+<script src="../js/api.js"></script>
+<script src="../js/auth-guard.js"></script>
+<script src="../js/dashboard-admin-doctors.js"></script>
 </body>
 </html>

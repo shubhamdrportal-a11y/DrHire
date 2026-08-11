@@ -109,6 +109,11 @@ class Appointment
             $conditions[] = 'a.doctor_id = ?';
             $params[]     = (int)$filters['doctor_id'];
         }
+        if (!empty($filters['search'])) {
+            $conditions[] = '(a.patient_name LIKE ? OR dp.full_name LIKE ?)';
+            $like         = '%' . $filters['search'] . '%';
+            $params       = array_merge($params, [$like, $like]);
+        }
 
         return $this->paginate($conditions, $params, $page, $perPage, 'admin');
     }
@@ -118,7 +123,9 @@ class Appointment
         $where  = implode(' AND ', $conditions);
         $offset = ($page - 1) * $perPage;
 
-        $countSql = "SELECT COUNT(*) FROM appointments a WHERE {$where}";
+        $countSql = "SELECT COUNT(*) FROM appointments a
+                     LEFT JOIN doctor_profiles dp ON dp.user_id = a.doctor_id
+                     WHERE {$where}";
         $countStmt = $this->db->prepare($countSql);
         $countStmt->execute($params);
         $total = (int)$countStmt->fetchColumn();

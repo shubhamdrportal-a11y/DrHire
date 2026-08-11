@@ -84,15 +84,31 @@
 
         <!-- CONTENT -->
         <div class="content">
-<div class="dash-card"><div class="dash-card-header"><div class="dash-card-title"><i class="fa-solid fa-file-lines"></i> Reports</div></div><div style="padding:24px;"><p style="color:var(--text2)">This is the Reports page for Admin. (UI successfully scaffolded)</p></div></div>
+<div class="filter-bar">
+    <label style="font-size:.78rem;color:var(--text2);display:flex;align-items:center;gap:6px">From
+        <input type="date" id="reportFrom" style="background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:6px 10px;color:var(--text)" />
+    </label>
+    <label style="font-size:.78rem;color:var(--text2);display:flex;align-items:center;gap:6px">To
+        <input type="date" id="reportTo" style="background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:6px 10px;color:var(--text)" />
+    </label>
+    <button class="btn-primary" style="padding:9px 16px" id="applyRangeBtn"><i class="fa-solid fa-filter"></i> Apply</button>
+    <button class="btn-outline-sm" style="padding:9px 16px" id="exportCsvBtn"><i class="fa-solid fa-download"></i> Export CSV</button>
+</div>
+<div id="reportsContainer"></div>
 </div>
 </div>
 <style>
 @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
 @keyframes countUp { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+.report-bar-row { display:flex; align-items:center; gap:10px; margin-bottom:10px; font-size:.8rem; }
+.report-bar-label { width:140px; flex-shrink:0; color:var(--text2); }
+.report-bar-track { flex:1; height:10px; background:var(--bg3); border-radius:6px; overflow:hidden; }
+.report-bar-fill { height:100%; background:var(--accent); border-radius:6px; }
+.report-bar-count { width:40px; text-align:right; font-weight:600; color:var(--text); }
 </style>
 
-
-
+<script src="../js/api.js"></script>
+<script src="../js/auth-guard.js"></script>
+<script src="../js/dashboard-admin-reports.js"></script>
 </body>
 </html>

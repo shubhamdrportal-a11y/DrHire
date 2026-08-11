@@ -47,6 +47,7 @@ $routes = [
     ['POST',   '/auth/logout',           'AuthController',         'logout'],
     ['GET',    '/auth/me',               'AuthController',         'me'],
     ['POST',   '/auth/change-password',  'AuthController',         'changePassword'],
+    ['DELETE', '/auth/account',          'AuthController',         'deleteAccount'],
 
     // ── Admin ─────────────────────────────────────────────────────
     ['GET',    '/admin/stats',           'AdminController',        'stats'],

@@ -73,8 +73,20 @@ class DoctorProfile
 
     public function getAll(array $filters = [], int $page = 1, int $perPage = 20): array
     {
-        $conditions = ['u.role = "doctor"', 'u.status = "active"'];
+        $conditions = ['u.role = "doctor"'];
         $params     = [];
+
+        // Callers that don't pass a 'status' key at all (public listing, staff
+        // "find a doctor") keep the old behaviour of active-only results.
+        // Admin passes 'status' explicitly — '' means "all statuses".
+        if (array_key_exists('status', $filters)) {
+            if ($filters['status'] !== '') {
+                $conditions[] = 'u.status = ?';
+                $params[]     = $filters['status'];
+            }
+        } else {
+            $conditions[] = 'u.status = "active"';
+        }
 
         if (!empty($filters['specialization'])) {
             $conditions[] = 'dp.specialization LIKE ?';
