@@ -4,7 +4,10 @@ FROM php:8.3-cli
 RUN apt-get update && apt-get install -y \
     libzip-dev \
     unzip \
-    && docker-php-ext-install pdo pdo_mysql \
+    libcurl4-openssl-dev \
+    pkg-config \
+    libssl-dev \
+    && docker-php-ext-install pdo pdo_mysql curl fileinfo \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Set working directory
