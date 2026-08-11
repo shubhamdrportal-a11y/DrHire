@@ -99,7 +99,7 @@ function jsonResponse(mixed $data, int $status = 200): never
 
 function jsonError(string $message, int $status = 400, array $extra = []): never
 {
-    $body = array_merge(['error' => $message], $extra);
+    $body = array_merge(['success' => false, 'message' => $message], $extra);
     jsonResponse($body, $status);
 }
 
