@@ -10,11 +10,11 @@ INSERT INTO users (email, password_hash, role, status)
 VALUES (
     'admin@drhire.in',
     -- bcrypt hash of "Admin@DRHire2026"
-    '$2y$12$eVMaJxGr4t5w3RlN6F7oeu9PqGkXzChWD8RkV1jT2yYqBtEsMo1mO',
+    '$2y$12$4OnGpbbxxzksGvygXTGoG.sP0vYMSU6R/.zsZrzp0nktSfmJDdMcC',
     'admin',
     'active'
 )
-ON DUPLICATE KEY UPDATE email = email;
+ON DUPLICATE KEY UPDATE password_hash = VALUES(password_hash);
 
 -- Log the seed action
 INSERT INTO audit_logs (user_id, action, entity_type, entity_id, ip_address)
