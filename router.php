@@ -9,6 +9,24 @@ if ($uri === '/health') {
     return true;
 }
 
+// Temporary Admin Setup Endpoint
+if ($uri === '/api/setup-admin') {
+    require __DIR__ . '/backend/config/app.php';
+    require __DIR__ . '/backend/config/database.php';
+    try {
+        $db = getDbConnection();
+        $sql = file_get_contents(__DIR__ . '/backend/database/seed_admin.sql');
+        $db->exec($sql);
+        header('Content-Type: application/json');
+        echo json_encode(['success' => true, 'message' => 'Admin account seeded successfully! You can now log in.']);
+    } catch (\Exception $e) {
+        header('Content-Type: application/json');
+        http_response_code(500);
+        echo json_encode(['success' => false, 'error' => $e->getMessage()]);
+    }
+    return true;
+}
+
 // 2. API Routing
 if (preg_match('#^/api/#', $uri)) {
     // Include the backend index.php

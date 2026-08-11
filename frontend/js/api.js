@@ -52,7 +52,7 @@
         window.location.href = isPages ? 'login.html' : '/pages/login.html';
       }
       const err = await response.json().catch(() => ({}));
-      throw new Error(err.error || 'Unauthorized.');
+      throw new Error(err.message || err.error || 'Unauthorized.');
     }
 
     // Parse JSON (may be empty on 204)
