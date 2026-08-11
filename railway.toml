@@ -3,8 +3,8 @@ builder = "NIXPACKS"
 buildCommand = "echo 'No build required for PHP'"
 
 [deploy]
-startCommand = "apache2-foreground"
-healthcheckPath = "/api/jobs"
+startCommand = "php -S 0.0.0.0:$PORT router.php"
+healthcheckPath = "/health"
 healthcheckTimeout = 100
 
 [phases.setup]
