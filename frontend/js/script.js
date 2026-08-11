@@ -19,6 +19,7 @@ db.auth.onAuthStateChange((_event, session) => {
 
 function updateNavAuth() {
   const loginBtn = document.getElementById('navLoginBtn');
+  const registerBtn = document.getElementById('navRegisterBtn');
   const userInfo = document.getElementById('navUserInfo');
   const viewAllBtn = document.getElementById('viewAllJobsBtn');
   
@@ -27,18 +28,21 @@ function updateNavAuth() {
   const mobileUserEmail = document.getElementById('mobileUserEmail');
 
   if (currentUser) {
-    loginBtn.style.display = 'none';
-    userInfo.style.display = 'flex';
-    document.getElementById('navUserEmail').textContent = currentUser.email.split('@')[0];
-    if (viewAllBtn) viewAllBtn.closest('.view-all').style.display = 'none';
+    if (loginBtn) loginBtn.style.display = 'none';
+    if (registerBtn) registerBtn.style.display = 'none';
+    if (userInfo) userInfo.style.display = 'flex';
+    const userEmailEl = document.getElementById('navUserEmail');
+    if (userEmailEl && currentUser.email) userEmailEl.textContent = currentUser.email.split('@')[0];
+    if (viewAllBtn && viewAllBtn.closest('.view-all')) viewAllBtn.closest('.view-all').style.display = 'none';
 
     if (mobileLoginBtn) mobileLoginBtn.style.display = 'none';
     if (mobileUserInfo) mobileUserInfo.style.display = 'flex';
-    if (mobileUserEmail) mobileUserEmail.textContent = currentUser.email.split('@')[0];
+    if (mobileUserEmail && currentUser.email) mobileUserEmail.textContent = currentUser.email.split('@')[0];
   } else {
-    loginBtn.style.display = '';
-    userInfo.style.display = 'none';
-    if (viewAllBtn) viewAllBtn.closest('.view-all').style.display = '';
+    if (loginBtn) loginBtn.style.display = '';
+    if (registerBtn) registerBtn.style.display = '';
+    if (userInfo) userInfo.style.display = 'none';
+    if (viewAllBtn && viewAllBtn.closest('.view-all')) viewAllBtn.closest('.view-all').style.display = '';
 
     if (mobileLoginBtn) mobileLoginBtn.style.display = 'block';
     if (mobileUserInfo) mobileUserInfo.style.display = 'none';
