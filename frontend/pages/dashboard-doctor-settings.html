@@ -32,7 +32,7 @@
         <span class="sidebar-section-label">Patient Care</span>
         <a href="dashboard-doctor-appointments.html" class="nav-link"><i class="fa-solid fa-calendar-check"></i> Appointments</a>
         <a href="dashboard-doctor-patients.html" class="nav-link"><i class="fa-solid fa-users"></i> Patients</a>
-        <a href="#" class="nav-link"><i class="fa-solid fa-clock"></i> Availability</a>
+        <a href="dashboard-doctor-settings.html#availability" class="nav-link"><i class="fa-solid fa-clock"></i> Availability</a>
         <span class="sidebar-section-label">Professional</span>
         <a href="dashboard-doctor-reports.html" class="nav-link"><i class="fa-solid fa-chart-line"></i> Reports</a>
         <a href="dashboard-doctor-jobs.html" class="nav-link"><i class="fa-solid fa-briefcase"></i> Jobs</a>
@@ -73,29 +73,29 @@
                 <div class="dash-card">
                     <div class="dash-card-header"><span class="dash-card-title"><i class="fa-solid fa-user"></i> Account Information</span></div>
                     <div style="padding:20px">
-                        <div class="form-group"><label class="form-label">Display Name</label><input class="form-input" type="text" value="Dr. Demo User" /></div>
-                        <div class="form-group"><label class="form-label">Email</label><input class="form-input" type="email" value="doctor@demo.com" /></div>
-                        <div class="form-group"><label class="form-label">Phone</label><input class="form-input" type="tel" value="+91 98765 43210" /></div>
+                        <div class="form-group"><label class="form-label">Display Name</label><input class="form-input" type="text" id="genFullName" /></div>
+                        <div class="form-group"><label class="form-label">Email</label><input class="form-input" type="email" id="genEmail" disabled /></div>
+                        <div class="form-group"><label class="form-label">Phone</label><input class="form-input" type="tel" id="genPhone" /></div>
                         <div class="form-group">
                             <label class="form-label">Language</label>
-                            <select class="form-select"><option>English</option><option>Hindi</option><option>Marathi</option></select>
+                            <select class="form-select" id="genLanguage"><option>English</option><option>Hindi</option><option>Marathi</option></select>
                         </div>
-                        <button class="btn-primary"><i class="fa-solid fa-save"></i> Save Changes</button>
+                        <button class="btn-primary" id="saveGeneralBtn"><i class="fa-solid fa-save"></i> Save Changes</button>
                     </div>
                 </div>
                 <div class="dash-card">
                     <div class="dash-card-header"><span class="dash-card-title"><i class="fa-solid fa-palette"></i> Appearance</span></div>
                     <div style="padding:20px">
                         <div class="form-group"><label class="form-label">Theme</label>
-                            <select class="form-select"><option>Dark (Default)</option><option>Light</option><option>System</option></select>
+                            <select class="form-select" id="genTheme"><option value="dark">Dark (Default)</option><option value="light">Light</option></select>
                         </div>
                         <div class="form-group"><label class="form-label">Date Format</label>
-                            <select class="form-select"><option>DD/MM/YYYY</option><option>MM/DD/YYYY</option><option>YYYY-MM-DD</option></select>
+                            <select class="form-select" id="genDateFormat"><option>DD/MM/YYYY</option><option>MM/DD/YYYY</option><option>YYYY-MM-DD</option></select>
                         </div>
                         <div class="form-group"><label class="form-label">Time Format</label>
-                            <select class="form-select"><option>12-hour (AM/PM)</option><option>24-hour</option></select>
+                            <select class="form-select" id="genTimeFormat"><option>12-hour (AM/PM)</option><option>24-hour</option></select>
                         </div>
-                        <button class="btn-primary"><i class="fa-solid fa-save"></i> Save Preferences</button>
+                        <button class="btn-primary" id="savePrefsBtn"><i class="fa-solid fa-save"></i> Save Preferences</button>
                     </div>
                 </div>
             </div>
@@ -104,7 +104,7 @@
                 <div class="dash-card-header" style="border-color:rgba(239,68,68,.15)"><span class="dash-card-title" style="color:var(--danger)"><i class="fa-solid fa-triangle-exclamation"></i> Danger Zone</span></div>
                 <div style="padding:20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
                     <div><div style="font-size:.88rem;font-weight:600;color:var(--text)">Delete Account</div><div style="font-size:.78rem;color:var(--text3)">Permanently delete your account and all data. This cannot be undone.</div></div>
-                    <button class="btn-sm btn-danger-sm" style="padding:8px 16px"><i class="fa-solid fa-trash"></i> Delete Account</button>
+                    <button class="btn-sm btn-danger-sm" style="padding:8px 16px" id="deleteAccountBtn"><i class="fa-solid fa-trash"></i> Delete Account</button>
                 </div>
             </div>
         </div>
@@ -114,13 +114,13 @@
             <div class="dash-card">
                 <div class="dash-card-header"><span class="dash-card-title"><i class="fa-solid fa-bell"></i> Notification Preferences</span></div>
                 <div style="padding:4px 20px">
-                    <div class="toggle-row"><div class="toggle-info"><h4>New Appointment Booking</h4><p>Get notified when a patient books an appointment</p></div><label class="toggle-switch"><input type="checkbox" checked /><span class="toggle-slider"></span></label></div>
-                    <div class="toggle-row"><div class="toggle-info"><h4>Appointment Cancellation</h4><p>Get notified when an appointment is cancelled</p></div><label class="toggle-switch"><input type="checkbox" checked /><span class="toggle-slider"></span></label></div>
-                    <div class="toggle-row"><div class="toggle-info"><h4>Daily Summary</h4><p>Receive a daily digest of your appointments</p></div><label class="toggle-switch"><input type="checkbox" checked /><span class="toggle-slider"></span></label></div>
-                    <div class="toggle-row"><div class="toggle-info"><h4>Patient Messages</h4><p>Notify when patients send messages</p></div><label class="toggle-switch"><input type="checkbox" /><span class="toggle-slider"></span></label></div>
-                    <div class="toggle-row"><div class="toggle-info"><h4>System Updates</h4><p>Platform maintenance and feature announcements</p></div><label class="toggle-switch"><input type="checkbox" /><span class="toggle-slider"></span></label></div>
+                    <div class="toggle-row"><div class="toggle-info"><h4>New Appointment Booking</h4><p>Get notified when a patient books an appointment</p></div><label class="toggle-switch"><input type="checkbox" id="notifNewAppt" checked /><span class="toggle-slider"></span></label></div>
+                    <div class="toggle-row"><div class="toggle-info"><h4>Appointment Cancellation</h4><p>Get notified when an appointment is cancelled</p></div><label class="toggle-switch"><input type="checkbox" id="notifCancel" checked /><span class="toggle-slider"></span></label></div>
+                    <div class="toggle-row"><div class="toggle-info"><h4>Daily Summary</h4><p>Receive a daily digest of your appointments</p></div><label class="toggle-switch"><input type="checkbox" id="notifDailySummary" checked /><span class="toggle-slider"></span></label></div>
+                    <div class="toggle-row"><div class="toggle-info"><h4>Patient Messages</h4><p>Notify when patients send messages</p></div><label class="toggle-switch"><input type="checkbox" id="notifPatientMsg" /><span class="toggle-slider"></span></label></div>
+                    <div class="toggle-row"><div class="toggle-info"><h4>System Updates</h4><p>Platform maintenance and feature announcements</p></div><label class="toggle-switch"><input type="checkbox" id="notifSystemUpdates" /><span class="toggle-slider"></span></label></div>
                 </div>
-                <div style="padding:16px 20px;border-top:1px solid var(--border)"><button class="btn-primary"><i class="fa-solid fa-save"></i> Save Notifications</button></div>
+                <div style="padding:16px 20px;border-top:1px solid var(--border)"><button class="btn-primary" id="saveNotifBtn"><i class="fa-solid fa-save"></i> Save Notifications</button></div>
             </div>
         </div>
 
@@ -129,59 +129,12 @@
             <div class="dash-card">
                 <div class="dash-card-header"><span class="dash-card-title"><i class="fa-solid fa-clock"></i> Consultation Hours</span></div>
                 <div style="padding:20px">
-                    <div style="display:grid;gap:12px">
-                        <div style="display:flex;align-items:center;gap:14px;padding:12px;background:var(--bg3);border-radius:var(--radius-sm);border:1px solid var(--border)">
-                            <label class="toggle-switch" style="margin:0"><input type="checkbox" checked /><span class="toggle-slider"></span></label>
-                            <span style="font-weight:600;color:var(--text);min-width:60px">Monday</span>
-                            <input class="form-input" type="time" value="09:00" style="width:auto;flex:1" />
-                            <span style="color:var(--text3)">to</span>
-                            <input class="form-input" type="time" value="17:00" style="width:auto;flex:1" />
-                        </div>
-                        <div style="display:flex;align-items:center;gap:14px;padding:12px;background:var(--bg3);border-radius:var(--radius-sm);border:1px solid var(--border)">
-                            <label class="toggle-switch" style="margin:0"><input type="checkbox" checked /><span class="toggle-slider"></span></label>
-                            <span style="font-weight:600;color:var(--text);min-width:60px">Tuesday</span>
-                            <input class="form-input" type="time" value="09:00" style="width:auto;flex:1" />
-                            <span style="color:var(--text3)">to</span>
-                            <input class="form-input" type="time" value="17:00" style="width:auto;flex:1" />
-                        </div>
-                        <div style="display:flex;align-items:center;gap:14px;padding:12px;background:var(--bg3);border-radius:var(--radius-sm);border:1px solid var(--border)">
-                            <label class="toggle-switch" style="margin:0"><input type="checkbox" checked /><span class="toggle-slider"></span></label>
-                            <span style="font-weight:600;color:var(--text);min-width:60px">Wednesday</span>
-                            <input class="form-input" type="time" value="09:00" style="width:auto;flex:1" />
-                            <span style="color:var(--text3)">to</span>
-                            <input class="form-input" type="time" value="13:00" style="width:auto;flex:1" />
-                        </div>
-                        <div style="display:flex;align-items:center;gap:14px;padding:12px;background:var(--bg3);border-radius:var(--radius-sm);border:1px solid var(--border)">
-                            <label class="toggle-switch" style="margin:0"><input type="checkbox" checked /><span class="toggle-slider"></span></label>
-                            <span style="font-weight:600;color:var(--text);min-width:60px">Thursday</span>
-                            <input class="form-input" type="time" value="09:00" style="width:auto;flex:1" />
-                            <span style="color:var(--text3)">to</span>
-                            <input class="form-input" type="time" value="17:00" style="width:auto;flex:1" />
-                        </div>
-                        <div style="display:flex;align-items:center;gap:14px;padding:12px;background:var(--bg3);border-radius:var(--radius-sm);border:1px solid var(--border)">
-                            <label class="toggle-switch" style="margin:0"><input type="checkbox" checked /><span class="toggle-slider"></span></label>
-                            <span style="font-weight:600;color:var(--text);min-width:60px">Friday</span>
-                            <input class="form-input" type="time" value="09:00" style="width:auto;flex:1" />
-                            <span style="color:var(--text3)">to</span>
-                            <input class="form-input" type="time" value="17:00" style="width:auto;flex:1" />
-                        </div>
-                        <div style="display:flex;align-items:center;gap:14px;padding:12px;background:var(--bg3);border-radius:var(--radius-sm);border:1px solid var(--border)">
-                            <label class="toggle-switch" style="margin:0"><input type="checkbox" /><span class="toggle-slider"></span></label>
-                            <span style="font-weight:600;color:var(--text3);min-width:60px">Saturday</span>
-                            <input class="form-input" type="time" value="09:00" style="width:auto;flex:1;opacity:.4" disabled />
-                            <span style="color:var(--text3)">to</span>
-                            <input class="form-input" type="time" value="13:00" style="width:auto;flex:1;opacity:.4" disabled />
-                        </div>
-                        <div style="display:flex;align-items:center;gap:14px;padding:12px;background:var(--bg3);border-radius:var(--radius-sm);border:1px solid var(--border)">
-                            <label class="toggle-switch" style="margin:0"><input type="checkbox" /><span class="toggle-slider"></span></label>
-                            <span style="font-weight:600;color:var(--text3);min-width:60px">Sunday</span>
-                            <span style="font-size:.8rem;color:var(--text3)">Day off</span>
-                        </div>
-                    </div>
-                    <div style="margin-top:16px"><button class="btn-primary"><i class="fa-solid fa-save"></i> Save Availability</button></div>
+                    <div style="display:grid;gap:12px" id="availabilityRows"></div>
+                    <div style="margin-top:16px"><button class="btn-primary" id="saveAvailBtn"><i class="fa-solid fa-save"></i> Save Availability</button></div>
                 </div>
             </div>
         </div>
+
 
         <!-- Security -->
         <div class="settings-panel" id="settings-security">
@@ -189,21 +142,19 @@
                 <div class="dash-card">
                     <div class="dash-card-header"><span class="dash-card-title"><i class="fa-solid fa-lock"></i> Change Password</span></div>
                     <div style="padding:20px">
-                        <div class="form-group"><label class="form-label">Current Password</label><input class="form-input" type="password" placeholder="••••••••" /></div>
-                        <div class="form-group"><label class="form-label">New Password</label><input class="form-input" type="password" placeholder="Min 8 characters" /></div>
-                        <div class="form-group"><label class="form-label">Confirm New Password</label><input class="form-input" type="password" placeholder="Repeat new password" /></div>
-                        <button class="btn-primary"><i class="fa-solid fa-key"></i> Update Password</button>
+                        <div class="form-group"><label class="form-label">Current Password</label><input class="form-input" type="password" id="curPassword" placeholder="••••••••" /></div>
+                        <div class="form-group"><label class="form-label">New Password</label><input class="form-input" type="password" id="newPassword" placeholder="Min 8 characters" /></div>
+                        <div class="form-group"><label class="form-label">Confirm New Password</label><input class="form-input" type="password" id="confirmPassword" placeholder="Repeat new password" /></div>
+                        <button class="btn-primary" id="changePwBtn"><i class="fa-solid fa-key"></i> Update Password</button>
                     </div>
                 </div>
                 <div class="dash-card">
                     <div class="dash-card-header"><span class="dash-card-title"><i class="fa-solid fa-shield-halved"></i> Two-Factor Auth</span></div>
                     <div style="padding:20px">
-                        <div style="display:flex;align-items:center;gap:12px;padding:14px;background:rgba(16,185,129,.06);border:1px solid rgba(16,185,129,.15);border-radius:var(--radius-sm);margin-bottom:16px">
-                            <i class="fa-solid fa-circle-check" style="color:var(--success);font-size:1.2rem"></i>
-                            <div><div style="font-size:.86rem;font-weight:600;color:var(--text)">2FA Disabled</div><div style="font-size:.75rem;color:var(--text3)">Enable for extra security</div></div>
-                        </div>
-                        <p style="font-size:.82rem;color:var(--text2);margin-bottom:16px">Two-factor authentication adds an extra layer of security to your account.</p>
-                        <button class="btn-primary"><i class="fa-solid fa-shield-halved"></i> Enable 2FA</button>
+                        <p style="color:var(--text3);font-size:.8rem;margin-bottom:0">
+                            2FA is not yet available — this platform's authentication backend doesn't implement TOTP/OTP verification yet.
+                            We're not showing a toggle here because it would not actually protect your account.
+                        </p>
                     </div>
                 </div>
             </div>
@@ -211,5 +162,9 @@
     </div>
 </div>
 
+<script src="../js/theme.js"></script>
+<script src="../js/api.js"></script>
+<script src="../js/auth-guard.js"></script>
+<script src="../js/dashboard-doctor-settings.js"></script>
 </body>
 </html>

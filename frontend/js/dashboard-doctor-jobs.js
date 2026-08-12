@@ -80,9 +80,42 @@
     } catch(e) { apiUI.toast(e.message, 'error'); }
   };
 
-  window.viewJobDetails = function(jobId) {
-    window.location.href = `../pages/job-details.html?id=${jobId}`;
+  window.viewJobDetails = async function (jobId) {
+    const modal = document.getElementById('jobDetailsModal');
+    if (!modal) { window.location.href = `job-details.html?id=${jobId}`; return; }
+    setText('jdTitle', 'Loading…');
+    setText('jdHospital', ''); setText('jdDesc', ''); setText('jdReqs', ''); setText('jdBenefits', '');
+    document.getElementById('jdTags').innerHTML = '';
+    modal.classList.add('active');
+    try {
+      const j = await api.get(`/jobs/${jobId}`);
+      setText('jdTitle', j.title);
+      setText('jdHospital', `${j.hospital || ''} · ${j.location || j.city || ''}`);
+      setText('jdDesc', j.description || '–');
+      document.getElementById('jdTags').innerHTML = [
+        `<span class="badge badge-pending" style="font-size:.68rem"><i class="fa-solid fa-clock"></i> ${escHtml(j.type||'')}</span>`,
+        `<span class="badge badge-pending" style="font-size:.68rem"><i class="fa-solid fa-stethoscope"></i> ${escHtml(j.specialization||'')}</span>`,
+        `<span class="badge badge-pending" style="font-size:.68rem"><i class="fa-solid fa-briefcase-medical"></i> ${escHtml(j.experience||'')}</span>`,
+        `<span class="badge badge-active" style="font-size:.68rem"><i class="fa-solid fa-money-bill"></i> ${escHtml(j.salary||'')}</span>`,
+      ].join('');
+      const reqs = Array.isArray(j.requirements) ? j.requirements : [];
+      const bens = Array.isArray(j.benefits) ? j.benefits : [];
+      document.getElementById('jdReqs').innerHTML = reqs.length ? '<ul style="margin:0;padding-left:18px">' + reqs.map(r => `<li>${escHtml(r)}</li>`).join('') + '</ul>' : '–';
+      document.getElementById('jdBenefits').innerHTML = bens.length ? '<ul style="margin:0;padding-left:18px">' + bens.map(b => `<li>${escHtml(b)}</li>`).join('') + '</ul>' : '–';
+      const applyBtn = document.getElementById('jdApplyBtn');
+      if (applyBtn) applyBtn.onclick = () => applyForJob(j.id, j.title);
+    } catch (e) {
+      setText('jdTitle', 'Failed to load job.');
+      apiUI.toast(e.message || 'Failed to load job details.', 'error');
+    }
   };
+
+  document.addEventListener('drhire:auth', () => {
+    document.getElementById('jobDetailsClose')?.addEventListener('click', closeJobModal);
+    document.getElementById('jobDetailsClose2')?.addEventListener('click', closeJobModal);
+  });
+  function closeJobModal() { document.getElementById('jobDetailsModal')?.classList.remove('active'); }
+  function setText(id, v) { const el = document.getElementById(id); if (el) el.textContent = v; }
 
   function renderPagination(id, current, total, onPage) {
     const el = document.getElementById(id);

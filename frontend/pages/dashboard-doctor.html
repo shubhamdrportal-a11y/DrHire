@@ -81,7 +81,7 @@
             <div class="mini-stat">
                 <div class="mini-ico ico-blue"><i class="fa-solid fa-calendar-day"></i></div>
                 <div>
-                    <div class="mini-val" data-stat-num="8">0</div>
+                    <div class="mini-val" id="stat-today">0</div>
                     <div class="mini-label">Today's Appointments</div>
                     <div class="mini-change">3 remaining today</div>
                 </div>
@@ -89,7 +89,7 @@
             <div class="mini-stat">
                 <div class="mini-ico ico-yellow"><i class="fa-solid fa-calendar-week"></i></div>
                 <div>
-                    <div class="mini-val" data-stat-num="24">0</div>
+                    <div class="mini-val" id="stat-upcoming">0</div>
                     <div class="mini-label">Upcoming</div>
                     <div class="mini-change warn">Next 7 days</div>
                 </div>
@@ -97,7 +97,7 @@
             <div class="mini-stat">
                 <div class="mini-ico ico-green"><i class="fa-solid fa-users"></i></div>
                 <div>
-                    <div class="mini-val" data-stat-num="312">0</div>
+                    <div class="mini-val" id="stat-patients">0</div>
                     <div class="mini-label">Total Patients</div>
                     <div class="mini-change">↑ +7 this month</div>
                 </div>
@@ -105,7 +105,7 @@
             <div class="mini-stat">
                 <div class="mini-ico ico-cyan"><i class="fa-solid fa-circle-check"></i></div>
                 <div>
-                    <div class="mini-val" data-stat-num="1087">0</div>
+                    <div class="mini-val" id="stat-completed">0</div>
                     <div class="mini-label">Completed</div>
                     <div class="mini-change">All time</div>
                 </div>
@@ -122,46 +122,7 @@
                         <div class="dash-card-title"><i class="fa-solid fa-calendar-day"></i> Today's Appointments</div>
                         <a href="dashboard-doctor-appointments.html" class="dash-card-action">View All</a>
                     </div>
-                    <div class="appt-list">
-                        <div class="appt-item">
-                            <div class="appt-time-box"><div class="appt-time-h">09:30</div><div class="appt-time-p">AM</div></div>
-                            <div class="appt-info">
-                                <div class="appt-name">Ramesh Kumar</div>
-                                <div class="appt-meta"><span><i class="fa-solid fa-stethoscope"></i>Chest Pain</span><span><i class="fa-solid fa-phone"></i>+91 98765 43210</span></div>
-                            </div>
-                            <div class="appt-actions"><span class="badge badge-completed">Completed</span></div>
-                        </div>
-                        <div class="appt-item">
-                            <div class="appt-time-box"><div class="appt-time-h">11:00</div><div class="appt-time-p">AM</div></div>
-                            <div class="appt-info">
-                                <div class="appt-name">Sunita Patel</div>
-                                <div class="appt-meta"><span><i class="fa-solid fa-stethoscope"></i>Hypertension</span><span><i class="fa-solid fa-phone"></i>+91 87654 32109</span></div>
-                            </div>
-                            <div class="appt-actions"><span class="badge badge-confirmed">Confirmed</span></div>
-                        </div>
-                        <div class="appt-item">
-                            <div class="appt-time-box"><div class="appt-time-h">02:30</div><div class="appt-time-p">PM</div></div>
-                            <div class="appt-info">
-                                <div class="appt-name">Arjun Singh</div>
-                                <div class="appt-meta"><span><i class="fa-solid fa-stethoscope"></i>Follow-up</span><span><i class="fa-solid fa-phone"></i>+91 76543 21098</span></div>
-                            </div>
-                            <div class="appt-actions">
-                                <span class="badge badge-pending">Pending</span>
-                                <button class="btn-sm btn-outline-sm">Confirm</button>
-                            </div>
-                        </div>
-                        <div class="appt-item">
-                            <div class="appt-time-box"><div class="appt-time-h">04:00</div><div class="appt-time-p">PM</div></div>
-                            <div class="appt-info">
-                                <div class="appt-name">Meera Verma</div>
-                                <div class="appt-meta"><span><i class="fa-solid fa-stethoscope"></i>Palpitations</span><span><i class="fa-solid fa-phone"></i>+91 65432 10987</span></div>
-                            </div>
-                            <div class="appt-actions">
-                                <span class="badge badge-pending">Pending</span>
-                                <button class="btn-sm btn-outline-sm">Confirm</button>
-                            </div>
-                        </div>
-                    </div>
+                    <div class="appt-list" id="todayApptList"></div>
                 </div>
             </div>
 
@@ -174,12 +135,12 @@
                     <div style="padding:20px;text-align:center;">
                         <div style="width:64px;height:64px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:1.5rem;color:#fff;border:3px solid var(--card);margin:-32px auto 10px;"><i class="fa-solid fa-user-doctor"></i></div>
                         <div style="font-size:.95rem;font-weight:700;margin-bottom:2px;" data-user-name>Dr. Demo User</div>
-                        <div style="font-size:.75rem;color:var(--accent);font-weight:600;">Cardiologist · MBBS, MD</div>
-                        <div style="font-size:.7rem;color:var(--text3);margin-top:3px;display:flex;align-items:center;justify-content:center;gap:4px;"><i class="fa-solid fa-location-dot"></i> Apollo Hospitals, Delhi</div>
+                        <div style="font-size:.75rem;color:var(--accent);font-weight:600;" id="profCardSpec">–</div>
+                        <div style="font-size:.7rem;color:var(--text3);margin-top:3px;display:flex;align-items:center;justify-content:center;gap:4px;"><i class="fa-solid fa-location-dot"></i> <span id="profCardCity">–</span></div>
                         <div style="display:flex;gap:1px;margin-top:14px;padding-top:14px;border-top:1px solid var(--border);">
-                            <div style="flex:1;text-align:center;"><div style="font-size:1.1rem;font-weight:800;">312</div><div style="font-size:.65rem;color:var(--text3);">Patients</div></div>
-                            <div style="flex:1;text-align:center;"><div style="font-size:1.1rem;font-weight:800;">8</div><div style="font-size:.65rem;color:var(--text3);">Today</div></div>
-                            <div style="flex:1;text-align:center;"><div style="font-size:1.1rem;font-weight:800;">4.9★</div><div style="font-size:.65rem;color:var(--text3);">Rating</div></div>
+                            <div style="flex:1;text-align:center;"><div style="font-size:1.1rem;font-weight:800;" id="profCardPatients">0</div><div style="font-size:.65rem;color:var(--text3);">Patients</div></div>
+                            <div style="flex:1;text-align:center;"><div style="font-size:1.1rem;font-weight:800;" id="profCardToday">0</div><div style="font-size:.65rem;color:var(--text3);">Today</div></div>
+                            <div style="flex:1;text-align:center;"><div style="font-size:1.1rem;font-weight:800;" id="profCardExp">–</div><div style="font-size:.65rem;color:var(--text3);">Yrs Exp</div></div>
                         </div>
                     </div>
                 </div>
@@ -191,20 +152,20 @@
                     </div>
                     <div style="padding:16px 20px;">
                         <div class="prog-row">
-                            <div class="prog-header"><span class="prog-label">Completed</span><span class="prog-val" style="color:var(--success)">68%</span></div>
-                            <div class="prog-bar"><div class="prog-fill" style="width:68%;background:linear-gradient(90deg,#10b981,#059669)"></div></div>
+                            <div class="prog-header"><span class="prog-label">Completed</span><span class="prog-val" style="color:var(--success)" id="progCompletedVal">0%</span></div>
+                            <div class="prog-bar"><div class="prog-fill" id="progCompletedBar" style="width:0%;background:linear-gradient(90deg,#10b981,#059669)"></div></div>
                         </div>
                         <div class="prog-row">
-                            <div class="prog-header"><span class="prog-label">Confirmed</span><span class="prog-val" style="color:#06b6d4">22%</span></div>
-                            <div class="prog-bar"><div class="prog-fill" style="width:22%;background:linear-gradient(90deg,#06b6d4,#0891b2)"></div></div>
+                            <div class="prog-header"><span class="prog-label">Confirmed</span><span class="prog-val" style="color:#06b6d4" id="progConfirmedVal">0%</span></div>
+                            <div class="prog-bar"><div class="prog-fill" id="progConfirmedBar" style="width:0%;background:linear-gradient(90deg,#06b6d4,#0891b2)"></div></div>
                         </div>
                         <div class="prog-row">
-                            <div class="prog-header"><span class="prog-label">Pending</span><span class="prog-val" style="color:var(--warning)">7%</span></div>
-                            <div class="prog-bar"><div class="prog-fill" style="width:7%;background:linear-gradient(90deg,#f59e0b,#d97706)"></div></div>
+                            <div class="prog-header"><span class="prog-label">Pending</span><span class="prog-val" style="color:var(--warning)" id="progPendingVal">0%</span></div>
+                            <div class="prog-bar"><div class="prog-fill" id="progPendingBar" style="width:0%;background:linear-gradient(90deg,#f59e0b,#d97706)"></div></div>
                         </div>
                         <div class="prog-row">
-                            <div class="prog-header"><span class="prog-label">Cancelled</span><span class="prog-val" style="color:var(--danger)">3%</span></div>
-                            <div class="prog-bar"><div class="prog-fill" style="width:3%;background:linear-gradient(90deg,#ef4444,#dc2626)"></div></div>
+                            <div class="prog-header"><span class="prog-label">Cancelled</span><span class="prog-val" style="color:var(--danger)" id="progCancelledVal">0%</span></div>
+                            <div class="prog-bar"><div class="prog-fill" id="progCancelledBar" style="width:0%;background:linear-gradient(90deg,#ef4444,#dc2626)"></div></div>
                         </div>
                     </div>
                 </div>
@@ -220,33 +181,8 @@
             </div>
             <div class="table-wrap">
                 <table class="dash-table">
-                    <thead><tr><th>Patient</th><th>Last Visit</th><th>Condition</th><th>Appointments</th><th>Status</th><th>Action</th></tr></thead>
-                    <tbody>
-                        <tr>
-                            <td><div class="user-cell"><div class="ua ua-blue">RK</div><div><div class="td-name">Ramesh Kumar</div><div class="td-sub">Age 48 · M</div></div></div></td>
-                            <td>Aug 10, 2026</td><td>Chest Pain, Hypertension</td><td style="font-weight:700;color:var(--text)">12</td>
-                            <td><span class="badge badge-active">Regular</span></td>
-                            <td><button class="btn-sm btn-outline-sm">View</button></td>
-                        </tr>
-                        <tr>
-                            <td><div class="user-cell"><div class="ua ua-green">SP</div><div><div class="td-name">Sunita Patel</div><div class="td-sub">Age 62 · F</div></div></div></td>
-                            <td>Aug 9, 2026</td><td>Hypertension, Diabetes</td><td style="font-weight:700;color:var(--text)">8</td>
-                            <td><span class="badge badge-active">Regular</span></td>
-                            <td><button class="btn-sm btn-outline-sm">View</button></td>
-                        </tr>
-                        <tr>
-                            <td><div class="user-cell"><div class="ua ua-purple">AS</div><div><div class="td-name">Arjun Singh</div><div class="td-sub">Age 35 · M</div></div></div></td>
-                            <td>Aug 8, 2026</td><td>Routine Check-up</td><td style="font-weight:700;color:var(--text)">3</td>
-                            <td><span class="badge badge-new">New</span></td>
-                            <td><button class="btn-sm btn-outline-sm">View</button></td>
-                        </tr>
-                        <tr>
-                            <td><div class="user-cell"><div class="ua ua-orange">MV</div><div><div class="td-name">Meera Verma</div><div class="td-sub">Age 29 · F</div></div></div></td>
-                            <td>Aug 7, 2026</td><td>Palpitations</td><td style="font-weight:700;color:var(--text)">5</td>
-                            <td><span class="badge badge-active">Regular</span></td>
-                            <td><button class="btn-sm btn-outline-sm">View</button></td>
-                        </tr>
-                    </tbody>
+                    <thead><tr><th>Patient</th><th>Last Visit</th><th>Reason</th><th>Status</th><th>Action</th></tr></thead>
+                    <tbody id="recentPatientsBody"></tbody>
                 </table>
             </div>
         </div>
@@ -255,5 +191,9 @@
 </div>
 
 
+<script src="../js/theme.js"></script>
+<script src="../js/api.js"></script>
+<script src="../js/auth-guard.js"></script>
+<script src="../js/dashboard-doctor-main.js"></script>
 </body>
 </html>

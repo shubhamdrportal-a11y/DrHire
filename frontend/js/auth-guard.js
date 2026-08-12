@@ -78,6 +78,30 @@
     } catch {}
   }
 
+  // Generic settings-tab switcher (Doctor/Hospital/Staff Settings pages use
+  // .settings-tab[data-settings-tab] + .settings-panel#settings-<name>).
+  // Harmless no-op on pages without these elements.
+  function initSettingsTabs() {
+    const tabs = document.querySelectorAll('[data-settings-tab]');
+    if (!tabs.length) return;
+
+    function activate(name) {
+      tabs.forEach(t => t.classList.toggle('active', t.dataset.settingsTab === name));
+      document.querySelectorAll('.settings-panel').forEach(p => {
+        p.classList.toggle('active', p.id === 'settings-' + name);
+      });
+    }
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => activate(tab.dataset.settingsTab));
+    });
+
+    const hash = window.location.hash.replace('#', '');
+    if (hash && document.getElementById('settings-' + hash)) {
+      activate(hash);
+    }
+  }
+
   // Main guard function
   async function guard() {
     showPageLoading();
@@ -149,9 +173,10 @@
 
   // Run on DOM ready
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => { initMobileSidebar(); guard(); });
+    document.addEventListener('DOMContentLoaded', () => { initMobileSidebar(); initSettingsTabs(); guard(); });
   } else {
     initMobileSidebar();
+    initSettingsTabs();
     guard();
   }
 })();

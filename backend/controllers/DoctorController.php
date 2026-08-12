@@ -67,6 +67,7 @@ class DoctorController
         $filters = [
             'status' => $_GET['status'] ?? '',
             'date'   => $_GET['date']   ?? '',
+            'search' => $_GET['search'] ?? '',
         ];
         jsonResponse($this->apptModel->getForDoctor($user['id'], $filters, $page, $perPage));
     }
@@ -164,22 +165,47 @@ class DoctorController
     public function getPatients(): void
     {
         $user = requireRole('doctor');
-
-        // Distinct patients who've had appointments with this doctor
         $db   = getDbConnection();
+
+        $search  = $_GET['search'] ?? '';
+        $page    = max(1, (int)($_GET['page'] ?? 1));
+        $perPage = min((int)($_GET['per_page'] ?? 20), 100);
+        $offset  = ($page - 1) * $perPage;
+
+        $where  = 'a.doctor_id = ?';
+        $params = [$user['id']];
+        if ($search !== '') {
+            $where   .= ' AND (a.patient_name LIKE ? OR a.patient_phone LIKE ?)';
+            $like     = '%' . $search . '%';
+            $params[] = $like;
+            $params[] = $like;
+        }
+
+        $countStmt = $db->prepare(
+            "SELECT COUNT(DISTINCT a.patient_id) FROM appointments a WHERE {$where}"
+        );
+        $countStmt->execute($params);
+        $total = (int)$countStmt->fetchColumn();
+
         $stmt = $db->prepare(
-            "SELECT DISTINCT a.patient_id, a.patient_name, a.patient_phone, a.patient_gender, a.patient_age,
+            "SELECT a.patient_id, a.patient_name, a.patient_phone, a.patient_gender, a.patient_age,
                     COUNT(*) AS appointment_count, MAX(a.appointment_date) AS last_visit,
                     GROUP_CONCAT(DISTINCT a.reason SEPARATOR ', ') AS conditions,
                     MAX(a.status) AS last_status
              FROM appointments a
-             WHERE a.doctor_id = ?
+             WHERE {$where}
              GROUP BY a.patient_id, a.patient_name, a.patient_phone, a.patient_gender, a.patient_age
              ORDER BY last_visit DESC
-             LIMIT 100"
+             LIMIT {$perPage} OFFSET {$offset}"
         );
-        $stmt->execute([$user['id']]);
-        jsonResponse(['data' => $stmt->fetchAll()]);
+        $stmt->execute($params);
+        jsonResponse([
+            'data'        => $stmt->fetchAll(),
+            'total'       => $total,
+            'page'        => $page,
+            'per_page'    => $perPage,
+            'total_pages' => (int)ceil($total / max(1, $perPage)),
+        ]);
     }
 
     public function reports(): void
@@ -187,12 +213,13 @@ class DoctorController
         $user  = requireRole('doctor');
         $stats = $this->apptModel->getStatsForDoctor($user['id']);
         $db    = getDbConnection();
+        $months = min(24, max(1, (int)($_GET['months'] ?? 6)));
 
         // Monthly appointment breakdown for chart
         $monthly = $db->prepare(
             "SELECT DATE_FORMAT(appointment_date, '%b') AS month, COUNT(*) AS count, status
              FROM appointments
-             WHERE doctor_id = ? AND appointment_date >= DATE_SUB(NOW(), INTERVAL 6 MONTH)
+             WHERE doctor_id = ? AND appointment_date >= DATE_SUB(NOW(), INTERVAL {$months} MONTH)
              GROUP BY DATE_FORMAT(appointment_date,'%Y-%m'), DATE_FORMAT(appointment_date,'%b'), status
              ORDER BY appointment_date ASC"
         );

@@ -49,7 +49,7 @@
         <span class="sidebar-section-label">Patient Care</span>
         <a href="dashboard-doctor-appointments.html" class="nav-link active"><i class="fa-solid fa-calendar-check"></i> Appointments <span class="nav-badge">5</span></a>
         <a href="dashboard-doctor-patients.html" class="nav-link"><i class="fa-solid fa-users"></i> Patients</a>
-        <a href="#" class="nav-link"><i class="fa-solid fa-clock"></i> Availability</a>
+        <a href="dashboard-doctor-settings.html#availability" class="nav-link"><i class="fa-solid fa-clock"></i> Availability</a>
         <span class="sidebar-section-label">Professional</span>
         <a href="dashboard-doctor-reports.html" class="nav-link"><i class="fa-solid fa-chart-line"></i> Reports</a>
         <a href="dashboard-doctor-jobs.html" class="nav-link"><i class="fa-solid fa-briefcase"></i> Jobs</a>
@@ -76,7 +76,7 @@
             <button class="hamburger-mob" id="hamburgerMob"><i class="fa-solid fa-bars"></i></button>
             <div class="header-title">
                 <h1>Appointments</h1>
-                <p>Sunday, August 10, 2026</p>
+                <p id="dashDate">Loading…</p>
             </div>
         </div>
         <div class="header-right">
@@ -104,15 +104,15 @@
             </div>
             <div style="display:flex;gap:10px;flex-wrap:wrap">
                 <div class="stat-pill">
-                    <div class="stat-pill-val" style="color:var(--success)">8</div>
+                    <div class="stat-pill-val" style="color:var(--success)" id="stat-today">0</div>
                     <div class="stat-pill-label">Today</div>
                 </div>
                 <div class="stat-pill">
-                    <div class="stat-pill-val" style="color:var(--accent)">24</div>
+                    <div class="stat-pill-val" style="color:var(--accent)" id="stat-upcoming">0</div>
                     <div class="stat-pill-label">Upcoming</div>
                 </div>
                 <div class="stat-pill">
-                    <div class="stat-pill-val" style="color:var(--warning)">5</div>
+                    <div class="stat-pill-val" style="color:var(--warning)" id="stat-pending">0</div>
                     <div class="stat-pill-label">Pending</div>
                 </div>
             </div>
@@ -137,293 +137,19 @@
                 <option value="upcoming">Upcoming</option>
                 <option value="past">Past</option>
             </select>
+            <button class="btn-sm btn-outline-sm" id="apptRefreshBtn"><i class="fa-solid fa-rotate"></i> Refresh</button>
         </div>
 
         <!-- Tab Pills -->
         <div class="tab-pills">
-            <button class="tab-pill active" data-tab-target="today-panel">Today (8)</button>
-            <button class="tab-pill" data-tab-target="upcoming-panel">Upcoming (24)</button>
-            <button class="tab-pill" data-tab-target="past-panel">Past</button>
+            <button class="tab-pill active" data-tab-date="today">Today</button>
+            <button class="tab-pill" data-tab-date="upcoming">Upcoming</button>
+            <button class="tab-pill" data-tab-date="past">Past</button>
+            <button class="tab-pill" data-tab-date="">All</button>
         </div>
 
-        <!-- TODAY -->
-        <div class="tab-panel active" id="today-panel">
-
-            <!-- Appointment Card: Pending -->
-            <div class="appt-card" data-appt-row data-appt-status="pending">
-                <div class="appt-card-top">
-                    <div class="appt-patient-avatar" style="background:linear-gradient(135deg,#0ea5e9,#06b6d4)">RS</div>
-                    <div style="flex:1">
-                        <div class="appt-patient-name">Riya Sharma</div>
-                        <div class="appt-patient-meta">
-                            <span><i class="fa-solid fa-phone"></i>+91 98765 43210</span>
-                            <span><i class="fa-solid fa-location-dot"></i>Mumbai, MH</span>
-                            <span><i class="fa-solid fa-venus-mars"></i>Female, 28</span>
-                        </div>
-                    </div>
-                    <span class="badge badge-pending">Pending</span>
-                </div>
-                <div class="appt-card-body">
-                    <div class="appt-detail">
-                        <div class="appt-detail-label">Date</div>
-                        <div class="appt-detail-val">Aug 10, 2026</div>
-                    </div>
-                    <div class="appt-detail">
-                        <div class="appt-detail-label">Time</div>
-                        <div class="appt-detail-val">09:30 AM</div>
-                    </div>
-                    <div class="appt-detail">
-                        <div class="appt-detail-label">Type</div>
-                        <div class="appt-detail-val">In-person</div>
-                    </div>
-                </div>
-                <div class="appt-reason-box">
-                    <strong>Reason:</strong> Chest pain and shortness of breath since 2 days. Needs ECG and consultation.
-                </div>
-                <div class="appt-card-actions">
-                    <div class="appt-card-btns">
-                        <button class="btn-sm btn-success-sm" data-appt-action="confirm"><i class="fa-solid fa-check"></i> Confirm</button>
-                        <button class="btn-sm btn-outline-sm" data-view-appt><i class="fa-solid fa-eye"></i> View</button>
-                        <button class="btn-sm btn-danger-sm" data-appt-action="cancel"><i class="fa-solid fa-xmark"></i> Cancel</button>
-                    </div>
-                    <span style="font-size:.72rem;color:var(--text3)">Booked 2 days ago</span>
-                </div>
-            </div>
-
-            <!-- Appointment Card: Confirmed -->
-            <div class="appt-card" data-appt-row data-appt-status="confirmed">
-                <div class="appt-card-top">
-                    <div class="appt-patient-avatar" style="background:linear-gradient(135deg,#10b981,#059669)">MK</div>
-                    <div style="flex:1">
-                        <div class="appt-patient-name">Mohan Kumar</div>
-                        <div class="appt-patient-meta">
-                            <span><i class="fa-solid fa-phone"></i>+91 87654 32109</span>
-                            <span><i class="fa-solid fa-location-dot"></i>Pune, MH</span>
-                            <span><i class="fa-solid fa-mars"></i>Male, 45</span>
-                        </div>
-                    </div>
-                    <span class="badge badge-confirmed">Confirmed</span>
-                </div>
-                <div class="appt-card-body">
-                    <div class="appt-detail">
-                        <div class="appt-detail-label">Date</div>
-                        <div class="appt-detail-val">Aug 10, 2026</div>
-                    </div>
-                    <div class="appt-detail">
-                        <div class="appt-detail-label">Time</div>
-                        <div class="appt-detail-val">11:00 AM</div>
-                    </div>
-                    <div class="appt-detail">
-                        <div class="appt-detail-label">Type</div>
-                        <div class="appt-detail-val">Follow-up</div>
-                    </div>
-                </div>
-                <div class="appt-reason-box">
-                    <strong>Reason:</strong> Regular follow-up for hypertension. Blood pressure monitoring and medication review.
-                </div>
-                <div class="appt-card-actions">
-                    <div class="appt-card-btns">
-                        <button class="btn-sm btn-primary-sm" data-appt-action="complete"><i class="fa-solid fa-circle-check"></i> Complete</button>
-                        <button class="btn-sm btn-outline-sm" data-view-appt><i class="fa-solid fa-eye"></i> View</button>
-                        <button class="btn-sm btn-danger-sm" data-appt-action="cancel"><i class="fa-solid fa-xmark"></i> Cancel</button>
-                    </div>
-                    <span style="font-size:.72rem;color:var(--text3)">Confirmed yesterday</span>
-                </div>
-            </div>
-
-            <!-- Appointment Card: Pending -->
-            <div class="appt-card" data-appt-row data-appt-status="pending">
-                <div class="appt-card-top">
-                    <div class="appt-patient-avatar" style="background:linear-gradient(135deg,#8b5cf6,#6d28d9)">AP</div>
-                    <div style="flex:1">
-                        <div class="appt-patient-name">Anita Patel</div>
-                        <div class="appt-patient-meta">
-                            <span><i class="fa-solid fa-phone"></i>+91 76543 21098</span>
-                            <span><i class="fa-solid fa-location-dot"></i>Surat, GJ</span>
-                            <span><i class="fa-solid fa-venus"></i>Female, 34</span>
-                        </div>
-                    </div>
-                    <span class="badge badge-pending">Pending</span>
-                </div>
-                <div class="appt-card-body">
-                    <div class="appt-detail">
-                        <div class="appt-detail-label">Date</div>
-                        <div class="appt-detail-val">Aug 10, 2026</div>
-                    </div>
-                    <div class="appt-detail">
-                        <div class="appt-detail-label">Time</div>
-                        <div class="appt-detail-val">02:30 PM</div>
-                    </div>
-                    <div class="appt-detail">
-                        <div class="appt-detail-label">Type</div>
-                        <div class="appt-detail-val">Consultation</div>
-                    </div>
-                </div>
-                <div class="appt-reason-box">
-                    <strong>Reason:</strong> Irregular heartbeat and dizziness. Requesting Holter monitor review.
-                </div>
-                <div class="appt-card-actions">
-                    <div class="appt-card-btns">
-                        <button class="btn-sm btn-success-sm" data-appt-action="confirm"><i class="fa-solid fa-check"></i> Confirm</button>
-                        <button class="btn-sm btn-outline-sm" data-view-appt><i class="fa-solid fa-eye"></i> View</button>
-                        <button class="btn-sm btn-danger-sm" data-appt-action="cancel"><i class="fa-solid fa-xmark"></i> Cancel</button>
-                    </div>
-                    <span style="font-size:.72rem;color:var(--text3)">Booked today</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- UPCOMING -->
-        <div class="tab-panel" id="upcoming-panel">
-            <div class="appt-card" data-appt-row data-appt-status="confirmed">
-                <div class="appt-card-top">
-                    <div class="appt-patient-avatar" style="background:linear-gradient(135deg,#f59e0b,#d97706)">SR</div>
-                    <div style="flex:1">
-                        <div class="appt-patient-name">Suresh Reddy</div>
-                        <div class="appt-patient-meta">
-                            <span><i class="fa-solid fa-phone"></i>+91 65432 10987</span>
-                            <span><i class="fa-solid fa-location-dot"></i>Hyderabad, TG</span>
-                            <span><i class="fa-solid fa-mars"></i>Male, 52</span>
-                        </div>
-                    </div>
-                    <span class="badge badge-confirmed">Confirmed</span>
-                </div>
-                <div class="appt-card-body">
-                    <div class="appt-detail">
-                        <div class="appt-detail-label">Date</div>
-                        <div class="appt-detail-val">Aug 12, 2026</div>
-                    </div>
-                    <div class="appt-detail">
-                        <div class="appt-detail-label">Time</div>
-                        <div class="appt-detail-val">10:00 AM</div>
-                    </div>
-                    <div class="appt-detail">
-                        <div class="appt-detail-label">Type</div>
-                        <div class="appt-detail-val">Consultation</div>
-                    </div>
-                </div>
-                <div class="appt-reason-box">
-                    <strong>Reason:</strong> Post-surgery cardiac evaluation. Review of recent echocardiogram results.
-                </div>
-                <div class="appt-card-actions">
-                    <div class="appt-card-btns">
-                        <button class="btn-sm btn-outline-sm" data-view-appt><i class="fa-solid fa-eye"></i> View Details</button>
-                        <button class="btn-sm btn-danger-sm" data-appt-action="cancel"><i class="fa-solid fa-xmark"></i> Cancel</button>
-                    </div>
-                    <span style="font-size:.72rem;color:var(--text3)">In 2 days</span>
-                </div>
-            </div>
-
-            <div class="appt-card" data-appt-row data-appt-status="pending">
-                <div class="appt-card-top">
-                    <div class="appt-patient-avatar" style="background:linear-gradient(135deg,#ec4899,#be185d)">PV</div>
-                    <div style="flex:1">
-                        <div class="appt-patient-name">Priya Verma</div>
-                        <div class="appt-patient-meta">
-                            <span><i class="fa-solid fa-phone"></i>+91 54321 09876</span>
-                            <span><i class="fa-solid fa-location-dot"></i>Delhi, DL</span>
-                            <span><i class="fa-solid fa-venus"></i>Female, 41</span>
-                        </div>
-                    </div>
-                    <span class="badge badge-pending">Pending</span>
-                </div>
-                <div class="appt-card-body">
-                    <div class="appt-detail">
-                        <div class="appt-detail-label">Date</div>
-                        <div class="appt-detail-val">Aug 14, 2026</div>
-                    </div>
-                    <div class="appt-detail">
-                        <div class="appt-detail-label">Time</div>
-                        <div class="appt-detail-val">03:00 PM</div>
-                    </div>
-                    <div class="appt-detail">
-                        <div class="appt-detail-label">Type</div>
-                        <div class="appt-detail-val">New Patient</div>
-                    </div>
-                </div>
-                <div class="appt-reason-box">
-                    <strong>Reason:</strong> Recurring chest tightness on exertion. Family history of heart disease.
-                </div>
-                <div class="appt-card-actions">
-                    <div class="appt-card-btns">
-                        <button class="btn-sm btn-success-sm" data-appt-action="confirm"><i class="fa-solid fa-check"></i> Confirm</button>
-                        <button class="btn-sm btn-outline-sm" data-view-appt><i class="fa-solid fa-eye"></i> View</button>
-                        <button class="btn-sm btn-danger-sm" data-appt-action="cancel"><i class="fa-solid fa-xmark"></i> Cancel</button>
-                    </div>
-                    <span style="font-size:.72rem;color:var(--text3)">In 4 days</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- PAST -->
-        <div class="tab-panel" id="past-panel">
-            <div class="appt-card" data-appt-row data-appt-status="completed">
-                <div class="appt-card-top">
-                    <div class="appt-patient-avatar" style="background:linear-gradient(135deg,#10b981,#059669)">VN</div>
-                    <div style="flex:1">
-                        <div class="appt-patient-name">Vijay Nair</div>
-                        <div class="appt-patient-meta">
-                            <span><i class="fa-solid fa-phone"></i>+91 43210 98765</span>
-                            <span><i class="fa-solid fa-location-dot"></i>Kochi, KL</span>
-                        </div>
-                    </div>
-                    <span class="badge badge-completed">Completed</span>
-                </div>
-                <div class="appt-card-body">
-                    <div class="appt-detail">
-                        <div class="appt-detail-label">Date</div>
-                        <div class="appt-detail-val">Aug 7, 2026</div>
-                    </div>
-                    <div class="appt-detail">
-                        <div class="appt-detail-label">Time</div>
-                        <div class="appt-detail-val">11:30 AM</div>
-                    </div>
-                    <div class="appt-detail">
-                        <div class="appt-detail-label">Type</div>
-                        <div class="appt-detail-val">Follow-up</div>
-                    </div>
-                </div>
-                <div class="appt-card-actions">
-                    <div class="appt-card-btns">
-                        <button class="btn-sm btn-outline-sm" data-view-appt><i class="fa-solid fa-eye"></i> View Notes</button>
-                    </div>
-                    <span style="font-size:.72rem;color:var(--text3)">3 days ago</span>
-                </div>
-            </div>
-            <div class="appt-card" data-appt-row data-appt-status="cancelled">
-                <div class="appt-card-top">
-                    <div class="appt-patient-avatar" style="background:linear-gradient(135deg,#64748b,#475569)">RD</div>
-                    <div style="flex:1">
-                        <div class="appt-patient-name">Rekha Das</div>
-                        <div class="appt-patient-meta">
-                            <span><i class="fa-solid fa-phone"></i>+91 32109 87654</span>
-                            <span><i class="fa-solid fa-location-dot"></i>Kolkata, WB</span>
-                        </div>
-                    </div>
-                    <span class="badge badge-cancelled">Cancelled</span>
-                </div>
-                <div class="appt-card-body">
-                    <div class="appt-detail">
-                        <div class="appt-detail-label">Date</div>
-                        <div class="appt-detail-val">Aug 5, 2026</div>
-                    </div>
-                    <div class="appt-detail">
-                        <div class="appt-detail-label">Time</div>
-                        <div class="appt-detail-val">04:00 PM</div>
-                    </div>
-                    <div class="appt-detail">
-                        <div class="appt-detail-label">Type</div>
-                        <div class="appt-detail-val">Consultation</div>
-                    </div>
-                </div>
-                <div class="appt-card-actions">
-                    <div class="appt-card-btns">
-                        <button class="btn-sm btn-outline-sm" data-view-appt><i class="fa-solid fa-eye"></i> View</button>
-                    </div>
-                    <span style="font-size:.72rem;color:var(--text3)">5 days ago · Cancelled by patient</span>
-                </div>
-            </div>
-        </div>
+        <div class="tab-panel active" id="apptListContainer"></div>
+        <div id="apptPagination" style="display:flex;gap:8px;justify-content:center;margin-top:16px"></div>
 
     </div><!-- /.content -->
 
@@ -434,43 +160,38 @@
                 <div class="modal-title"><i class="fa-solid fa-calendar-check" style="color:var(--accent);margin-right:8px"></i>Appointment Details</div>
                 <button class="modal-close" id="apptDetailsClose"><i class="fa-solid fa-xmark"></i></button>
             </div>
-            <!-- Doctor info -->
             <div style="background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:16px;display:flex;align-items:center;gap:14px">
                 <div style="width:48px;height:48px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.95rem;color:#fff;flex-shrink:0" data-user-avatar>DR</div>
                 <div>
                     <div style="font-weight:700;color:var(--text)" data-user-name>Dr. Demo</div>
-                    <div style="font-size:.78rem;color:var(--accent)">Cardiologist</div>
+                    <div style="font-size:.78rem;color:var(--accent)" id="apptModalSpec"></div>
                 </div>
-                <span class="badge badge-confirmed" style="margin-left:auto">Confirmed</span>
+                <span class="badge" id="apptModalStatusBadge" style="margin-left:auto"></span>
             </div>
-            <!-- Patient info -->
             <div class="form-section-label">Patient Information</div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
-                <div><div style="font-size:.72rem;color:var(--text3);margin-bottom:3px">FULL NAME</div><div style="font-weight:600;color:var(--text)">Riya Sharma</div></div>
-                <div><div style="font-size:.72rem;color:var(--text3);margin-bottom:3px">PHONE</div><div style="font-weight:600;color:var(--text)">+91 98765 43210</div></div>
-                <div><div style="font-size:.72rem;color:var(--text3);margin-bottom:3px">AGE / GENDER</div><div style="font-weight:600;color:var(--text)">28 / Female</div></div>
-                <div><div style="font-size:.72rem;color:var(--text3);margin-bottom:3px">ADDRESS</div><div style="font-weight:600;color:var(--text)">Mumbai, Maharashtra</div></div>
+                <div><div style="font-size:.72rem;color:var(--text3);margin-bottom:3px">FULL NAME</div><div style="font-weight:600;color:var(--text)" id="apptModalPatientName">–</div></div>
+                <div><div style="font-size:.72rem;color:var(--text3);margin-bottom:3px">PHONE</div><div style="font-weight:600;color:var(--text)" id="apptModalPhone">–</div></div>
+                <div><div style="font-size:.72rem;color:var(--text3);margin-bottom:3px">AGE / GENDER</div><div style="font-weight:600;color:var(--text)" id="apptModalAgeGender">–</div></div>
+                <div><div style="font-size:.72rem;color:var(--text3);margin-bottom:3px">ADDRESS</div><div style="font-weight:600;color:var(--text)" id="apptModalAddress">–</div></div>
             </div>
             <div class="form-section-label">Appointment Details</div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
-                <div><div style="font-size:.72rem;color:var(--text3);margin-bottom:3px">DATE</div><div style="font-weight:600;color:var(--text)">August 10, 2026</div></div>
-                <div><div style="font-size:.72rem;color:var(--text3);margin-bottom:3px">TIME</div><div style="font-weight:600;color:var(--text)">09:30 AM</div></div>
-                <div><div style="font-size:.72rem;color:var(--text3);margin-bottom:3px">TYPE</div><div style="font-weight:600;color:var(--text)">In-person Consultation</div></div>
-                <div><div style="font-size:.72rem;color:var(--text3);margin-bottom:3px">BOOKED</div><div style="font-weight:600;color:var(--text)">2 days ago</div></div>
+                <div><div style="font-size:.72rem;color:var(--text3);margin-bottom:3px">DATE</div><div style="font-weight:600;color:var(--text)" id="apptModalDate">–</div></div>
+                <div><div style="font-size:.72rem;color:var(--text3);margin-bottom:3px">TIME</div><div style="font-weight:600;color:var(--text)" id="apptModalTime">–</div></div>
+                <div><div style="font-size:.72rem;color:var(--text3);margin-bottom:3px">BOOKED</div><div style="font-weight:600;color:var(--text)" id="apptModalBooked">–</div></div>
             </div>
             <div class="form-section-label">Reason for Visit</div>
-            <div style="background:rgba(14,165,233,.05);border:1px solid rgba(14,165,233,.12);border-radius:8px;padding:12px 14px;font-size:.84rem;color:var(--text2);margin-bottom:20px">
-                Chest pain and shortness of breath since 2 days. Needs ECG and cardiology consultation.
+            <div style="background:rgba(14,165,233,.05);border:1px solid rgba(14,165,233,.12);border-radius:8px;padding:12px 14px;font-size:.84rem;color:var(--text2);margin-bottom:20px" id="apptModalReason">
+                –
             </div>
-            <div style="display:flex;justify-content:flex-end;gap:10px">
-                <button class="btn-sm btn-success-sm" style="padding:8px 16px" data-appt-action="confirm"><i class="fa-solid fa-check"></i> Confirm</button>
-                <button class="btn-sm btn-danger-sm" style="padding:8px 16px"><i class="fa-solid fa-xmark"></i> Cancel Appt.</button>
-                <button class="btn-sm btn-outline-sm" style="padding:8px 16px" id="apptDetailsClose2"><i class="fa-solid fa-times"></i> Close</button>
+            <div style="display:flex;justify-content:flex-end;gap:10px" id="apptModalActions">
             </div>
         </div>
     </div>
 </div>
 
+<script src="../js/theme.js"></script>
 <script src="../js/api.js"></script>
 <script src="../js/auth-guard.js"></script>
 <script src="../js/dashboard-doctor-appointments.js"></script>

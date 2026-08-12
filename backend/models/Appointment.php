@@ -74,10 +74,19 @@ class Appointment
         if (!empty($filters['date'])) {
             if ($filters['date'] === 'today') {
                 $conditions[] = 'a.appointment_date = CURDATE()';
+            } elseif ($filters['date'] === 'upcoming') {
+                $conditions[] = 'a.appointment_date > CURDATE()';
+            } elseif ($filters['date'] === 'past') {
+                $conditions[] = 'a.appointment_date < CURDATE()';
             } else {
                 $conditions[] = 'a.appointment_date = ?';
                 $params[]     = $filters['date'];
             }
+        }
+        if (!empty($filters['search'])) {
+            $conditions[] = '(a.patient_name LIKE ? OR a.patient_phone LIKE ?)';
+            $like         = '%' . $filters['search'] . '%';
+            $params       = array_merge($params, [$like, $like]);
         }
 
         return $this->paginate($conditions, $params, $page, $perPage, 'doctor');

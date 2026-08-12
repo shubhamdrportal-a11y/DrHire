@@ -35,7 +35,7 @@
         <span class="sidebar-section-label">Patient Care</span>
         <a href="dashboard-doctor-appointments.html" class="nav-link"><i class="fa-solid fa-calendar-check"></i> Appointments</a>
         <a href="dashboard-doctor-patients.html" class="nav-link"><i class="fa-solid fa-users"></i> Patients</a>
-        <a href="#" class="nav-link"><i class="fa-solid fa-clock"></i> Availability</a>
+        <a href="dashboard-doctor-settings.html#availability" class="nav-link"><i class="fa-solid fa-clock"></i> Availability</a>
         <span class="sidebar-section-label">Professional</span>
         <a href="dashboard-doctor-reports.html" class="nav-link"><i class="fa-solid fa-chart-line"></i> Reports</a>
         <a href="dashboard-doctor-jobs.html" class="nav-link active"><i class="fa-solid fa-briefcase"></i> Jobs</a>
@@ -63,99 +63,46 @@
 
     <div class="content">
         <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:20px">
-            <div class="page-title" style="margin-bottom:0"><h1><i class="fa-solid fa-briefcase"></i> Job Opportunities</h1><p>24 openings matching your specialization</p></div>
+            <div class="page-title" style="margin-bottom:0"><h1><i class="fa-solid fa-briefcase"></i> Job Opportunities</h1><p>Openings matching your specialization</p></div>
         </div>
 
         <div class="filter-bar">
-            <div class="filter-search"><i class="fa-solid fa-magnifying-glass"></i><input type="text" placeholder="Search by title, hospital, location…" /></div>
-            <select class="filter-select"><option>All Specializations</option><option>Cardiology</option><option>Neurology</option><option>Orthopedics</option></select>
-            <select class="filter-select"><option>All Locations</option><option>Mumbai</option><option>Delhi</option><option>Bangalore</option></select>
-            <select class="filter-select"><option>All Types</option><option>Full-time</option><option>Part-time</option><option>Consulting</option></select>
+            <div class="filter-search"><i class="fa-solid fa-magnifying-glass"></i><input type="text" id="jobSearchInput" placeholder="Search by title, hospital, location…" /></div>
+            <select class="filter-select" id="jobTypeFilter"><option value="">All Types</option><option value="Full-Time">Full-Time</option><option value="Part-Time">Part-Time</option><option value="Contract">Contract</option><option value="Locum">Locum</option></select>
+            <button class="btn-sm btn-primary-sm" id="jobFilterBtn" style="white-space:nowrap"><i class="fa-solid fa-filter"></i> Apply Filters</button>
         </div>
 
         <!-- Job Cards -->
-        <div class="job-card">
-            <div class="job-card-top">
-                <div class="job-hosp-logo">AP</div>
-                <div style="flex:1">
-                    <div class="job-title">Senior Cardiologist</div>
-                    <div class="job-hospital">Apollo Hospitals</div>
-                    <div class="job-meta">
-                        <span><i class="fa-solid fa-location-dot"></i>Mumbai, MH</span>
-                        <span><i class="fa-solid fa-clock"></i>Full-time</span>
-                        <span><i class="fa-solid fa-calendar"></i>Posted 2 days ago</span>
-                    </div>
-                </div>
-                <span class="badge badge-new">New</span>
-            </div>
-            <div class="job-tags">
-                <span class="job-tag">Cardiology</span><span class="job-tag">ICU</span><span class="job-tag">Echo</span><span class="job-tag">Cath Lab</span>
-            </div>
-            <div class="job-desc">Apollo Hospitals is looking for an experienced Senior Cardiologist to join our department. The ideal candidate will have experience with interventional procedures and a proven track record in cardiac care.</div>
-            <div class="job-card-foot">
-                <div class="job-salary">₹25–40 LPA</div>
-                <div style="display:flex;gap:8px">
-                    <button class="btn-sm btn-outline-sm"><i class="fa-solid fa-bookmark"></i> Save</button>
-                    <button class="btn-sm btn-primary-sm"><i class="fa-solid fa-paper-plane"></i> Apply Now</button>
-                </div>
-            </div>
-        </div>
+        <div id="jobsContainer"></div>
+        <div id="jobsPagination" style="display:flex;gap:8px;justify-content:center;margin-top:20px"></div>
+    </div>
+</div>
 
-        <div class="job-card">
-            <div class="job-card-top">
-                <div class="job-hosp-logo" style="background:linear-gradient(135deg,#10b981,#059669)">FO</div>
-                <div style="flex:1">
-                    <div class="job-title">Consultant Cardiologist</div>
-                    <div class="job-hospital">Fortis Healthcare</div>
-                    <div class="job-meta">
-                        <span><i class="fa-solid fa-location-dot"></i>Gurgaon, HR</span>
-                        <span><i class="fa-solid fa-clock"></i>Consulting</span>
-                        <span><i class="fa-solid fa-calendar"></i>Posted 5 days ago</span>
-                    </div>
-                </div>
-                <span class="badge badge-active">Open</span>
-            </div>
-            <div class="job-tags">
-                <span class="job-tag">Cardiology</span><span class="job-tag">Non-invasive</span><span class="job-tag">OPD</span>
-            </div>
-            <div class="job-desc">Fortis Healthcare seeks a skilled Consultant Cardiologist for OPD and ward services. 5+ years experience required. Competitive remuneration and excellent facilities.</div>
-            <div class="job-card-foot">
-                <div class="job-salary">₹18–28 LPA</div>
-                <div style="display:flex;gap:8px">
-                    <button class="btn-sm btn-outline-sm"><i class="fa-solid fa-bookmark"></i> Save</button>
-                    <button class="btn-sm btn-primary-sm"><i class="fa-solid fa-paper-plane"></i> Apply Now</button>
-                </div>
-            </div>
+<!-- Job Details Modal -->
+<div class="modal-overlay" id="jobDetailsModal">
+    <div class="modal-box" style="max-width:600px">
+        <div class="modal-header">
+            <div class="modal-title"><i class="fa-solid fa-briefcase" style="color:var(--accent);margin-right:8px"></i><span id="jdTitle">Job Details</span></div>
+            <button class="modal-close" id="jobDetailsClose"><i class="fa-solid fa-xmark"></i></button>
         </div>
-
-        <div class="job-card">
-            <div class="job-card-top">
-                <div class="job-hosp-logo" style="background:linear-gradient(135deg,#8b5cf6,#6d28d9)">KS</div>
-                <div style="flex:1">
-                    <div class="job-title">Interventional Cardiologist</div>
-                    <div class="job-hospital">Kokilaben Hospital</div>
-                    <div class="job-meta">
-                        <span><i class="fa-solid fa-location-dot"></i>Mumbai, MH</span>
-                        <span><i class="fa-solid fa-clock"></i>Full-time</span>
-                        <span><i class="fa-solid fa-calendar"></i>Posted 1 week ago</span>
-                    </div>
-                </div>
-                <span class="badge badge-active">Open</span>
-            </div>
-            <div class="job-tags">
-                <span class="job-tag">Interventional</span><span class="job-tag">Cath Lab</span><span class="job-tag">PTCA</span><span class="job-tag">Stenting</span>
-            </div>
-            <div class="job-desc">Join Kokilaben Dhirubhai Ambani Hospital as an Interventional Cardiologist. State-of-the-art cath lab, research opportunities, and competitive salary package with accommodation.</div>
-            <div class="job-card-foot">
-                <div class="job-salary">₹35–55 LPA</div>
-                <div style="display:flex;gap:8px">
-                    <button class="btn-sm btn-outline-sm"><i class="fa-solid fa-bookmark"></i> Save</button>
-                    <button class="btn-sm btn-primary-sm"><i class="fa-solid fa-paper-plane"></i> Apply Now</button>
-                </div>
-            </div>
+        <div style="font-size:.85rem;color:var(--accent);font-weight:600;margin-bottom:12px" id="jdHospital">–</div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px" id="jdTags"></div>
+        <div class="form-section-label">Description</div>
+        <div style="font-size:.85rem;color:var(--text2);margin-bottom:14px" id="jdDesc">–</div>
+        <div class="form-section-label">Requirements</div>
+        <div style="font-size:.85rem;color:var(--text2);margin-bottom:14px" id="jdReqs">–</div>
+        <div class="form-section-label">Benefits</div>
+        <div style="font-size:.85rem;color:var(--text2);margin-bottom:18px" id="jdBenefits">–</div>
+        <div style="display:flex;justify-content:flex-end;gap:10px">
+            <button class="btn-sm btn-outline-sm" id="jobDetailsClose2">Close</button>
+            <button class="btn-sm btn-primary-sm" id="jdApplyBtn">Apply Now</button>
         </div>
     </div>
 </div>
 
+<script src="../js/theme.js"></script>
+<script src="../js/api.js"></script>
+<script src="../js/auth-guard.js"></script>
+<script src="../js/dashboard-doctor-jobs.js"></script>
 </body>
 </html>
