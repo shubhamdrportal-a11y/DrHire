@@ -47,6 +47,7 @@ $routes = [
     ['POST',   '/auth/logout',           'AuthController',         'logout'],
     ['GET',    '/auth/me',               'AuthController',         'me'],
     ['POST',   '/auth/change-password',  'AuthController',         'changePassword'],
+    ['GET',    '/auth/login-history',    'AuthController',         'loginHistory'],
     ['DELETE', '/auth/account',          'AuthController',         'deleteAccount'],
 
     // ── Admin ─────────────────────────────────────────────────────
@@ -81,12 +82,16 @@ $routes = [
     ['GET',    '/hospital/stats',        'HospitalController',     'stats'],
     ['GET',    '/hospital/jobs',         'HospitalController',     'listJobs'],
     ['POST',   '/hospital/jobs',         'HospitalController',     'createJob'],
+    ['GET',    '/hospital/jobs/:id',     'HospitalController',     'getJob', 'id'],
     ['PUT',    '/hospital/jobs/:id',     'HospitalController',     'updateJob', 'id'],
     ['DELETE', '/hospital/jobs/:id',     'HospitalController',     'deleteJob', 'id'],
     ['GET',    '/hospital/jobs/:id/applications', 'HospitalController', 'getJobApplications', 'id'],
     ['GET',    '/hospital/applications', 'HospitalController',     'getAllApplications'],
     ['PATCH',  '/hospital/applications/:id/status', 'HospitalController', 'updateApplicationStatus', 'id'],
     ['GET',    '/hospital/appointments', 'HospitalController',     'getAppointments'],
+    ['GET',    '/hospital/doctors',      'HospitalController',     'listDoctors'],
+    ['POST',   '/hospital/doctors',      'HospitalController',     'addDoctor'],
+    ['DELETE', '/hospital/doctors/:id',  'HospitalController',     'removeDoctor', 'id'],
     ['GET',    '/hospital/reports',      'HospitalController',     'reports'],
 
     // ── Staff ─────────────────────────────────────────────────────

@@ -8,6 +8,8 @@
 
   let currentPage = 1;
   let currentStatus = '';
+  let currentSearch = '';
+  let searchDebounce = null;
 
   document.addEventListener('drhire:auth', () => {
     loadJobs();
@@ -19,6 +21,16 @@
       currentStatus = this.value;
       currentPage = 1;
       loadJobs();
+    });
+
+    document.getElementById('jobSearchInput')?.addEventListener('input', function() {
+      clearTimeout(searchDebounce);
+      const val = this.value;
+      searchDebounce = setTimeout(() => {
+        currentSearch = val.trim();
+        currentPage = 1;
+        loadJobs();
+      }, 350);
     });
 
     document.getElementById('createJobBtn')?.addEventListener('click', () => {
@@ -58,7 +70,7 @@
           apiUI.toast('Job updated successfully.', 'success');
         } else {
           await api.post('/hospital/jobs', data);
-          apiUI.toast('Job created successfully.', 'success');
+          apiUI.toast('Job posted successfully.', 'success');
         }
         document.getElementById('jobModal').classList.remove('active');
         loadJobs();
@@ -66,7 +78,7 @@
         apiUI.toast(err.message, 'error');
       } finally {
         btn.disabled = false;
-        btn.textContent = 'Save Job';
+        btn.innerHTML = '<i class="fa-solid fa-save"></i> Save Job';
       }
     });
   }
@@ -77,24 +89,29 @@
     apiUI.loading(container.closest('.dash-card') || container);
 
     try {
-      const data = await api.get(`/hospital/jobs?page=${currentPage}&per_page=15${currentStatus ? '&status=' + currentStatus : ''}`);
+      const qs = new URLSearchParams({ page: currentPage, per_page: 15 });
+      if (currentStatus) qs.set('status', currentStatus);
+      if (currentSearch) qs.set('search', currentSearch);
+      const data = await api.get(`/hospital/jobs?${qs.toString()}`);
       const jobs = data.data || [];
 
       if (!jobs.length) {
         container.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:30px">No jobs found.</td></tr>';
+        document.getElementById('jobsPagination').innerHTML = '';
         return;
       }
 
       container.innerHTML = jobs.map(j => `
         <tr>
-          <td><div style="font-weight:600">${escHtml(j.title)}</div><div style="font-size:.75rem;color:var(--text3)">${escHtml(j.specialization)}</div></td>
+          <td style="padding:15px"><div style="font-weight:600">${escHtml(j.title)}</div><div style="font-size:.75rem;color:var(--text3)">${escHtml(j.specialization)}</div></td>
           <td>${escHtml(j.type)}</td>
           <td>${formatDate(j.created_at)}</td>
           <td>${j.application_count}</td>
           <td>${statusBadge(j.status)}</td>
           <td>
-            <button class="btn-sm btn-outline-sm" onclick="editJob(${j.id})"><i class="fa-solid fa-pen"></i></button>
-            <button class="btn-sm btn-outline-sm" style="color:var(--danger);border-color:rgba(239,68,68,.2)" onclick="deleteJob(${j.id})"><i class="fa-solid fa-trash"></i></button>
+            <button class="btn-sm btn-outline-sm" onclick="viewJob(${j.id})" title="View"><i class="fa-solid fa-eye"></i></button>
+            <button class="btn-sm btn-outline-sm" onclick="editJob(${j.id})" title="Edit"><i class="fa-solid fa-pen"></i></button>
+            <button class="btn-sm btn-outline-sm" style="color:var(--danger);border-color:rgba(239,68,68,.2)" onclick="deleteJob(${j.id})" title="Close"><i class="fa-solid fa-trash"></i></button>
           </td>
         </tr>
       `).join('');
@@ -106,13 +123,20 @@
     }
   }
 
+  window.viewJob = async function(id) {
+    try {
+      const job = await api.get(`/hospital/jobs/${id}`);
+      alert(
+        `${job.title}\n\nSpecialization: ${job.specialization}\nType: ${job.type}\nExperience: ${job.experience}\nQualification: ${job.qualification}\nSalary: ${job.salary || '–'}\nLocation: ${job.location}\nStatus: ${job.status}\nApplicants: view on the Applications page.\n\n${job.description || ''}`
+      );
+    } catch (e) {
+      apiUI.toast('Failed to load job details.', 'error');
+    }
+  };
+
   window.editJob = async function(id) {
     try {
-      // Find job in local list or fetch specific job (assume local fetch for brevity)
-      const data = await api.get(`/hospital/jobs`);
-      const job = data.data.find(j => j.id == id);
-      if (!job) return;
-
+      const job = await api.get(`/hospital/jobs/${id}`);
       document.getElementById('jobModalTitle').textContent = 'Edit Job';
       document.getElementById('jobId').value = job.id;
       document.getElementById('jobTitle').value = job.title;

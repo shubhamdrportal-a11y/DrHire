@@ -22,6 +22,10 @@
     </style>
 </head>
 <body>
+<script src="../js/theme.js"></script>
+<script src="../js/api.js"></script>
+<script src="../js/auth-guard.js"></script>
+<script src="../js/dashboard-hospital-settings.js"></script>
 <div class="sidebar-overlay" id="sidebarOverlay"></div>
 <aside class="sidebar" id="dashSidebar">
     <div class="sidebar-top"><div class="sidebar-logo-icon">DC</div><span class="sidebar-brand">Doctors Coat</span></div>
@@ -73,22 +77,24 @@
                 <div class="dash-card">
                     <div class="dash-card-header"><span class="dash-card-title"><i class="fa-solid fa-hospital"></i> Hospital Account</span></div>
                     <div style="padding:20px">
-                        <div class="form-group"><label class="form-label">Hospital Name</label><input class="form-input" type="text" value="Demo Multi-Specialty Hospital" /></div>
-                        <div class="form-group"><label class="form-label">Admin Email</label><input class="form-input" type="email" value="admin@demohospital.in" /></div>
-                        <div class="form-group"><label class="form-label">Contact Phone</label><input class="form-input" type="tel" value="+91 22 1234 5678" /></div>
+                        <div class="form-group"><label class="form-label">Hospital Name</label><input class="form-input" type="text" id="settingHospitalName" /></div>
+                        <div class="form-group"><label class="form-label">Admin Email</label><input class="form-input" type="email" id="settingAdminEmail" disabled title="Change email from Profile page" /></div>
+                        <div class="form-group"><label class="form-label">Contact Phone</label><input class="form-input" type="tel" id="settingContactPhone" /></div>
                         <div class="form-group"><label class="form-label">Timezone</label>
-                            <select class="form-select"><option>Asia/Kolkata (IST)</option><option>UTC</option></select>
+                            <select class="form-select" id="settingTimezone"><option value="Asia/Kolkata">Asia/Kolkata (IST)</option><option value="UTC">UTC</option></select>
                         </div>
-                        <button class="btn-primary"><i class="fa-solid fa-save"></i> Save Changes</button>
+                        <button class="btn-primary" id="saveGeneralBtn"><i class="fa-solid fa-save"></i> Save Changes</button>
                     </div>
                 </div>
                 <div class="dash-card">
                     <div class="dash-card-header"><span class="dash-card-title"><i class="fa-solid fa-shield-halved"></i> Security</span></div>
                     <div style="padding:20px">
-                        <div class="form-group"><label class="form-label">Current Password</label><input class="form-input" type="password" placeholder="••••••••" /></div>
-                        <div class="form-group"><label class="form-label">New Password</label><input class="form-input" type="password" placeholder="Min 8 characters" /></div>
-                        <div class="form-group"><label class="form-label">Confirm Password</label><input class="form-input" type="password" placeholder="Repeat new password" /></div>
-                        <button class="btn-primary"><i class="fa-solid fa-key"></i> Update Password</button>
+                        <form id="pwForm">
+                            <div class="form-group"><label class="form-label">Current Password</label><input class="form-input" type="password" id="curPw" placeholder="••••••••" required /></div>
+                            <div class="form-group"><label class="form-label">New Password</label><input class="form-input" type="password" id="newPw" placeholder="Min 8 characters" required minlength="8" /></div>
+                            <div class="form-group"><label class="form-label">Confirm Password</label><input class="form-input" type="password" id="confirmPw" placeholder="Repeat new password" required /></div>
+                            <button type="submit" class="btn-primary"><i class="fa-solid fa-key"></i> Update Password</button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -96,7 +102,7 @@
                 <div class="dash-card-header" style="border-color:rgba(239,68,68,.15)"><span class="dash-card-title" style="color:var(--danger)"><i class="fa-solid fa-triangle-exclamation"></i> Danger Zone</span></div>
                 <div style="padding:20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
                     <div><div style="font-size:.88rem;font-weight:600;color:var(--text)">Delete Hospital Account</div><div style="font-size:.78rem;color:var(--text3)">Permanently delete your hospital account and all associated data.</div></div>
-                    <button class="btn-sm btn-danger-sm" style="padding:8px 16px"><i class="fa-solid fa-trash"></i> Delete Account</button>
+                    <button class="btn-sm btn-danger-sm" id="deleteAccountBtn" style="padding:8px 16px"><i class="fa-solid fa-trash"></i> Delete Account</button>
                 </div>
             </div>
         </div>
@@ -106,13 +112,13 @@
             <div class="dash-card">
                 <div class="dash-card-header"><span class="dash-card-title"><i class="fa-solid fa-bell"></i> Notification Preferences</span></div>
                 <div style="padding:4px 20px">
-                    <div class="toggle-row"><div class="toggle-info"><h4>New Job Applications</h4><p>Notify when a doctor applies to a job listing</p></div><label class="toggle-switch"><input type="checkbox" checked /><span class="toggle-slider"></span></label></div>
-                    <div class="toggle-row"><div class="toggle-info"><h4>New Appointments</h4><p>Get notified for new appointment bookings</p></div><label class="toggle-switch"><input type="checkbox" checked /><span class="toggle-slider"></span></label></div>
-                    <div class="toggle-row"><div class="toggle-info"><h4>Appointment Cancellations</h4><p>Alert when an appointment is cancelled</p></div><label class="toggle-switch"><input type="checkbox" checked /><span class="toggle-slider"></span></label></div>
-                    <div class="toggle-row"><div class="toggle-info"><h4>Weekly Reports</h4><p>Receive weekly hospital performance digest</p></div><label class="toggle-switch"><input type="checkbox" /><span class="toggle-slider"></span></label></div>
-                    <div class="toggle-row"><div class="toggle-info"><h4>Platform Announcements</h4><p>News and feature updates from Doctors Coat</p></div><label class="toggle-switch"><input type="checkbox" /><span class="toggle-slider"></span></label></div>
+                    <div class="toggle-row"><div class="toggle-info"><h4>New Job Applications</h4><p>Notify when a doctor applies to a job listing</p></div><label class="toggle-switch"><input type="checkbox" id="notifNewApps" /><span class="toggle-slider"></span></label></div>
+                    <div class="toggle-row"><div class="toggle-info"><h4>New Appointments</h4><p>Get notified for new appointment bookings</p></div><label class="toggle-switch"><input type="checkbox" id="notifNewAppts" /><span class="toggle-slider"></span></label></div>
+                    <div class="toggle-row"><div class="toggle-info"><h4>Appointment Cancellations</h4><p>Alert when an appointment is cancelled</p></div><label class="toggle-switch"><input type="checkbox" id="notifCancellations" /><span class="toggle-slider"></span></label></div>
+                    <div class="toggle-row"><div class="toggle-info"><h4>Weekly Reports</h4><p>Receive weekly hospital performance digest</p></div><label class="toggle-switch"><input type="checkbox" id="notifWeekly" /><span class="toggle-slider"></span></label></div>
+                    <div class="toggle-row"><div class="toggle-info"><h4>Platform Announcements</h4><p>News and feature updates from Doctors Coat</p></div><label class="toggle-switch"><input type="checkbox" id="notifAnnouncements" /><span class="toggle-slider"></span></label></div>
                 </div>
-                <div style="padding:16px 20px;border-top:1px solid var(--border)"><button class="btn-primary"><i class="fa-solid fa-save"></i> Save Notifications</button></div>
+                <div style="padding:16px 20px;border-top:1px solid var(--border)"><button class="btn-primary" id="saveNotifBtn"><i class="fa-solid fa-save"></i> Save Notifications</button></div>
             </div>
         </div>
 
@@ -122,19 +128,16 @@
                 <div class="dash-card">
                     <div class="dash-card-header"><span class="dash-card-title"><i class="fa-solid fa-shield-halved"></i> Two-Factor Authentication</span></div>
                     <div style="padding:20px">
-                        <div style="display:flex;align-items:center;gap:12px;padding:14px;background:rgba(239,68,68,.05);border:1px solid rgba(239,68,68,.15);border-radius:var(--radius-sm);margin-bottom:16px">
+                        <div style="display:flex;align-items:center;gap:12px;padding:14px;background:rgba(239,68,68,.05);border:1px solid rgba(239,68,68,.15);border-radius:var(--radius-sm)">
                             <i class="fa-solid fa-shield-xmark" style="color:var(--danger);font-size:1.2rem"></i>
-                            <div><div style="font-size:.86rem;font-weight:600;color:var(--text)">2FA Not Enabled</div><div style="font-size:.75rem;color:var(--text3)">Protect your account with 2FA</div></div>
+                            <div><div style="font-size:.86rem;font-weight:600;color:var(--text)">2FA Not Available Yet</div><div style="font-size:.75rem;color:var(--text3)">This platform's authentication backend doesn't implement TOTP/OTP verification yet. We're not showing a toggle here because it would not actually protect your account.</div></div>
                         </div>
-                        <button class="btn-primary"><i class="fa-solid fa-shield-halved"></i> Enable 2FA</button>
                     </div>
                 </div>
                 <div class="dash-card">
                     <div class="dash-card-header"><span class="dash-card-title"><i class="fa-solid fa-clock-rotate-left"></i> Login History</span></div>
-                    <div style="padding:4px 0">
-                        <div class="act-item"><div class="act-dot act-dot-green"></div><div class="act-body"><div class="act-title">Login from Chrome, Windows</div><div class="act-meta">Mumbai, India · Today at 9:30 AM</div></div></div>
-                        <div class="act-item"><div class="act-dot act-dot-blue"></div><div class="act-body"><div class="act-title">Login from Firefox, Windows</div><div class="act-meta">Mumbai, India · Yesterday at 6:00 PM</div></div></div>
-                        <div class="act-item"><div class="act-dot act-dot-blue"></div><div class="act-body"><div class="act-title">Login from Chrome, Android</div><div class="act-meta">Mumbai, India · Aug 8 at 2:15 PM</div></div></div>
+                    <div style="padding:4px 0" id="loginHistoryList">
+                        <div style="text-align:center;padding:20px;color:var(--text3)">Loading…</div>
                     </div>
                 </div>
             </div>

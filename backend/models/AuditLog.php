@@ -26,6 +26,11 @@ class AuditLog
         $stmt->execute([$userId, $action, $entityType, $entityId, $ip, $userAgent]);
     }
 
+    public function getDb(): PDO
+    {
+        return $this->db;
+    }
+
     public function getRecent(int $limit = 50, int $page = 1): array
     {
         $offset = ($page - 1) * $limit;

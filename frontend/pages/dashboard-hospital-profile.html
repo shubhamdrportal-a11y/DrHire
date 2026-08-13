@@ -14,6 +14,10 @@
     </style>
 </head>
 <body>
+<script src="../js/theme.js"></script>
+<script src="../js/api.js"></script>
+<script src="../js/auth-guard.js"></script>
+<script src="../js/dashboard-hospital-profile.js"></script>
 <div class="sidebar-overlay" id="sidebarOverlay"></div>
 <aside class="sidebar" id="dashSidebar">
     <div class="sidebar-top"><div class="sidebar-logo-icon">DC</div><span class="sidebar-brand">Doctors Coat</span></div>
@@ -53,20 +57,21 @@
     <div class="content">
         <!-- Hospital Header -->
         <div class="hosp-header-card">
-            <div class="hosp-logo-large"><i class="fa-solid fa-hospital-user"></i></div>
+            <div class="hosp-logo-large" id="hospLogoLarge"><i class="fa-solid fa-hospital-user"></i></div>
             <div style="flex:1">
-                <h2 style="font-size:1.2rem;font-weight:700;color:var(--text);margin-bottom:4px" data-user-name>Demo Hospital</h2>
-                <p style="font-size:.84rem;color:var(--accent)">Multi-Specialty Hospital · Est. 2005</p>
-                <span style="font-size:.75rem;color:var(--text3)"><i class="fa-solid fa-location-dot" style="margin-right:4px;color:var(--accent)"></i>Mumbai, Maharashtra</span>
+                <h2 style="font-size:1.2rem;font-weight:700;color:var(--text);margin-bottom:4px" id="hospHeaderName" data-user-name>Hospital</h2>
+                <p style="font-size:.84rem;color:var(--accent)" id="hospHeaderType">–</p>
+                <span style="font-size:.75rem;color:var(--text3)"><i class="fa-solid fa-location-dot" style="margin-right:4px;color:var(--accent)"></i><span id="hospHeaderLocation">–</span></span>
             </div>
             <div style="display:flex;gap:24px;flex-wrap:wrap">
-                <div style="text-align:center"><div style="font-size:1.3rem;font-weight:800;color:var(--text)">48</div><div style="font-size:.68rem;color:var(--text3)">Doctors</div></div>
-                <div style="text-align:center"><div style="font-size:1.3rem;font-weight:800;color:var(--text)">250</div><div style="font-size:.68rem;color:var(--text3)">Beds</div></div>
-                <div style="text-align:center"><div style="font-size:1.3rem;font-weight:800;color:var(--text)">12</div><div style="font-size:.68rem;color:var(--text3)">Depts</div></div>
+                <div style="text-align:center"><div style="font-size:1.3rem;font-weight:800;color:var(--text)" id="hospStatDoctors">0</div><div style="font-size:.68rem;color:var(--text3)">Doctors</div></div>
+                <div style="text-align:center"><div style="font-size:1.3rem;font-weight:800;color:var(--text)" id="hospStatBeds">0</div><div style="font-size:.68rem;color:var(--text3)">Beds</div></div>
+                <div style="text-align:center"><div style="font-size:1.3rem;font-weight:800;color:var(--text)" id="hospStatJobs">0</div><div style="font-size:.68rem;color:var(--text3)">Active Jobs</div></div>
             </div>
-            <span class="badge badge-active" style="padding:5px 14px">Verified</span>
+            <span class="badge badge-active" style="padding:5px 14px" id="hospVerifiedBadge">Active</span>
         </div>
 
+        <form id="hospitalProfileForm">
         <div class="two-col">
             <!-- Basic Information -->
             <div>
@@ -74,26 +79,24 @@
                     <div class="dash-card-header"><span class="dash-card-title"><i class="fa-solid fa-hospital"></i> Basic Information</span></div>
                     <div style="padding:20px">
                         <div class="photo-upload-area">
-                            <div style="width:70px;height:70px;border-radius:12px;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:1.6rem;color:#fff;flex-shrink:0">
+                            <img id="profilePhotoPreview" style="width:70px;height:70px;border-radius:12px;object-fit:cover;display:none" />
+                            <div id="hospLogoPlaceholder" style="width:70px;height:70px;border-radius:12px;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:1.6rem;color:#fff;flex-shrink:0">
                                 <i class="fa-solid fa-hospital-user"></i>
                             </div>
                             <div class="photo-upload-info">
                                 <p>Hospital Logo</p>
-                                <span>PNG or SVG · Max 2MB</span><br>
-                                <button class="btn-sm btn-outline-sm" style="margin-top:8px"><i class="fa-solid fa-upload"></i> Upload Logo</button>
+                                <span>JPEG, PNG, or WebP · Max 10MB</span><br>
+                                <input type="file" id="photoUploadInput" accept="image/*" style="display:none" />
+                                <button type="button" class="btn-sm btn-outline-sm" style="margin-top:8px" onclick="document.getElementById('photoUploadInput').click()"><i class="fa-solid fa-upload"></i> Upload Logo</button>
                             </div>
                         </div>
-                        <div class="form-group"><label class="form-label">Hospital Name</label><input class="form-input" type="text" value="Demo Multi-Specialty Hospital" /></div>
+                        <div class="form-group"><label class="form-label">Hospital Name</label><input class="form-input" type="text" id="prof-name" required /></div>
                         <div class="form-row">
-                            <div class="form-group"><label class="form-label">Established Year</label><input class="form-input" type="number" value="2005" /></div>
-                            <div class="form-group"><label class="form-label">Bed Capacity</label><input class="form-input" type="number" value="250" /></div>
+                            <div class="form-group"><label class="form-label">Hospital Type</label><input class="form-input" type="text" id="prof-type" placeholder="e.g. Multi-Specialty" /></div>
+                            <div class="form-group"><label class="form-label">Bed Capacity</label><input class="form-input" type="number" id="prof-beds" min="0" /></div>
                         </div>
-                        <div class="form-group"><label class="form-label">Registration Number</label><input class="form-input" type="text" value="MH/HOS/2005/1234" /></div>
-                        <div class="form-group"><label class="form-label">About / Description</label><textarea class="form-textarea" rows="4">A premier multi-specialty hospital providing world-class healthcare services with state-of-the-art facilities and experienced medical professionals.</textarea></div>
-                        <div style="display:flex;gap:10px;justify-content:flex-end">
-                            <button class="btn-secondary">Discard</button>
-                            <button class="btn-primary"><i class="fa-solid fa-save"></i> Save Changes</button>
-                        </div>
+                        <div class="form-group"><label class="form-label">Registration Number</label><input class="form-input" type="text" id="prof-reg" /></div>
+                        <div class="form-group"><label class="form-label">About / Description</label><textarea class="form-textarea" rows="4" id="prof-desc"></textarea></div>
                     </div>
                 </div>
             </div>
@@ -103,19 +106,15 @@
                 <div class="dash-card" style="margin-bottom:18px">
                     <div class="dash-card-header"><span class="dash-card-title"><i class="fa-solid fa-location-dot"></i> Contact & Location</span></div>
                     <div style="padding:20px">
-                        <div class="form-group"><label class="form-label">Phone Number</label><input class="form-input" type="tel" value="+91 22 1234 5678" /></div>
-                        <div class="form-group"><label class="form-label">Email</label><input class="form-input" type="email" value="admin@demohospital.in" /></div>
-                        <div class="form-group"><label class="form-label">Website</label><input class="form-input" type="url" placeholder="https://www.hospital.com" /></div>
-                        <div class="form-group"><label class="form-label">Address Line 1</label><input class="form-input" type="text" value="123, Hospital Road, Andheri West" /></div>
+                        <div class="form-group"><label class="form-label">Phone Number</label><input class="form-input" type="tel" id="prof-phone" /></div>
+                        <div class="form-group"><label class="form-label">Account Email</label><input class="form-input" type="email" id="prof-email" disabled title="Change email from Settings" /></div>
+                        <div class="form-group"><label class="form-label">Website</label><input class="form-input" type="url" id="prof-website" placeholder="https://www.hospital.com" /></div>
+                        <div class="form-group"><label class="form-label">Address</label><input class="form-input" type="text" id="prof-address" /></div>
                         <div class="form-row">
-                            <div class="form-group"><label class="form-label">City</label><input class="form-input" type="text" value="Mumbai" /></div>
-                            <div class="form-group"><label class="form-label">State</label><select class="form-select"><option>Maharashtra</option><option>Delhi</option><option>Karnataka</option></select></div>
+                            <div class="form-group"><label class="form-label">City</label><input class="form-input" type="text" id="prof-city" /></div>
+                            <div class="form-group"><label class="form-label">State</label><input class="form-input" type="text" id="prof-state" /></div>
                         </div>
-                        <div class="form-row">
-                            <div class="form-group"><label class="form-label">PIN Code</label><input class="form-input" type="text" value="400053" /></div>
-                            <div class="form-group"><label class="form-label">Country</label><input class="form-input" type="text" value="India" /></div>
-                        </div>
-                        <button class="btn-primary" style="width:100%"><i class="fa-solid fa-save"></i> Update Contact</button>
+                        <button type="submit" class="btn-primary" style="width:100%"><i class="fa-solid fa-save"></i> Save Changes</button>
                     </div>
                 </div>
 
@@ -124,17 +123,15 @@
                     <div class="dash-card-header"><span class="dash-card-title"><i class="fa-solid fa-circle-check"></i> Profile Completion</span></div>
                     <div style="padding:20px">
                         <div style="text-align:center;margin-bottom:16px">
-                            <div style="font-size:2rem;font-weight:800;color:var(--accent)">76%</div>
+                            <div style="font-size:2rem;font-weight:800;color:var(--accent)" id="completionPct">0%</div>
                             <div style="font-size:.78rem;color:var(--text3)">Profile completeness</div>
                         </div>
-                        <div class="prog-row"><div class="prog-header"><span class="prog-label">Basic Info</span><span class="prog-val" style="color:var(--success)">Complete</span></div><div class="prog-bar"><div class="prog-fill" style="width:100%;background:var(--success)"></div></div></div>
-                        <div class="prog-row"><div class="prog-header"><span class="prog-label">Contact Details</span><span class="prog-val" style="color:var(--success)">Complete</span></div><div class="prog-bar"><div class="prog-fill" style="width:100%;background:var(--success)"></div></div></div>
-                        <div class="prog-row"><div class="prog-header"><span class="prog-label">Hospital Logo</span><span class="prog-val" style="color:var(--warning)">Missing</span></div><div class="prog-bar"><div class="prog-fill" style="width:0%;background:var(--warning)"></div></div></div>
-                        <div class="prog-row"><div class="prog-header"><span class="prog-label">Departments</span><span class="prog-val" style="color:var(--accent)">50%</span></div><div class="prog-bar"><div class="prog-fill" style="width:50%;background:var(--accent)"></div></div></div>
+                        <div id="completionBreakdown"></div>
                     </div>
                 </div>
             </div>
         </div>
+        </form>
     </div>
 </div>
 

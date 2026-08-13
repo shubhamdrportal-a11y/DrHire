@@ -10,6 +10,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
 <body>
+<script src="../js/theme.js"></script>
+<script src="../js/api.js"></script>
+<script src="../js/auth-guard.js"></script>
+<script src="../js/dashboard-hospital-applications.js"></script>
 <div class="sidebar-overlay" id="sidebarOverlay"></div>
 <aside class="sidebar" id="dashSidebar">
     <div class="sidebar-top"><div class="sidebar-logo-icon">DC</div><span class="sidebar-brand">Doctors Coat</span></div>
@@ -55,75 +59,55 @@
 
         <!-- Mini Stats -->
         <div class="mini-stat-row">
-            <div class="mini-stat"><div class="mini-ico ico-blue"><i class="fa-solid fa-file-lines"></i></div><div><div class="mini-val">32</div><div class="mini-label">Total Applications</div></div></div>
-            <div class="mini-stat"><div class="mini-ico ico-yellow"><i class="fa-solid fa-clock"></i></div><div><div class="mini-val">8</div><div class="mini-label">Pending Review</div></div></div>
-            <div class="mini-stat"><div class="mini-ico ico-green"><i class="fa-solid fa-check"></i></div><div><div class="mini-val">14</div><div class="mini-label">Accepted</div></div></div>
-            <div class="mini-stat"><div class="mini-ico ico-red"><i class="fa-solid fa-xmark"></i></div><div><div class="mini-val">10</div><div class="mini-label">Rejected</div></div></div>
+            <div class="mini-stat"><div class="mini-ico ico-blue"><i class="fa-solid fa-file-lines"></i></div><div><div class="mini-val" id="statTotalApps">0</div><div class="mini-label">Total Applications</div></div></div>
+            <div class="mini-stat"><div class="mini-ico ico-yellow"><i class="fa-solid fa-clock"></i></div><div><div class="mini-val" id="statPendingApps">0</div><div class="mini-label">Pending Review</div></div></div>
+            <div class="mini-stat"><div class="mini-ico ico-green"><i class="fa-solid fa-check"></i></div><div><div class="mini-val" id="statHiredApps">0</div><div class="mini-label">Hired</div></div></div>
+            <div class="mini-stat"><div class="mini-ico ico-red"><i class="fa-solid fa-xmark"></i></div><div><div class="mini-val" id="statRejectedApps">0</div><div class="mini-label">Rejected</div></div></div>
         </div>
 
         <!-- Filter -->
         <div class="filter-bar">
-            <div class="filter-search"><i class="fa-solid fa-magnifying-glass"></i><input type="text" placeholder="Search by name, specialization…" /></div>
-            <select class="filter-select"><option value="">All Status</option><option>Pending</option><option>Accepted</option><option>Rejected</option></select>
-            <select class="filter-select"><option value="">All Positions</option><option>Senior Cardiologist</option><option>Radiologist</option><option>Orthopedic Surgeon</option></select>
+            <div class="filter-search"><i class="fa-solid fa-magnifying-glass"></i><input type="text" id="appSearchInput" placeholder="Search by name, specialization, job title…" /></div>
+            <select class="filter-select" id="appStatusFilter">
+                <option value="">All Status</option>
+                <option value="new">New</option>
+                <option value="reviewed">Reviewed</option>
+                <option value="shortlisted">Shortlisted</option>
+                <option value="interview">Interview</option>
+                <option value="hired">Hired</option>
+                <option value="rejected">Rejected</option>
+            </select>
         </div>
 
         <!-- Applications Table -->
         <div class="dash-card">
             <div class="dash-card-header">
                 <span class="dash-card-title"><i class="fa-solid fa-list"></i> All Applications</span>
-                <span class="dash-card-action">Export</span>
+                <span class="dash-card-action" id="exportAppsBtn" style="cursor:pointer">Export CSV</span>
             </div>
             <div class="table-wrap">
                 <table class="dash-table">
                     <thead>
-                        <tr><th>Applicant</th><th>Position Applied</th><th>Experience</th><th>Applied On</th><th>Status</th><th>Actions</th></tr>
+                        <tr><th>Applicant</th><th>Position Applied</th><th>Applied On</th><th>Resume</th><th>Status</th></tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td><div class="user-cell"><div class="ua ua-blue">RK</div><div><div class="td-name">Dr. Rajesh Kumar</div><div class="td-sub">Cardiology · MBBS, MD</div></div></div></td>
-                            <td>Senior Cardiologist</td>
-                            <td>12 years</td>
-                            <td>Aug 8, 2026</td>
-                            <td><span class="badge badge-pending">Pending</span></td>
-                            <td><div style="display:flex;gap:6px"><button class="btn-sm btn-outline-sm"><i class="fa-solid fa-eye"></i> View</button><button class="btn-sm btn-success-sm"><i class="fa-solid fa-check"></i></button><button class="btn-sm btn-danger-sm"><i class="fa-solid fa-xmark"></i></button></div></td>
-                        </tr>
-                        <tr>
-                            <td><div class="user-cell"><div class="ua ua-green">SM</div><div><div class="td-name">Dr. Sunita Mehra</div><div class="td-sub">Radiology · MBBS, DNB</div></div></div></td>
-                            <td>Senior Radiologist</td>
-                            <td>8 years</td>
-                            <td>Aug 7, 2026</td>
-                            <td><span class="badge badge-confirmed">Accepted</span></td>
-                            <td><div style="display:flex;gap:6px"><button class="btn-sm btn-outline-sm"><i class="fa-solid fa-eye"></i> View</button></div></td>
-                        </tr>
-                        <tr>
-                            <td><div class="user-cell"><div class="ua ua-purple">AJ</div><div><div class="td-name">Dr. Amit Joshi</div><div class="td-sub">Orthopedics · MS (Ortho)</div></div></div></td>
-                            <td>Orthopedic Surgeon</td>
-                            <td>6 years</td>
-                            <td>Aug 6, 2026</td>
-                            <td><span class="badge badge-pending">Pending</span></td>
-                            <td><div style="display:flex;gap:6px"><button class="btn-sm btn-outline-sm"><i class="fa-solid fa-eye"></i> View</button><button class="btn-sm btn-success-sm"><i class="fa-solid fa-check"></i></button><button class="btn-sm btn-danger-sm"><i class="fa-solid fa-xmark"></i></button></div></td>
-                        </tr>
-                        <tr>
-                            <td><div class="user-cell"><div class="ua ua-orange">PG</div><div><div class="td-name">Dr. Pooja Gupta</div><div class="td-sub">Neurology · DM (Neuro)</div></div></div></td>
-                            <td>Neurologist</td>
-                            <td>10 years</td>
-                            <td>Aug 5, 2026</td>
-                            <td><span class="badge badge-rejected">Rejected</span></td>
-                            <td><div style="display:flex;gap:6px"><button class="btn-sm btn-outline-sm"><i class="fa-solid fa-eye"></i> View</button></div></td>
-                        </tr>
-                        <tr>
-                            <td><div class="user-cell"><div class="ua ua-cyan">VB</div><div><div class="td-name">Dr. Vikram Bhat</div><div class="td-sub">General Surgery · MS</div></div></div></td>
-                            <td>General Surgeon</td>
-                            <td>15 years</td>
-                            <td>Aug 4, 2026</td>
-                            <td><span class="badge badge-pending">Pending</span></td>
-                            <td><div style="display:flex;gap:6px"><button class="btn-sm btn-outline-sm"><i class="fa-solid fa-eye"></i> View</button><button class="btn-sm btn-success-sm"><i class="fa-solid fa-check"></i></button><button class="btn-sm btn-danger-sm"><i class="fa-solid fa-xmark"></i></button></div></td>
-                        </tr>
+                    <tbody id="appsTbody">
+                        <tr><td colspan="5" style="text-align:center;padding:30px"><i class="fa-solid fa-spinner fa-spin" style="color:var(--accent)"></i></td></tr>
                     </tbody>
                 </table>
             </div>
+            <div id="appsPagination" style="display:flex;gap:8px;justify-content:center;padding:16px"></div>
         </div>
+    </div>
+</div>
+
+<!-- Application Details Modal -->
+<div class="modal-overlay" id="appDetailsModal">
+    <div class="modal-box" style="max-width:560px">
+        <div class="modal-header">
+            <span class="modal-title">Application Details</span>
+            <button class="modal-close" id="closeAppModal"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div id="appDetailsBody">Loading…</div>
     </div>
 </div>
 

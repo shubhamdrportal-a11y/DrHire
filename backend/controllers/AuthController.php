@@ -3,14 +3,17 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/../services/AuthService.php';
 require_once __DIR__ . '/../middleware/RateLimit.php';
+require_once __DIR__ . '/../models/AuditLog.php';
 
 class AuthController
 {
     private AuthService $auth;
+    private AuditLog    $auditLog;
 
     public function __construct(PDO $db)
     {
-        $this->auth = new AuthService($db);
+        $this->auth     = new AuthService($db);
+        $this->auditLog = new AuditLog($db);
     }
 
     public function register(): void
@@ -35,6 +38,7 @@ class AuthController
         $data = getRequestBody();
         requireField($data, 'email', 'password');
         $payload = $this->auth->login($data['email'], $data['password']);
+        $this->auditLog->log($payload['id'], 'login', 'user', $payload['id']);
         jsonResponse(['success' => true, 'user' => $payload]);
     }
 
@@ -59,6 +63,18 @@ class AuthController
         requireField($data, 'current_password', 'new_password');
         $this->auth->changePassword($user['id'], $data['current_password'], $data['new_password']);
         jsonResponse(['success' => true, 'message' => 'Password changed successfully.']);
+    }
+
+    public function loginHistory(): void
+    {
+        $user = requireAuth();
+        $stmt = $this->auditLog->getDb()->prepare(
+            "SELECT ip_address, user_agent, created_at FROM audit_logs
+             WHERE user_id = ? AND action = 'login'
+             ORDER BY created_at DESC LIMIT 10"
+        );
+        $stmt->execute([$user['id']]);
+        jsonResponse(['data' => $stmt->fetchAll()]);
     }
 
     public function deleteAccount(): void

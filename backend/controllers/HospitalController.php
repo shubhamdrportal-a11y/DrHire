@@ -50,7 +50,6 @@ class HospitalController
     {
         $user = requireRole('hospital');
 
-        $activeJobs = (int)$this->db->prepare("SELECT COUNT(*) FROM jobs WHERE hospital_id = ? AND status = 'active'")->execute([$user['id']]);
         $stmt = $this->db->prepare("SELECT COUNT(*) FROM jobs WHERE hospital_id = ? AND status = 'active'");
         $stmt->execute([$user['id']]);
         $activeJobs = (int)$stmt->fetchColumn();
@@ -67,33 +66,72 @@ class HospitalController
         $stmt->execute([$user['id']]);
         $totalJobs = (int)$stmt->fetchColumn();
 
+        $stmt = $this->db->prepare(
+            "SELECT COUNT(DISTINCT ja.applicant_id) FROM job_applications ja
+             JOIN jobs j ON j.id = ja.job_id
+             WHERE j.hospital_id = ? AND ja.status = 'hired'"
+        );
+        $stmt->execute([$user['id']]);
+        $totalDoctors = (int)$stmt->fetchColumn();
+
+        $stmt = $this->db->prepare(
+            "SELECT COUNT(*) FROM appointments a
+             WHERE a.doctor_id IN (
+                 SELECT DISTINCT ja.applicant_id FROM job_applications ja
+                 JOIN jobs j ON j.id = ja.job_id
+                 WHERE j.hospital_id = ? AND ja.status = 'hired'
+             ) AND a.appointment_date = CURDATE()"
+        );
+        $stmt->execute([$user['id']]);
+        $apptsToday = (int)$stmt->fetchColumn();
+
         jsonResponse([
-            'active_jobs'   => $activeJobs,
-            'total_jobs'    => $totalJobs,
-            'total_apps'    => $totalApps,
-            'new_apps'      => $newApps,
+            'active_jobs'    => $activeJobs,
+            'total_jobs'     => $totalJobs,
+            'total_apps'     => $totalApps,
+            'new_apps'       => $newApps,
+            'total_doctors'  => $totalDoctors,
+            'appts_today'    => $apptsToday,
         ]);
     }
 
     public function listJobs(): void
     {
         $user    = requireRole('hospital');
-        $page    = (int)($_GET['page'] ?? 1);
+        $page    = max(1, (int)($_GET['page'] ?? 1));
         $perPage = min((int)($_GET['per_page'] ?? 20), 100);
-        $filters = ['hospital_id' => $user['id'], 'status' => $_GET['status'] ?? ''];
+        $status  = trim($_GET['status'] ?? '');
+        $search  = trim($_GET['search'] ?? '');
+        $offset  = ($page - 1) * $perPage;
 
-        // For hospital's own view, show all statuses
+        $conditions = ['j.hospital_id = ?'];
+        $params     = [$user['id']];
+
+        if ($status !== '') {
+            $conditions[] = 'j.status = ?';
+            $params[]     = $status;
+        }
+        if ($search !== '') {
+            $conditions[] = '(j.title LIKE ? OR j.specialization LIKE ? OR j.location LIKE ?)';
+            $like         = '%' . $search . '%';
+            $params       = array_merge($params, [$like, $like, $like]);
+        }
+        $where = implode(' AND ', $conditions);
+
+        $countStmt = $this->db->prepare("SELECT COUNT(*) FROM jobs j WHERE {$where}");
+        $countStmt->execute($params);
+        $total = (int)$countStmt->fetchColumn();
+
         $stmt = $this->db->prepare(
             "SELECT j.*, COUNT(ja.id) AS application_count
              FROM jobs j
              LEFT JOIN job_applications ja ON ja.job_id = j.id
-             WHERE j.hospital_id = ?
+             WHERE {$where}
              GROUP BY j.id
              ORDER BY j.created_at DESC
-             LIMIT ? OFFSET ?"
+             LIMIT {$perPage} OFFSET {$offset}"
         );
-        $offset = ($page - 1) * $perPage;
-        $stmt->execute([$user['id'], $perPage, $offset]);
+        $stmt->execute($params);
         $jobs = $stmt->fetchAll();
 
         foreach ($jobs as &$job) {
@@ -101,7 +139,25 @@ class HospitalController
             $job['benefits']     = json_decode($job['benefits']     ?? '[]', true) ?? [];
         }
 
-        jsonResponse(['data' => $jobs]);
+        jsonResponse([
+            'data'        => $jobs,
+            'total'       => $total,
+            'page'        => $page,
+            'per_page'    => $perPage,
+            'total_pages' => (int)ceil($total / max(1, $perPage)),
+        ]);
+    }
+
+    public function getJob(int $jobId): void
+    {
+        $user = requireRole('hospital');
+        $stmt = $this->db->prepare('SELECT * FROM jobs WHERE id = ? AND hospital_id = ?');
+        $stmt->execute([$jobId, $user['id']]);
+        $job = $stmt->fetch();
+        if (!$job) jsonError('Job not found.', 404);
+        $job['requirements'] = json_decode($job['requirements'] ?? '[]', true) ?? [];
+        $job['benefits']     = json_decode($job['benefits']     ?? '[]', true) ?? [];
+        jsonResponse($job);
     }
 
     public function createJob(): void
@@ -147,7 +203,7 @@ class HospitalController
         $user    = requireRole('hospital');
         $page    = (int)($_GET['page'] ?? 1);
         $perPage = min((int)($_GET['per_page'] ?? 20), 100);
-        $filters = ['status' => $_GET['status'] ?? ''];
+        $filters = ['status' => $_GET['status'] ?? '', 'search' => $_GET['search'] ?? ''];
         jsonResponse($this->appModel->getForHospital($user['id'], $filters, $page, $perPage));
     }
 
@@ -181,48 +237,223 @@ class HospitalController
 
     public function getAppointments(): void
     {
-        $user = requireRole('hospital');
+        $user    = requireRole('hospital');
+        $page    = max(1, (int)($_GET['page'] ?? 1));
+        $perPage = min((int)($_GET['per_page'] ?? 20), 100);
+        $status  = trim($_GET['status'] ?? '');
+        $search  = trim($_GET['search'] ?? '');
+        $date    = trim($_GET['date'] ?? ''); // today | week | month | '' (all)
+        $offset  = ($page - 1) * $perPage;
 
-        // Appointments with doctors employed by this hospital (via job_applications hired)
+        $conditions = [
+            "a.doctor_id IN (
+                SELECT DISTINCT ja.applicant_id FROM job_applications ja
+                JOIN jobs j ON j.id = ja.job_id
+                WHERE j.hospital_id = ? AND ja.status = 'hired'
+            )"
+        ];
+        $params = [$user['id']];
+
+        if ($status !== '') {
+            $conditions[] = 'a.status = ?';
+            $params[]     = $status;
+        }
+        if ($search !== '') {
+            $conditions[] = '(a.patient_name LIKE ? OR dp.full_name LIKE ?)';
+            $like         = '%' . $search . '%';
+            $params       = array_merge($params, [$like, $like]);
+        }
+        if ($date === 'today') {
+            $conditions[] = 'a.appointment_date = CURDATE()';
+        } elseif ($date === 'week') {
+            $conditions[] = 'a.appointment_date BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 7 DAY)';
+        } elseif ($date === 'month') {
+            $conditions[] = 'MONTH(a.appointment_date) = MONTH(CURDATE()) AND YEAR(a.appointment_date) = YEAR(CURDATE())';
+        }
+        $where = implode(' AND ', $conditions);
+
+        $countStmt = $this->db->prepare(
+            "SELECT COUNT(*) FROM appointments a JOIN doctor_profiles dp ON dp.user_id = a.doctor_id WHERE {$where}"
+        );
+        $countStmt->execute($params);
+        $total = (int)$countStmt->fetchColumn();
+
         $stmt = $this->db->prepare(
             "SELECT a.*, dp.full_name AS doctor_name, dp.specialization
              FROM appointments a
              JOIN doctor_profiles dp ON dp.user_id = a.doctor_id
-             WHERE a.doctor_id IN (
-                 SELECT DISTINCT ja.applicant_id
-                 FROM job_applications ja
-                 JOIN jobs j ON j.id = ja.job_id
-                 WHERE j.hospital_id = ? AND ja.status = 'hired'
-             )
+             WHERE {$where}
              ORDER BY a.appointment_date DESC, a.appointment_time DESC
-             LIMIT 50"
+             LIMIT {$perPage} OFFSET {$offset}"
         );
-        $stmt->execute([$user['id']]);
+        $stmt->execute($params);
+
+        jsonResponse([
+            'data'        => $stmt->fetchAll(),
+            'total'       => $total,
+            'page'        => $page,
+            'per_page'    => $perPage,
+            'total_pages' => (int)ceil($total / max(1, $perPage)),
+        ]);
+    }
+
+    public function listDoctors(): void
+    {
+        $user   = requireRole('hospital');
+        $search = trim($_GET['search'] ?? '');
+
+        $searchSql = '';
+        $searchParams = [];
+        if ($search !== '') {
+            $searchSql = ' AND (dp.full_name LIKE ? OR dp.specialization LIKE ?)';
+            $like = '%' . $search . '%';
+            $searchParams = [$like, $like];
+        }
+
+        // Doctors hired via this hospital's job postings, plus any directly
+        // added to the roster (hospital_doctors), deduplicated.
+        $stmt = $this->db->prepare(
+            "SELECT DISTINCT dp.user_id AS id, dp.full_name, dp.specialization, dp.qualification,
+                    dp.experience_years, dp.phone, dp.is_available, u.email, u.status AS account_status,
+                    hd.status AS roster_status
+             FROM doctor_profiles dp
+             JOIN users u ON u.id = dp.user_id
+             LEFT JOIN hospital_doctors hd ON hd.doctor_id = dp.user_id AND hd.hospital_id = ?
+             WHERE (
+                 dp.user_id IN (
+                     SELECT DISTINCT ja.applicant_id FROM job_applications ja
+                     JOIN jobs j ON j.id = ja.job_id
+                     WHERE j.hospital_id = ? AND ja.status = 'hired'
+                 )
+                 OR hd.hospital_id = ?
+             ){$searchSql}
+             ORDER BY dp.full_name ASC"
+        );
+        $stmt->execute(array_merge([$user['id'], $user['id'], $user['id']], $searchParams));
         jsonResponse(['data' => $stmt->fetchAll()]);
+    }
+
+    public function addDoctor(): void
+    {
+        $user = requireRole('hospital');
+        $data = getRequestBody();
+        requireField($data, 'email');
+
+        $stmt = $this->db->prepare("SELECT id FROM users WHERE email = ? AND role = 'doctor'");
+        $stmt->execute([trim($data['email'])]);
+        $doctor = $stmt->fetch();
+        if (!$doctor) jsonError('No doctor account found with that email.', 404);
+
+        $stmt = $this->db->prepare(
+            'INSERT INTO hospital_doctors (hospital_id, doctor_id, status)
+             VALUES (?, ?, "active")
+             ON DUPLICATE KEY UPDATE status = "active"'
+        );
+        $stmt->execute([$user['id'], $doctor['id']]);
+
+        $this->auditLog->log($user['id'], 'doctor_added', 'hospital_doctors', (int)$doctor['id']);
+        jsonResponse(['success' => true, 'message' => 'Doctor added to your roster.'], 201);
+    }
+
+    public function removeDoctor(int $doctorId): void
+    {
+        $user = requireRole('hospital');
+        $stmt = $this->db->prepare('DELETE FROM hospital_doctors WHERE hospital_id = ? AND doctor_id = ?');
+        $stmt->execute([$user['id'], $doctorId]);
+        if ($stmt->rowCount() === 0) {
+            jsonError('Doctor was not directly on your roster (may still be listed via a hired job application).', 404);
+        }
+        $this->auditLog->log($user['id'], 'doctor_removed', 'hospital_doctors', $doctorId);
+        jsonResponse(['success' => true, 'message' => 'Doctor removed from roster.']);
     }
 
     public function reports(): void
     {
         $user = requireRole('hospital');
+        $from = trim($_GET['from'] ?? '');
+        $to   = trim($_GET['to'] ?? '');
+
+        $dateSql = '';
+        $dateParams = [];
+        if ($from !== '' && $to !== '') {
+            $dateSql = ' AND j.created_at BETWEEN ? AND ?';
+            $dateParams = [$from . ' 00:00:00', $to . ' 23:59:59'];
+        }
 
         $stmt = $this->db->prepare(
             "SELECT j.title, COUNT(ja.id) AS applications, j.status
              FROM jobs j LEFT JOIN job_applications ja ON ja.job_id = j.id
-             WHERE j.hospital_id = ? GROUP BY j.id ORDER BY applications DESC LIMIT 10"
+             WHERE j.hospital_id = ?{$dateSql} GROUP BY j.id ORDER BY applications DESC LIMIT 10"
         );
-        $stmt->execute([$user['id']]);
+        $stmt->execute(array_merge([$user['id']], $dateParams));
         $jobStats = $stmt->fetchAll();
 
         $stmt = $this->db->prepare(
             "SELECT ja.status, COUNT(*) AS count FROM job_applications ja
-             JOIN jobs j ON j.id = ja.job_id WHERE j.hospital_id = ? GROUP BY ja.status"
+             JOIN jobs j ON j.id = ja.job_id WHERE j.hospital_id = ?{$dateSql} GROUP BY ja.status"
         );
-        $stmt->execute([$user['id']]);
+        $stmt->execute(array_merge([$user['id']], $dateParams));
         $appsByStatus = $stmt->fetchAll();
 
+        $stmt = $this->db->prepare(
+            "SELECT COUNT(*) FROM appointments a
+             WHERE a.doctor_id IN (
+                 SELECT DISTINCT ja.applicant_id FROM job_applications ja
+                 JOIN jobs j ON j.id = ja.job_id WHERE j.hospital_id = ? AND ja.status = 'hired'
+             )"
+        );
+        $stmt->execute([$user['id']]);
+        $totalAppointments = (int)$stmt->fetchColumn();
+
+        // Appointments per month for the last 6 months
+        $stmt = $this->db->prepare(
+            "SELECT DATE_FORMAT(a.appointment_date, '%Y-%m') AS ym, COUNT(*) AS count
+             FROM appointments a
+             WHERE a.doctor_id IN (
+                 SELECT DISTINCT ja.applicant_id FROM job_applications ja
+                 JOIN jobs j ON j.id = ja.job_id WHERE j.hospital_id = ? AND ja.status = 'hired'
+             )
+             AND a.appointment_date >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)
+             GROUP BY ym ORDER BY ym ASC"
+        );
+        $stmt->execute([$user['id']]);
+        $monthlyAppointments = $stmt->fetchAll();
+
+        // Specialization breakdown of the hospital's roster
+        $stmt = $this->db->prepare(
+            "SELECT dp.specialization, COUNT(DISTINCT dp.user_id) AS count
+             FROM doctor_profiles dp
+             WHERE dp.user_id IN (
+                 SELECT DISTINCT ja.applicant_id FROM job_applications ja
+                 JOIN jobs j ON j.id = ja.job_id WHERE j.hospital_id = ? AND ja.status = 'hired'
+                 UNION
+                 SELECT doctor_id FROM hospital_doctors WHERE hospital_id = ? AND status = 'active'
+             )
+             GROUP BY dp.specialization ORDER BY count DESC"
+        );
+        $stmt->execute([$user['id'], $user['id']]);
+        $specializationBreakdown = $stmt->fetchAll();
+
+        $stmt = $this->db->prepare(
+            "SELECT COUNT(DISTINCT dp.user_id) FROM doctor_profiles dp
+             WHERE dp.user_id IN (
+                 SELECT DISTINCT ja.applicant_id FROM job_applications ja
+                 JOIN jobs j ON j.id = ja.job_id WHERE j.hospital_id = ? AND ja.status = 'hired'
+                 UNION
+                 SELECT doctor_id FROM hospital_doctors WHERE hospital_id = ? AND status = 'active'
+             )"
+        );
+        $stmt->execute([$user['id'], $user['id']]);
+        $activeDoctors = (int)$stmt->fetchColumn();
+
         jsonResponse([
-            'job_stats'       => $jobStats,
-            'apps_by_status'  => $appsByStatus,
+            'job_stats'               => $jobStats,
+            'apps_by_status'          => $appsByStatus,
+            'total_appointments'      => $totalAppointments,
+            'monthly_appointments'    => $monthlyAppointments,
+            'specialization_breakdown' => $specializationBreakdown,
+            'active_doctors'          => $activeDoctors,
+            'generated_at'            => date('c'),
         ]);
     }
 }

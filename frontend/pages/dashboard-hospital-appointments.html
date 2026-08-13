@@ -10,6 +10,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
 <body>
+<script src="../js/theme.js"></script>
+<script src="../js/api.js"></script>
+<script src="../js/auth-guard.js"></script>
+<script src="../js/dashboard-hospital-appointments.js"></script>
 <div class="sidebar-overlay" id="sidebarOverlay"></div>
 <aside class="sidebar" id="dashSidebar">
     <div class="sidebar-top"><div class="sidebar-logo-icon">DC</div><span class="sidebar-brand">Doctors Coat</span></div>
@@ -51,39 +55,50 @@
         <div class="page-title"><h1><i class="fa-solid fa-calendar-check"></i> All Appointments</h1><p>View and manage appointments across all departments</p></div>
 
         <div class="mini-stat-row">
-            <div class="mini-stat"><div class="mini-ico ico-blue"><i class="fa-solid fa-calendar"></i></div><div><div class="mini-val">156</div><div class="mini-label">Total This Month</div></div></div>
-            <div class="mini-stat"><div class="mini-ico ico-green"><i class="fa-solid fa-circle-check"></i></div><div><div class="mini-val">18</div><div class="mini-label">Today's Appointments</div></div></div>
-            <div class="mini-stat"><div class="mini-ico ico-yellow"><i class="fa-solid fa-clock"></i></div><div><div class="mini-val">12</div><div class="mini-label">Pending Confirmation</div></div></div>
-            <div class="mini-stat"><div class="mini-ico ico-red"><i class="fa-solid fa-xmark"></i></div><div><div class="mini-val">8</div><div class="mini-label">Cancelled</div></div></div>
+            <div class="mini-stat"><div class="mini-ico ico-blue"><i class="fa-solid fa-calendar"></i></div><div><div class="mini-val" id="statTotalAppts">0</div><div class="mini-label">Total Appointments</div></div></div>
+            <div class="mini-stat"><div class="mini-ico ico-green"><i class="fa-solid fa-circle-check"></i></div><div><div class="mini-val" id="statTodayAppts">0</div><div class="mini-label">Today's Appointments</div></div></div>
+            <div class="mini-stat"><div class="mini-ico ico-yellow"><i class="fa-solid fa-clock"></i></div><div><div class="mini-val" id="statPendingAppts">0</div><div class="mini-label">Pending</div></div></div>
+            <div class="mini-stat"><div class="mini-ico ico-red"><i class="fa-solid fa-xmark"></i></div><div><div class="mini-val" id="statCancelledAppts">0</div><div class="mini-label">Cancelled</div></div></div>
         </div>
 
         <div class="filter-bar">
-            <div class="filter-search"><i class="fa-solid fa-magnifying-glass"></i><input type="text" placeholder="Search patient, doctor…" /></div>
-            <select class="filter-select"><option>All Status</option><option>Pending</option><option>Confirmed</option><option>Completed</option><option>Cancelled</option></select>
-            <select class="filter-select"><option>All Doctors</option><option>Dr. Rajesh Kumar</option><option>Dr. Sunita Mehra</option><option>Dr. Vikram Bhat</option></select>
-            <select class="filter-select"><option>All Dates</option><option>Today</option><option>This Week</option><option>This Month</option></select>
+            <div class="filter-search"><i class="fa-solid fa-magnifying-glass"></i><input type="text" id="apptSearchInput" placeholder="Search patient, doctor…" /></div>
+            <select class="filter-select" id="apptStatusFilter">
+                <option value="">All Status</option><option value="pending">Pending</option><option value="confirmed">Confirmed</option><option value="completed">Completed</option><option value="cancelled">Cancelled</option>
+            </select>
+            <select class="filter-select" id="apptDateFilter">
+                <option value="">All Dates</option><option value="today">Today</option><option value="week">This Week</option><option value="month">This Month</option>
+            </select>
         </div>
 
         <div class="dash-card">
             <div class="dash-card-header">
                 <span class="dash-card-title"><i class="fa-solid fa-list"></i> Appointments List</span>
-                <span class="dash-card-action">Export</span>
+                <span class="dash-card-action" id="refreshApptsBtn" style="cursor:pointer"><i class="fa-solid fa-rotate"></i> Refresh</span>
             </div>
             <div class="table-wrap">
                 <table class="dash-table">
                     <thead>
-                        <tr><th>Patient</th><th>Doctor</th><th>Department</th><th>Date & Time</th><th>Reason</th><th>Status</th><th>Actions</th></tr>
+                        <tr><th>Patient</th><th>Doctor</th><th>Specialization</th><th>Date & Time</th><th>Reason</th><th>Status</th></tr>
                     </thead>
-                    <tbody>
-                        <tr><td><div class="user-cell"><div class="ua ua-blue">RS</div><div><div class="td-name">Riya Sharma</div><div class="td-sub">+91 98765 43210</div></div></div></td><td>Dr. Rajesh Kumar</td><td>Cardiology</td><td>Aug 10 · 9:30 AM</td><td>Chest pain</td><td><span class="badge badge-confirmed">Confirmed</span></td><td><button class="btn-sm btn-outline-sm"><i class="fa-solid fa-eye"></i> View</button></td></tr>
-                        <tr><td><div class="user-cell"><div class="ua ua-green">MK</div><div><div class="td-name">Mohan Kumar</div><div class="td-sub">+91 87654 32109</div></div></div></td><td>Dr. Sunita Mehra</td><td>Radiology</td><td>Aug 10 · 11:00 AM</td><td>X-ray review</td><td><span class="badge badge-pending">Pending</span></td><td><button class="btn-sm btn-outline-sm"><i class="fa-solid fa-eye"></i> View</button></td></tr>
-                        <tr><td><div class="user-cell"><div class="ua ua-purple">AP</div><div><div class="td-name">Anita Patel</div><div class="td-sub">+91 76543 21098</div></div></div></td><td>Dr. Vikram Bhat</td><td>General Surgery</td><td>Aug 10 · 2:30 PM</td><td>Post-op follow-up</td><td><span class="badge badge-confirmed">Confirmed</span></td><td><button class="btn-sm btn-outline-sm"><i class="fa-solid fa-eye"></i> View</button></td></tr>
-                        <tr><td><div class="user-cell"><div class="ua ua-orange">SR</div><div><div class="td-name">Suresh Reddy</div><div class="td-sub">+91 65432 10987</div></div></div></td><td>Dr. Rajesh Kumar</td><td>Cardiology</td><td>Aug 9 · 10:00 AM</td><td>Hypertension</td><td><span class="badge badge-completed">Completed</span></td><td><button class="btn-sm btn-outline-sm"><i class="fa-solid fa-eye"></i> View</button></td></tr>
-                        <tr><td><div class="user-cell"><div class="ua ua-pink">PV</div><div><div class="td-name">Priya Verma</div><div class="td-sub">+91 54321 09876</div></div></div></td><td>Dr. Sunita Mehra</td><td>Radiology</td><td>Aug 8 · 3:00 PM</td><td>MRI scan</td><td><span class="badge badge-cancelled">Cancelled</span></td><td><button class="btn-sm btn-outline-sm"><i class="fa-solid fa-eye"></i> View</button></td></tr>
+                    <tbody id="apptsTbody">
+                        <tr><td colspan="6" style="text-align:center;padding:30px"><i class="fa-solid fa-spinner fa-spin" style="color:var(--accent)"></i></td></tr>
                     </tbody>
                 </table>
             </div>
+            <div id="apptsPagination" style="display:flex;gap:8px;justify-content:center;padding:16px"></div>
         </div>
+    </div>
+</div>
+
+<!-- Appointment Details Modal -->
+<div class="modal-overlay" id="apptDetailsModal">
+    <div class="modal-box" style="max-width:520px">
+        <div class="modal-header">
+            <span class="modal-title">Appointment Details</span>
+            <button class="modal-close" id="closeApptModal"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div id="apptDetailsBody">Loading…</div>
     </div>
 </div>
 

@@ -109,19 +109,33 @@ class JobApplication
             $conditions[] = 'ja.status = ?';
             $params[]     = $filters['status'];
         }
+        if (!empty($filters['search'])) {
+            $conditions[] = '(dp.full_name LIKE ? OR u.email LIKE ? OR j.title LIKE ? OR dp.specialization LIKE ?)';
+            $like         = '%' . $filters['search'] . '%';
+            $params       = array_merge($params, [$like, $like, $like, $like]);
+        }
+        if (!empty($filters['job_id'])) {
+            $conditions[] = 'ja.job_id = ?';
+            $params[]     = (int)$filters['job_id'];
+        }
 
         $where  = implode(' AND ', $conditions);
         $offset = ($page - 1) * $perPage;
 
         $countStmt = $this->db->prepare(
-            "SELECT COUNT(*) FROM job_applications ja JOIN jobs j ON j.id = ja.job_id WHERE {$where}"
+            "SELECT COUNT(*) FROM job_applications ja
+             JOIN jobs j ON j.id = ja.job_id
+             JOIN users u ON u.id = ja.applicant_id
+             LEFT JOIN doctor_profiles dp ON dp.user_id = ja.applicant_id
+             WHERE {$where}"
         );
         $countStmt->execute($params);
         $total = (int)$countStmt->fetchColumn();
 
         $stmt = $this->db->prepare(
             "SELECT ja.*, j.title AS job_title, dp.full_name AS applicant_name,
-                    dp.specialization, dp.experience_years, u.email AS applicant_email
+                    dp.specialization, dp.experience_years, dp.qualification, dp.phone AS applicant_phone,
+                    u.email AS applicant_email
              FROM job_applications ja
              JOIN jobs j ON j.id = ja.job_id
              JOIN users u ON u.id = ja.applicant_id
@@ -137,7 +151,7 @@ class JobApplication
             'total'       => $total,
             'page'        => $page,
             'per_page'    => $perPage,
-            'total_pages' => (int)ceil($total / $perPage),
+            'total_pages' => (int)ceil($total / max(1, $perPage)),
         ];
     }
 

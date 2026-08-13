@@ -18,6 +18,10 @@
     </style>
 </head>
 <body>
+<script src="../js/theme.js"></script>
+<script src="../js/api.js"></script>
+<script src="../js/auth-guard.js"></script>
+<script src="../js/dashboard-hospital-reports.js"></script>
 <div class="sidebar-overlay" id="sidebarOverlay"></div>
 <aside class="sidebar" id="dashSidebar">
     <div class="sidebar-top"><div class="sidebar-logo-icon">DC</div><span class="sidebar-brand">Doctors Coat</span></div>
@@ -50,8 +54,9 @@
             <div class="header-title"><h1>Reports</h1><p>Hospital analytics &amp; statistics</p></div>
         </div>
         <div class="header-right">
-            <select class="filter-select" style="padding:6px 12px;font-size:.8rem"><option>Last 30 Days</option><option>Last 3 Months</option><option>This Year</option></select>
-            <button class="btn-primary" style="padding:7px 14px;font-size:.82rem"><i class="fa-solid fa-download"></i> Export All</button>
+            <input type="date" id="reportFrom" class="filter-select" style="padding:6px 10px;font-size:.78rem" />
+            <input type="date" id="reportTo" class="filter-select" style="padding:6px 10px;font-size:.78rem" />
+            <button class="btn-primary" id="exportAllBtn" style="padding:7px 14px;font-size:.82rem"><i class="fa-solid fa-download"></i> Export All (CSV)</button>
             <div class="header-user-pill"><div class="sidebar-avatar" style="width:26px;height:26px;font-size:.68rem" data-user-avatar>HS</div><span data-user-name>Admin</span></div>
         </div>
     </header>
@@ -60,62 +65,31 @@
         <div class="page-title"><h1><i class="fa-solid fa-chart-line"></i> Reports & Analytics</h1><p>Hospital performance overview</p></div>
 
         <div class="mini-stat-row">
-            <div class="mini-stat"><div class="mini-ico ico-blue"><i class="fa-solid fa-calendar"></i></div><div><div class="mini-val">1,248</div><div class="mini-label">Appointments (Month)</div><div class="mini-change">↑ 12% vs last</div></div></div>
-            <div class="mini-stat"><div class="mini-ico ico-green"><i class="fa-solid fa-user-doctor"></i></div><div><div class="mini-val">48</div><div class="mini-label">Active Doctors</div></div></div>
-            <div class="mini-stat"><div class="mini-ico ico-yellow"><i class="fa-solid fa-file-lines"></i></div><div><div class="mini-val">32</div><div class="mini-label">Job Applications</div></div></div>
-            <div class="mini-stat"><div class="mini-ico ico-cyan"><i class="fa-solid fa-bed"></i></div><div><div class="mini-val">82%</div><div class="mini-label">Bed Occupancy</div></div></div>
+            <div class="mini-stat"><div class="mini-ico ico-blue"><i class="fa-solid fa-calendar"></i></div><div><div class="mini-val" id="statAppts">0</div><div class="mini-label">Total Appointments</div></div></div>
+            <div class="mini-stat"><div class="mini-ico ico-green"><i class="fa-solid fa-user-doctor"></i></div><div><div class="mini-val" id="statActiveDoctors">0</div><div class="mini-label">Active Doctors</div></div></div>
+            <div class="mini-stat"><div class="mini-ico ico-yellow"><i class="fa-solid fa-file-lines"></i></div><div><div class="mini-val" id="statApps">0</div><div class="mini-label">Job Applications</div></div></div>
+            <div class="mini-stat"><div class="mini-ico ico-cyan"><i class="fa-solid fa-briefcase-medical"></i></div><div><div class="mini-val" id="statActiveJobsR">0</div><div class="mini-label">Active Jobs</div></div></div>
         </div>
 
         <div class="two-col">
             <div class="dash-card">
                 <div class="dash-card-header"><span class="dash-card-title"><i class="fa-solid fa-chart-bar"></i> Monthly Appointments</span></div>
                 <div style="padding:20px">
-                    <div class="bar-chart">
-                        <div class="bar-wrap"><div class="bar" style="height:55%;background:rgba(14,165,233,.3)"></div><div class="bar-label">Mar</div></div>
-                        <div class="bar-wrap"><div class="bar" style="height:70%;background:rgba(14,165,233,.35)"></div><div class="bar-label">Apr</div></div>
-                        <div class="bar-wrap"><div class="bar" style="height:60%;background:rgba(14,165,233,.3)"></div><div class="bar-label">May</div></div>
-                        <div class="bar-wrap"><div class="bar" style="height:80%;background:rgba(14,165,233,.4)"></div><div class="bar-label">Jun</div></div>
-                        <div class="bar-wrap"><div class="bar" style="height:72%;background:rgba(14,165,233,.38)"></div><div class="bar-label">Jul</div></div>
-                        <div class="bar-wrap"><div class="bar" style="height:95%;background:linear-gradient(to top,#0ea5e9,#06b6d4)"></div><div class="bar-label">Aug</div></div>
-                    </div>
+                    <div class="bar-chart" id="apptsBarChart"><div style="text-align:center;width:100%;color:var(--text3);font-size:.8rem">Loading…</div></div>
                 </div>
             </div>
             <div class="dash-card">
-                <div class="dash-card-header"><span class="dash-card-title"><i class="fa-solid fa-stethoscope"></i> Department Breakdown</span></div>
-                <div style="padding:20px">
-                    <div class="prog-row"><div class="prog-header"><span class="prog-label">Cardiology</span><span class="prog-val">28%</span></div><div class="prog-bar"><div class="prog-fill" style="width:28%;background:var(--accent)"></div></div></div>
-                    <div class="prog-row"><div class="prog-header"><span class="prog-label">General Surgery</span><span class="prog-val">22%</span></div><div class="prog-bar"><div class="prog-fill" style="width:22%;background:var(--success)"></div></div></div>
-                    <div class="prog-row"><div class="prog-header"><span class="prog-label">Orthopedics</span><span class="prog-val">18%</span></div><div class="prog-bar"><div class="prog-fill" style="width:18%;background:var(--purple)"></div></div></div>
-                    <div class="prog-row"><div class="prog-header"><span class="prog-label">Radiology</span><span class="prog-val">16%</span></div><div class="prog-bar"><div class="prog-fill" style="width:16%;background:var(--warning)"></div></div></div>
-                    <div class="prog-row"><div class="prog-header"><span class="prog-label">Other</span><span class="prog-val">16%</span></div><div class="prog-bar"><div class="prog-fill" style="width:16%;background:var(--text3)"></div></div></div>
+                <div class="dash-card-header"><span class="dash-card-title"><i class="fa-solid fa-stethoscope"></i> Roster by Specialization</span></div>
+                <div style="padding:20px" id="specBreakdown">
+                    <div style="text-align:center;color:var(--text3);font-size:.8rem">Loading…</div>
                 </div>
             </div>
         </div>
 
         <div class="dash-card">
-            <div class="dash-card-header"><span class="dash-card-title"><i class="fa-solid fa-file-lines"></i> Available Reports</span><button class="dash-card-action"><i class="fa-solid fa-plus"></i> Generate</button></div>
-            <div>
-                <div class="report-row">
-                    <div style="display:flex;align-items:center;gap:12px">
-                        <div style="width:38px;height:38px;border-radius:8px;background:rgba(14,165,233,.1);display:flex;align-items:center;justify-content:center;color:var(--accent)"><i class="fa-solid fa-file-pdf"></i></div>
-                        <div><div style="font-size:.86rem;font-weight:600;color:var(--text)">Monthly Hospital Report – August 2026</div><div style="font-size:.72rem;color:var(--text3)">Generated Aug 1 · PDF · 4.5 MB</div></div>
-                    </div>
-                    <button class="btn-sm btn-outline-sm"><i class="fa-solid fa-download"></i> Download</button>
-                </div>
-                <div class="report-row">
-                    <div style="display:flex;align-items:center;gap:12px">
-                        <div style="width:38px;height:38px;border-radius:8px;background:rgba(16,185,129,.1);display:flex;align-items:center;justify-content:center;color:var(--success)"><i class="fa-solid fa-file-csv"></i></div>
-                        <div><div style="font-size:.86rem;font-weight:600;color:var(--text)">Doctor Performance Report – Q2 2026</div><div style="font-size:.72rem;color:var(--text3)">Generated Jul 1 · CSV · 780 KB</div></div>
-                    </div>
-                    <button class="btn-sm btn-outline-sm"><i class="fa-solid fa-download"></i> Download</button>
-                </div>
-                <div class="report-row">
-                    <div style="display:flex;align-items:center;gap:12px">
-                        <div style="width:38px;height:38px;border-radius:8px;background:rgba(245,158,11,.1);display:flex;align-items:center;justify-content:center;color:var(--warning)"><i class="fa-solid fa-chart-bar"></i></div>
-                        <div><div style="font-size:.86rem;font-weight:600;color:var(--text)">Annual Hospital Statistics – 2025</div><div style="font-size:.72rem;color:var(--text3)">Generated Jan 1 · PDF · 12.3 MB</div></div>
-                    </div>
-                    <button class="btn-sm btn-outline-sm"><i class="fa-solid fa-download"></i> Download</button>
-                </div>
+            <div class="dash-card-header"><span class="dash-card-title"><i class="fa-solid fa-briefcase-medical"></i> Top Jobs by Applications</span></div>
+            <div id="jobStatsReport">
+                <div style="text-align:center;padding:30px;color:var(--text3)">Loading…</div>
             </div>
         </div>
     </div>

@@ -7,9 +7,10 @@ require_once __DIR__ . '/../models/AuditLog.php';
 
 class FileController
 {
-    private FileRecord     $fileModel;
-    private StorageService $storage;
-    private AuditLog       $auditLog;
+    private PDO             $db;
+    private FileRecord      $fileModel;
+    private StorageService  $storage;
+    private AuditLog        $auditLog;
 
     private const ALLOWED_CATEGORIES  = ['profile_photo', 'resume', 'hospital_logo', 'document'];
     private const MAX_SIZE_BYTES       = 10 * 1024 * 1024; // 10 MB
@@ -19,6 +20,7 @@ class FileController
 
     public function __construct(PDO $db)
     {
+        $this->db        = $db;
         $this->fileModel = new FileRecord($db);
         $this->storage   = new StorageService();
         $this->auditLog  = new AuditLog($db);
@@ -89,8 +91,20 @@ class FileController
             jsonError('File not found.', 404);
         }
 
-        // Only allow access to own files (or admin)
-        if ($record['user_id'] !== $user['id'] && $user['role'] !== 'admin') {
+        // Only allow access to: the file's owner, an admin, or a hospital/staff
+        // reviewing a resume attached to an application on one of their jobs.
+        $authorized = ($record['user_id'] === $user['id']) || ($user['role'] === 'admin');
+
+        if (!$authorized && $record['category'] === 'resume' && $user['role'] === 'hospital') {
+            $stmt = $this->db->prepare(
+                "SELECT 1 FROM job_applications ja JOIN jobs j ON j.id = ja.job_id
+                 WHERE ja.resume_file_id = ? AND j.hospital_id = ? LIMIT 1"
+            );
+            $stmt->execute([$fileId, $user['id']]);
+            $authorized = (bool)$stmt->fetchColumn();
+        }
+
+        if (!$authorized) {
             jsonError('Unauthorized.', 403);
         }
 

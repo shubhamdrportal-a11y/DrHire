@@ -111,6 +111,9 @@
 </head>
 <body>
 <script src="../js/theme.js"></script>
+<script src="../js/api.js"></script>
+<script src="../js/auth-guard.js"></script>
+<script src="../js/dashboard-hospital-main.js"></script>
 <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
 <aside class="sidebar" id="dashSidebar">
@@ -153,7 +156,7 @@
         <div class="header-right">
             <div class="header-search"><i class="fa-solid fa-magnifying-glass"></i><input type="text" placeholder="Search doctors, jobs…" /></div>
             <div class="header-icon-btn"><i class="fa-solid fa-bell"></i><div class="notif-dot"></div></div>
-            <a href="#" style="display:flex;align-items:center;gap:6px;padding:8px 16px;background:var(--grad);color:#fff;border-radius:8px;font-size:.8rem;font-weight:600;text-decoration:none">
+            <a href="dashboard-hospital-jobs.html" style="display:flex;align-items:center;gap:6px;padding:8px 16px;background:var(--grad);color:#fff;border-radius:8px;font-size:.8rem;font-weight:600;text-decoration:none">
                 <i class="fa-solid fa-plus"></i> Post Job
             </a>
             <div class="header-user-pill">
@@ -168,19 +171,19 @@
         <div class="mini-stat-row">
             <div class="mini-stat">
                 <div class="mini-ico ico-cyan"><i class="fa-solid fa-user-doctor"></i></div>
-                <div><div class="mini-val" data-stat-num="48">0</div><div class="mini-label">Total Doctors</div><div class="mini-change">↑ +2 this month</div></div>
+                <div><div class="mini-val" id="stat-total-doctors">0</div><div class="mini-label">Total Doctors</div></div>
             </div>
             <div class="mini-stat">
                 <div class="mini-ico ico-blue"><i class="fa-solid fa-briefcase-medical"></i></div>
-                <div><div class="mini-val" data-stat-num="3">0</div><div class="mini-label">Active Job Listings</div><div class="mini-change warn">1 expiring soon</div></div>
+                <div><div class="mini-val" id="stat-active-jobs">0</div><div class="mini-label">Active Job Listings</div></div>
             </div>
             <div class="mini-stat">
                 <div class="mini-ico ico-yellow"><i class="fa-solid fa-file-user"></i></div>
-                <div><div class="mini-val" data-stat-num="28">0</div><div class="mini-label">New Applications</div><div class="mini-change">↑ +8 this week</div></div>
+                <div><div class="mini-val" id="stat-new-apps">0</div><div class="mini-label">New Applications</div></div>
             </div>
             <div class="mini-stat">
                 <div class="mini-ico ico-green"><i class="fa-solid fa-calendar-check"></i></div>
-                <div><div class="mini-val" data-stat-num="186">0</div><div class="mini-label">Appointments Today</div><div class="mini-change">142 completed</div></div>
+                <div><div class="mini-val" id="stat-appts-today">0</div><div class="mini-label">Appointments Today</div></div>
             </div>
         </div>
 
@@ -188,16 +191,12 @@
             <div class="dash-card">
                 <div class="dash-card-header">
                     <div class="dash-card-title"><i class="fa-solid fa-briefcase-medical"></i> Active Job Listings</div>
-                    <a href="#" class="dash-card-action">+ Post New</a>
+                    <a href="dashboard-hospital-jobs.html" class="dash-card-action">+ Post New</a>
                 </div>
                 <div style="overflow-x:auto">
                     <table class="dash-table">
                         <thead><tr><th>Position</th><th>Applications</th><th>Status</th><th>Action</th></tr></thead>
-                        <tbody>
-                            <tr><td style="font-weight:600;color:var(--text)">Cardiologist</td><td style="font-weight:700;color:var(--text)">12</td><td><span class="badge badge-active">Active</span></td><td><div style="display:flex;gap:6px"><button class="btn-sm btn-outline-sm">View</button><button class="btn-sm btn-danger-sm">Close</button></div></td></tr>
-                            <tr><td style="font-weight:600;color:var(--text)">Neurologist</td><td style="font-weight:700;color:var(--text)">8</td><td><span class="badge badge-active">Active</span></td><td><div style="display:flex;gap:6px"><button class="btn-sm btn-outline-sm">View</button><button class="btn-sm btn-danger-sm">Close</button></div></td></tr>
-                            <tr><td style="font-weight:600;color:var(--text)">Radiologist</td><td style="font-weight:700;color:var(--text)">8</td><td><span class="badge badge-pending">Expiring</span></td><td><div style="display:flex;gap:6px"><button class="btn-sm btn-outline-sm">View</button><button class="btn-sm btn-success-sm">Renew</button></div></td></tr>
-                        </tbody>
+                        <tbody id="activeJobsBody"><tr><td colspan="4" style="text-align:center;padding:30px"><i class="fa-solid fa-spinner fa-spin" style="color:var(--accent)"></i></td></tr></tbody>
                     </table>
                 </div>
             </div>
@@ -205,18 +204,10 @@
             <div class="dash-card">
                 <div class="dash-card-header">
                     <div class="dash-card-title"><i class="fa-solid fa-file-user"></i> Recent Applications</div>
-                    <a href="#" class="dash-card-action">View All</a>
+                    <a href="dashboard-hospital-applications.html" class="dash-card-action">View All</a>
                 </div>
-                <div style="overflow-x:auto">
-                    <table class="dash-table">
-                        <thead><tr><th>Applicant</th><th>Applied For</th><th>Status</th></tr></thead>
-                        <tbody>
-                            <tr><td><div class="user-cell"><div class="ua ua-blue">RS</div><div><div class="td-name">Dr. Rohit S.</div><div class="td-sub">MD Cardiology</div></div></div></td><td>Cardiologist</td><td><span class="badge badge-new">New</span></td></tr>
-                            <tr><td><div class="user-cell"><div class="ua ua-green">AK</div><div><div class="td-name">Dr. Anjali K.</div><div class="td-sub">DM Neurology</div></div></div></td><td>Neurologist</td><td><span class="badge badge-new">New</span></td></tr>
-                            <tr><td><div class="user-cell"><div class="ua ua-purple">VP</div><div><div class="td-name">Dr. Vivek P.</div><div class="td-sub">MD Radiology</div></div></div></td><td>Radiologist</td><td><span class="badge badge-confirmed">Reviewed</span></td></tr>
-                            <tr><td><div class="user-cell"><div class="ua ua-orange">SM</div><div><div class="td-name">Dr. Sneha M.</div><div class="td-sub">MS Cardiac</div></div></div></td><td>Cardiologist</td><td><span class="badge badge-completed">Shortlisted</span></td></tr>
-                        </tbody>
-                    </table>
+                <div style="overflow-x:auto" id="recentAppsContainer">
+                    <div style="text-align:center;padding:30px"><i class="fa-solid fa-spinner fa-spin" style="color:var(--accent)"></i></div>
                 </div>
             </div>
         </div>
@@ -225,17 +216,12 @@
             <div class="dash-card">
                 <div class="dash-card-header">
                     <div class="dash-card-title"><i class="fa-solid fa-user-doctor"></i> Our Doctors</div>
-                    <a href="#" class="dash-card-action">View All</a>
+                    <a href="dashboard-hospital-doctors.html" class="dash-card-action">View All</a>
                 </div>
                 <div style="overflow-x:auto">
                     <table class="dash-table">
                         <thead><tr><th>Doctor</th><th>Specialization</th><th>Exp.</th><th>Status</th></tr></thead>
-                        <tbody>
-                            <tr><td><div class="user-cell"><div class="ua ua-blue">AM</div><div><div class="td-name">Dr. A. Mehta</div><div class="td-sub">Cardiologist</div></div></div></td><td>Cardiac Surgery</td><td>15 yrs</td><td><span class="badge badge-active">On Duty</span></td></tr>
-                            <tr><td><div class="user-cell"><div class="ua ua-green">RS</div><div><div class="td-name">Dr. R. Singh</div><div class="td-sub">Neurologist</div></div></div></td><td>Neurosurgery</td><td>11 yrs</td><td><span class="badge badge-active">On Duty</span></td></tr>
-                            <tr><td><div class="user-cell"><div class="ua ua-purple">PN</div><div><div class="td-name">Dr. P. Nair</div><div class="td-sub">Radiologist</div></div></div></td><td>Diagnostic Radiology</td><td>9 yrs</td><td><span class="badge badge-inactive">Off Duty</span></td></tr>
-                            <tr><td><div class="user-cell"><div class="ua ua-orange">VR</div><div><div class="td-name">Dr. V. Reddy</div><div class="td-sub">Orthopaedic</div></div></div></td><td>Orthopaedic Surgery</td><td>13 yrs</td><td><span class="badge badge-active">On Duty</span></td></tr>
-                        </tbody>
+                        <tbody id="ourDoctorsBody"><tr><td colspan="4" style="text-align:center;padding:30px"><i class="fa-solid fa-spinner fa-spin" style="color:var(--accent)"></i></td></tr></tbody>
                     </table>
                 </div>
             </div>
@@ -244,12 +230,8 @@
                 <div class="dash-card-header">
                     <div class="dash-card-title"><i class="fa-solid fa-clock-rotate-left"></i> Recent Activity</div>
                 </div>
-                <div class="act-list">
-                    <div class="act-item"><div class="act-dot"></div><div><div class="act-text">New application from <strong>Dr. Rohit S.</strong> for Cardiologist</div><div class="act-time">5 min ago</div></div></div>
-                    <div class="act-item"><div class="act-dot g"></div><div><div class="act-text"><strong>Dr. A. Mehta</strong> completed 8 appointments today</div><div class="act-time">1 hour ago</div></div></div>
-                    <div class="act-item"><div class="act-dot y"></div><div><div class="act-text">Radiologist job listing expires in <strong>3 days</strong></div><div class="act-time">2 hours ago</div></div></div>
-                    <div class="act-item"><div class="act-dot g"></div><div><div class="act-text"><strong>Dr. Sneha M.</strong> shortlisted for Cardiologist position</div><div class="act-time">Yesterday</div></div></div>
-                    <div class="act-item"><div class="act-dot"></div><div><div class="act-text">Hospital profile updated successfully</div><div class="act-time">Yesterday</div></div></div>
+                <div class="act-list" id="recentActivityList">
+                    <div style="text-align:center;padding:30px"><i class="fa-solid fa-spinner fa-spin" style="color:var(--accent)"></i></div>
                 </div>
             </div>
         </div>

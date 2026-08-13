@@ -126,6 +126,22 @@ CREATE TABLE IF NOT EXISTS job_applications (
     INDEX idx_ja_status    (status)
 ) ENGINE=InnoDB;
 
+-- ── hospital_doctors ──────────────────────────────────────────────
+-- Doctors a hospital has directly added to its roster (in addition to
+-- doctors who are considered "hired" via an accepted job_application).
+CREATE TABLE IF NOT EXISTS hospital_doctors (
+    id           INT UNSIGNED  AUTO_INCREMENT PRIMARY KEY,
+    hospital_id  INT UNSIGNED  NOT NULL,
+    doctor_id    INT UNSIGNED  NOT NULL,
+    status       ENUM('active','inactive') NOT NULL DEFAULT 'active',
+    created_at   DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (hospital_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (doctor_id)   REFERENCES users(id) ON DELETE CASCADE,
+    UNIQUE KEY uq_hospital_doctor (hospital_id, doctor_id),
+    INDEX idx_hd_hospital (hospital_id),
+    INDEX idx_hd_doctor   (doctor_id)
+) ENGINE=InnoDB;
+
 -- ── appointments ──────────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS appointments (
     id                INT UNSIGNED    AUTO_INCREMENT PRIMARY KEY,

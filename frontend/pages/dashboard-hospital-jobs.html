@@ -107,10 +107,26 @@
         .act-time{font-size:.7rem;color:var(--text3);margin-top:2px}
         @media(max-width:900px){.sidebar{transform:translateX(-100%)}.sidebar.open{transform:translateX(0);box-shadow:8px 0 40px rgba(0,0,0,.4)}.sidebar-overlay.active{display:block}.main-wrap{margin-left:0}.hamburger-mob{display:flex}.header-search{display:none}.content{padding:16px}.mini-stat-row{grid-template-columns:repeat(2,1fr)}.two-col{grid-template-columns:1fr}}
         @media(max-width:600px){.mini-stat-row{grid-template-columns:1fr 1fr}}
+        .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:200;backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:20px}
+        .modal-overlay.active{display:flex}
+        .modal-box{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:28px;width:100%;max-width:560px;max-height:90vh;overflow-y:auto;position:relative}
+        .modal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+        .modal-title{font-size:1.05rem;font-weight:700;color:var(--text)}
+        .modal-close{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.06);border:1px solid var(--border);color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.9rem;transition:.2s}
+        .modal-close:hover{background:rgba(239,68,68,.1);color:var(--danger);border-color:rgba(239,68,68,.3)}
+        .form-group{margin-bottom:14px}
+        .form-label{display:block;font-size:.78rem;font-weight:600;color:var(--text2);margin-bottom:6px}
+        .form-input,.form-select,.form-textarea{width:100%;padding:9px 12px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'Inter',sans-serif;font-size:.85rem}
+        .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+        .btn-primary{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;background:var(--grad);color:#fff;border:none;border-radius:8px;font-size:.85rem;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif}
+        .btn-primary:disabled{opacity:.6;cursor:not-allowed}
     </style>
 </head>
 <body>
 <script src="../js/theme.js"></script>
+<script src="../js/api.js"></script>
+<script src="../js/auth-guard.js"></script>
+<script src="../js/dashboard-hospital-jobs.js"></script>
 <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
 <aside class="sidebar" id="dashSidebar">
@@ -133,7 +149,7 @@
         <div class="sidebar-user">
             <div class="sidebar-avatar" style="background:linear-gradient(135deg,#10b981,#059669)" data-user-avatar>AH</div>
             <div>
-                <div class="sidebar-uname" data-user-name>Apollo Hospitals</div>
+                <div class="sidebar-uname" data-user-name>Hospital</div>
                 <div class="sidebar-urole">Hospital Admin</div>
             </div>
         </div>
@@ -151,11 +167,7 @@
             </div>
         </div>
         <div class="header-right">
-            <div class="header-search"><i class="fa-solid fa-magnifying-glass"></i><input type="text" placeholder="Search doctors, jobs…" /></div>
             <div class="header-icon-btn"><i class="fa-solid fa-bell"></i><div class="notif-dot"></div></div>
-            <a href="#" style="display:flex;align-items:center;gap:6px;padding:8px 16px;background:var(--grad);color:#fff;border-radius:8px;font-size:.8rem;font-weight:600;text-decoration:none">
-                <i class="fa-solid fa-plus"></i> Post Job
-            </a>
             <div class="header-user-pill">
                 <div class="sidebar-avatar" style="width:26px;height:26px;font-size:.65rem;background:linear-gradient(135deg,#10b981,#059669)" data-user-avatar>AH</div>
                 <span data-user-name>Hospital</span>
@@ -168,33 +180,64 @@
             <div class="dash-card">
                 <div class="dash-card-header">
                     <div class="dash-card-title"><i class="fa-solid fa-briefcase-medical"></i> Job Listings</div>
-                    <button style="background:var(--accent);color:#fff;border:none;padding:5px 15px;border-radius:50px;cursor:pointer;font-size:0.8rem;font-weight:bold;">+ Post a New Job</button>
+                    <button id="createJobBtn" style="background:var(--accent);color:#fff;border:none;padding:5px 15px;border-radius:50px;cursor:pointer;font-size:0.8rem;font-weight:bold;">+ Post a New Job</button>
                 </div>
                 <div style="padding:15px;display:flex;gap:10px;border-bottom:1px solid var(--border);">
-                    <input type="text" placeholder="Search jobs..." style="flex:1;padding:8px;background:var(--bg);border:1px solid var(--border);border-radius:5px;color:var(--text);">
-                    <select style="padding:8px;background:var(--bg);border:1px solid var(--border);border-radius:5px;color:var(--text);">
-                        <option>All Statuses</option><option>Active</option><option>Expired</option>
+                    <input type="text" id="jobSearchInput" placeholder="Search jobs by title, specialization, location…" style="flex:1;padding:8px;background:var(--bg);border:1px solid var(--border);border-radius:5px;color:var(--text);">
+                    <select id="jobStatusFilter" style="padding:8px;background:var(--bg);border:1px solid var(--border);border-radius:5px;color:var(--text);">
+                        <option value="">All Statuses</option><option value="active">Active</option><option value="draft">Draft</option><option value="closed">Closed</option>
                     </select>
                 </div>
                 <div style="padding:0;">
                     <table class="dash-table" style="width:100%;border-collapse:collapse;font-size:0.9rem;">
-                        <thead><tr style="text-align:left;border-bottom:1px solid var(--border);color:var(--text3);"><th style="padding:15px;">Position</th><th>Applicants</th><th>Status</th><th>Actions</th></tr></thead>
-                        <tbody>
-                            <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
-                                <td style="padding:15px;color:var(--text);"><strong>Cardiologist</strong><br/><small style="color:var(--text2);">Full-Time</small></td>
-                                <td style="color:var(--text);">12</td>
-                                <td><span style="background:rgba(16,185,129,.1);color:#10b981;padding:3px 8px;border-radius:10px;font-size:0.75rem;">Active</span></td>
-                                <td>
-                                    <button style="background:none;color:var(--text2);border:1px solid var(--border);padding:5px 10px;border-radius:5px;cursor:pointer;">View</button> 
-                                    <button style="background:rgba(14,165,233,.1);color:var(--accent);border:none;padding:5px 10px;border-radius:5px;cursor:pointer;">Edit</button>
-                                    <button style="background:rgba(239,68,68,.1);color:#ef4444;border:none;padding:5px 10px;border-radius:5px;cursor:pointer;">Close</button>
-                                </td>
-                            </tr>
+                        <thead><tr style="text-align:left;border-bottom:1px solid var(--border);color:var(--text3);"><th style="padding:15px;">Position</th><th>Type</th><th>Posted</th><th>Applicants</th><th>Status</th><th>Actions</th></tr></thead>
+                        <tbody id="jobsTbody">
+                            <tr><td colspan="6" style="text-align:center;padding:30px"><i class="fa-solid fa-spinner fa-spin" style="color:var(--accent)"></i></td></tr>
                         </tbody>
                     </table>
                 </div>
+                <div id="jobsPagination" style="display:flex;gap:8px;justify-content:center;padding:16px"></div>
             </div>
 </div>
+</div>
+
+<!-- Job Create/Edit Modal -->
+<div class="modal-overlay" id="jobModal">
+    <div class="modal-box">
+        <div class="modal-header">
+            <span class="modal-title" id="jobModalTitle">Post New Job</span>
+            <button class="modal-close" id="closeJobModal"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <form id="jobForm">
+            <input type="hidden" id="jobId" />
+            <div class="form-row">
+                <div class="form-group"><label class="form-label">Job Title</label><input class="form-input" type="text" id="jobTitle" required /></div>
+                <div class="form-group"><label class="form-label">Specialization</label><input class="form-input" type="text" id="jobSpec" required /></div>
+            </div>
+            <div class="form-row">
+                <div class="form-group"><label class="form-label">Type</label>
+                    <select class="form-select" id="jobType">
+                        <option>Full-Time</option><option>Part-Time</option><option>Contract</option><option>Locum</option>
+                    </select>
+                </div>
+                <div class="form-group"><label class="form-label">Status</label>
+                    <select class="form-select" id="jobStatus">
+                        <option value="draft">Draft</option><option value="active">Active</option><option value="closed">Closed</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group"><label class="form-label">Experience Required</label><input class="form-input" type="text" id="jobExp" placeholder="e.g. 5+ years" required /></div>
+                <div class="form-group"><label class="form-label">Qualification</label><input class="form-input" type="text" id="jobQual" placeholder="e.g. MD, DM" required /></div>
+            </div>
+            <div class="form-row">
+                <div class="form-group"><label class="form-label">Salary</label><input class="form-input" type="text" id="jobSalary" placeholder="e.g. ₹15-25 LPA" /></div>
+                <div class="form-group"><label class="form-label">Location</label><input class="form-input" type="text" id="jobLoc" required /></div>
+            </div>
+            <div class="form-group"><label class="form-label">Description</label><textarea class="form-textarea" id="jobDesc" rows="4"></textarea></div>
+            <button type="submit" class="btn-primary" style="width:100%;justify-content:center"><i class="fa-solid fa-save"></i> Save Job</button>
+        </form>
+    </div>
 </div>
 
 </body>
