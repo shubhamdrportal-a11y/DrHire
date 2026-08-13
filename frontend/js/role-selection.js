@@ -28,14 +28,14 @@
             admin: 'fa-shield-halved',
             doctor: 'fa-user-doctor',
             hospital: 'fa-hospital',
-            staff: 'fa-user-graduate'
+            staff: 'fa-user'
         };
 
         const displayNames = {
             admin: 'Admin',
             doctor: 'Doctor',
             hospital: 'Hospital',
-            staff: 'Staff / Student'
+            staff: 'User'
         };
 
         // 1. Role Card Selection
@@ -85,9 +85,19 @@
             });
         }
 
-        // Initialize if role is already selected in sessionStorage
-        const storedRole = sessionStorage.getItem('drhire-selected-role');
+        // Initialize if role is already selected in sessionStorage or URL
+        const urlParams = new URLSearchParams(window.location.search);
+        let storedRole = urlParams.get('role') || sessionStorage.getItem('drhire-selected-role');
+        
         if (storedRole) {
+            // Validate role
+            if (!['admin', 'doctor', 'hospital', 'staff'].includes(storedRole)) {
+                storedRole = null;
+            }
+        }
+
+        if (storedRole) {
+            sessionStorage.setItem('drhire-selected-role', storedRole);
             showAuthForm(storedRole);
             
             // Pre-select the card
