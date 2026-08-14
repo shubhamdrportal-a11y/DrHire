@@ -120,15 +120,19 @@
     // Role check
     const expectedRole = window.__expectedRole || null;
     if (expectedRole && user.role !== expectedRole && user.role !== 'admin') {
-      // Redirect to their own dashboard
-      const dashMap = {
-        admin:    'dashboard-admin.html',
-        doctor:   'dashboard-doctor.html',
-        hospital: 'dashboard-hospital.html',
-        staff:    'dashboard-staff.html',
-      };
-      const isPages = window.location.pathname.includes('/pages/');
-      window.location.href = dashMap[user.role] || 'login.html';
+      document.body.innerHTML = `
+        <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;background:var(--bg,#0d1117);color:var(--text,#e2e8f0);text-align:center;padding:20px;">
+          <i class="fa-solid fa-triangle-exclamation fa-4x" style="color:var(--danger,#ef4444);margin-bottom:20px;"></i>
+          <h2 style="margin-bottom:10px;">Session Conflict</h2>
+          <p style="margin-bottom:20px;color:var(--text2,#94a3b8);max-width:400px;line-height:1.5;">
+            You are currently logged in as a <strong>${user.role.toUpperCase()}</strong> in this browser. <br><br>
+            To use the ${expectedRole.toUpperCase()} dashboard, you must log out first. If you want to use multiple accounts at the same time, please use an Incognito/Private window or a different browser.
+          </p>
+          <button onclick="api.post('/auth/logout').then(() => window.location.href='login.html').catch(() => window.location.href='login.html')" style="padding:10px 24px;background:var(--danger,#ef4444);color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:bold;font-size:0.9rem;">
+            Logout & Switch Role
+          </button>
+        </div>
+      `;
       return;
     }
 
