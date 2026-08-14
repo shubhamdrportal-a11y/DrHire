@@ -18,13 +18,19 @@
    * Core fetch wrapper.
    * Returns parsed JSON or throws an Error with the server's error message.
    */
+  const REQUEST_TIMEOUT_MS = 15000; // don't let a stuck backend spin the UI forever
+
   async function request(method, endpoint, body = null, isFormData = false) {
     const url = API_BASE + endpoint;
+
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
 
     const options = {
       method,
       credentials: 'include', // include session cookie
       headers: {},
+      signal: controller.signal,
     };
 
     if (body !== null) {
@@ -41,7 +47,12 @@
     try {
       response = await fetch(url, options);
     } catch (networkError) {
+      if (networkError.name === 'AbortError') {
+        throw new Error('Request timed out. Please try again.');
+      }
       throw new Error('Network error. Please check your connection and try again.');
+    } finally {
+      clearTimeout(timeoutId);
     }
 
     // Auto-redirect to login on 401
@@ -98,11 +109,11 @@
   // ── Public API ────────────────────────────────────────────────
 
   window.api = {
-    get:    (endpoint)        => request('GET',    endpoint),
-    post:   (endpoint, body)  => request('POST',   endpoint, body),
-    put:    (endpoint, body)  => request('PUT',    endpoint, body),
-    patch:  (endpoint, body)  => request('PATCH',  endpoint, body),
-    delete: (endpoint, body)  => request('DELETE', endpoint, body ?? null),
+    get: (endpoint) => request('GET', endpoint),
+    post: (endpoint, body) => request('POST', endpoint, body),
+    put: (endpoint, body) => request('PUT', endpoint, body),
+    patch: (endpoint, body) => request('PATCH', endpoint, body),
+    delete: (endpoint, body) => request('DELETE', endpoint, body ?? null),
     upload: uploadFile,
     fileUrl: getFileUrl,
   };
@@ -143,8 +154,8 @@
     toast(message, type = 'success', duration = 3500) {
       const colors = {
         success: { bg: '#10b981', icon: 'fa-circle-check' },
-        error:   { bg: '#ef4444', icon: 'fa-circle-xmark' },
-        info:    { bg: '#0ea5e9', icon: 'fa-circle-info' },
+        error: { bg: '#ef4444', icon: 'fa-circle-xmark' },
+        info: { bg: '#0ea5e9', icon: 'fa-circle-info' },
         warning: { bg: '#f59e0b', icon: 'fa-triangle-exclamation' },
       };
       const style = colors[type] || colors.info;
