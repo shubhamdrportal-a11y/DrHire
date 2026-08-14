@@ -186,8 +186,8 @@ class HospitalController
         $user   = requireRole('hospital');
         $result = $this->jobModel->delete($jobId, $user['id']);
         if (!$result) jsonError('Job not found or unauthorized.', 404);
-        $this->auditLog->log($user['id'], 'job_closed', 'job', $jobId);
-        jsonResponse(['success' => true, 'message' => 'Job closed.']);
+        $this->auditLog->log($user['id'], 'job_deleted', 'job', $jobId);
+        jsonResponse(['success' => true, 'message' => 'Job deleted.']);
     }
 
     public function getJobApplications(int $jobId): void

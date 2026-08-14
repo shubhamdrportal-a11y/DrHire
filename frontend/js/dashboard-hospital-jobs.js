@@ -143,7 +143,7 @@
           <td>
             <button class="btn-sm btn-outline-sm" onclick="viewJob(${j.id})" title="View"><i class="fa-solid fa-eye"></i></button>
             <button class="btn-sm btn-outline-sm" onclick="editJob(${j.id})" title="Edit"><i class="fa-solid fa-pen"></i></button>
-            <button class="btn-sm btn-outline-sm" style="color:var(--danger);border-color:rgba(239,68,68,.2)" onclick="deleteJob(${j.id})" title="Close"><i class="fa-solid fa-trash"></i></button>
+            <button class="btn-sm btn-outline-sm" style="color:var(--danger);border-color:rgba(239,68,68,.2)" onclick="deleteJob(${j.id})" title="Delete"><i class="fa-solid fa-trash"></i></button>
           </td>
         </tr>
       `).join('');
@@ -188,10 +188,10 @@
   };
 
   window.deleteJob = async function(id) {
-    if (!confirm('Are you sure you want to close this job? It will not be deleted but will no longer accept applications.')) return;
+    if (!confirm('Are you sure you want to permanently delete this job? This action cannot be undone.')) return;
     try {
       await api.delete(`/hospital/jobs/${id}`);
-      apiUI.toast('Job closed.', 'success');
+      apiUI.toast('Job deleted.', 'success');
       loadJobs();
     } catch (e) {
       apiUI.toast(e.message, 'error');

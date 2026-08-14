@@ -175,7 +175,7 @@ class Job
 
     public function delete(int $id, int $hospitalId): bool
     {
-        $stmt = $this->db->prepare("UPDATE jobs SET status = 'closed' WHERE id = ? AND hospital_id = ?");
+        $stmt = $this->db->prepare("DELETE FROM jobs WHERE id = ? AND hospital_id = ?");
         $stmt->execute([$id, $hospitalId]);
         return $stmt->rowCount() > 0;
     }
