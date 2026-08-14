@@ -14,6 +14,15 @@
   document.addEventListener('drhire:auth', () => {
     loadJobs();
     bindEvents();
+    
+    // Auto-open modal if navigated from 'Post Job' link
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('action') === 'new-job') {
+      setTimeout(() => {
+        document.getElementById('createJobBtn')?.click();
+        window.history.replaceState({}, document.title, window.location.pathname);
+      }, 100);
+    }
   });
 
   function bindEvents() {
