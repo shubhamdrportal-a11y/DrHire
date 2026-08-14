@@ -23,7 +23,6 @@
 
   document.addEventListener('drhire:auth', () => {
     loadJobs();
-    bindEvents();
     maybeAutoOpenFromQueryParam();
   });
 
