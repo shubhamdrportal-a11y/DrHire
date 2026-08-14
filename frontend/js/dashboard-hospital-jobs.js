@@ -90,6 +90,8 @@
         location: document.getElementById('jobLoc').value,
         status: document.getElementById('jobStatus').value,
         description: document.getElementById('jobDesc').value,
+        requirements: document.getElementById('jobReqs').value.split(/[\n,]+/).map(s => s.trim()).filter(Boolean),
+        benefits: document.getElementById('jobBens').value.split(/[\n,]+/).map(s => s.trim()).filter(Boolean),
       };
 
       btn.disabled = true;
@@ -179,6 +181,8 @@
       document.getElementById('jobLoc').value = job.location;
       document.getElementById('jobStatus').value = job.status;
       document.getElementById('jobDesc').value = job.description;
+      document.getElementById('jobReqs').value = Array.isArray(job.requirements) ? job.requirements.join('\n') : (job.requirements || '');
+      document.getElementById('jobBens').value = Array.isArray(job.benefits) ? job.benefits.join('\n') : (job.benefits || '');
 
       document.getElementById('jobModal').classList.add('active');
     } catch (e) {
