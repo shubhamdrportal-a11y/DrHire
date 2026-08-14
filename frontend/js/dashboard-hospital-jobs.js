@@ -11,19 +11,47 @@
   let currentSearch = '';
   let searchDebounce = null;
 
+  // Modal open/close and form wiring are pure UI actions — they must never
+  // depend on the auth/network round-trip succeeding first. Bind them as
+  // soon as the DOM is ready. Only the initial data load (loadJobs) needs
+  // an authenticated session, so that stays gated on 'drhire:auth'.
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bindEvents);
+  } else {
+    bindEvents();
+  }
+
   document.addEventListener('drhire:auth', () => {
     loadJobs();
     bindEvents();
-    
-    // Auto-open modal if navigated from 'Post Job' link
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('action') === 'new-job') {
-      setTimeout(() => {
-        document.getElementById('createJobBtn')?.click();
-        window.history.replaceState({}, document.title, window.location.pathname);
-      }, 100);
-    }
+    maybeAutoOpenFromQueryParam();
   });
+
+  // Supports dashboard-hospital.html's "+ Post Job" button, which links to
+  // dashboard-hospital-jobs.html?action=new-job — auto-opens the modal
+  // once the page (and auth) is ready, instead of just landing on the page.
+  function maybeAutoOpenFromQueryParam() {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('action') === 'new-job') {
+      openCreateJobModal();
+      // Clean the URL so a refresh doesn't reopen the modal.
+      params.delete('action');
+      const rest = params.toString();
+      const newUrl = window.location.pathname + (rest ? `?${rest}` : '');
+      window.history.replaceState({}, '', newUrl);
+    }
+  }
+
+  function openCreateJobModal() {
+    // Open the modal FIRST — even if something below throws (a missing
+    // field, a bad state), the modal is already visible to the user.
+    document.getElementById('jobModal')?.classList.add('active');
+    try {
+      document.getElementById('jobModalTitle').textContent = 'Post New Job';
+      document.getElementById('jobForm').reset();
+      document.getElementById('jobId').value = '';
+    } catch (e) { /* modal is open regardless; form will just be un-reset */ }
+  }
 
   function bindEvents() {
     document.getElementById('jobStatusFilter')?.addEventListener('change', function() {
@@ -42,12 +70,7 @@
       }, 350);
     });
 
-    document.getElementById('createJobBtn')?.addEventListener('click', () => {
-      document.getElementById('jobModalTitle').textContent = 'Post New Job';
-      document.getElementById('jobForm').reset();
-      document.getElementById('jobId').value = '';
-      document.getElementById('jobModal').classList.add('active');
-    });
+    document.getElementById('createJobBtn')?.addEventListener('click', openCreateJobModal);
 
     document.getElementById('closeJobModal')?.addEventListener('click', () => {
       document.getElementById('jobModal').classList.remove('active');
