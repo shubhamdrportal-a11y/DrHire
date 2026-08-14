@@ -76,12 +76,12 @@
                         <i class="fa-solid fa-chevron-right role-card-arrow"></i>
                     </div>
 
-                    <!-- User -->
+                    <!-- Staff / Student -->
                     <div class="role-card" data-role="staff">
                         <div class="role-card-icon">
-                            <i class="fa-solid fa-user"></i>
+                            <i class="fa-solid fa-user-graduate"></i>
                         </div>
-                        <div class="role-card-title">User</div>
+                        <div class="role-card-title">Staff / Student</div>
                         <div class="role-card-desc">Find doctors, book appointments and manage your activities.</div>
                         <i class="fa-solid fa-chevron-right role-card-arrow"></i>
                     </div>
@@ -129,6 +129,9 @@
                                 <div class="auth-role-indicator-name">Admin</div>
                             </div>
                         </div>
+                        <button class="auth-change-role-btn" id="changeRoleBtnAdmin" type="button">
+                            <i class="fa-solid fa-rotate-left" style="margin-right:4px"></i> Change Role
+                        </button>
                     </div>
                     <div class="admin-access-msg">
                         <i class="fa-solid fa-lock"></i>
@@ -155,6 +158,9 @@
                                     <div class="auth-role-indicator-name" id="roleIndicatorName">—</div>
                                 </div>
                             </div>
+                            <button class="auth-change-role-btn" id="changeRoleBtn" type="button">
+                                <i class="fa-solid fa-rotate-left" style="margin-right:4px"></i> Change Role
+                            </button>
                         </div>
 
                         <h2 class="auth-form-title" id="authFormTitle">Create Account</h2>
@@ -254,12 +260,12 @@
                                 </div>
                             </div>
 
-                            <!-- USER / PATIENT FIELDS -->
+                            <!-- STAFF / STUDENT FIELDS -->
                             <div class="role-fields" id="fields-staff" style="display:none">
                                 <div class="auth-section-label">Additional Information</div>
-                                <div class="auth-input-wrap" style="display:none;">
-                                    <label class="auth-input-label" for="regOrg">Organization</label>
-                                    <input class="auth-input" type="text" id="regOrg" placeholder="" />
+                                <div class="auth-input-wrap">
+                                    <label class="auth-input-label" for="regOrg">Institution / Organization</label>
+                                    <input class="auth-input" type="text" id="regOrg" placeholder="e.g. AIIMS, Apollo Clinic" />
                                 </div>
                                 <div class="auth-input-wrap">
                                     <label class="auth-input-label" for="regStaffAddr">Address</label>

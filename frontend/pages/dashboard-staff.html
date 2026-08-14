@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <title>My Dashboard – User | Doctors Coat</title>
+    <title>My Dashboard – Staff / Student | Doctors Coat</title>
     <meta name="description" content="Dashboard for medical staff and students to find jobs and manage applications." />
     <link rel="icon" type="image/png" href="../images/DoctorsCoat.png" />
     <link rel="stylesheet" href="../css/dashboard-shared.css" />
@@ -16,20 +16,20 @@
 <!-- ── SIDEBAR ─────────────────────────────────────────────── -->
 <aside class="sidebar" id="dashSidebar">
     <div class="sidebar-top"><div class="sidebar-logo-icon">DC</div><span class="sidebar-brand">Doctors Coat</span></div>
-    <div class="sidebar-role-badge"><i class="fa-solid fa-user" style="margin-right:5px"></i>User</div>
+    <div class="sidebar-role-badge"><i class="fa-solid fa-id-badge" style="margin-right:5px"></i>Staff / Student</div>
     <nav class="sidebar-nav">
         <span class="sidebar-section-label">Overview</span>
         <a href="dashboard-staff.html" class="nav-link active"><i class="fa-solid fa-chart-pie"></i> Dashboard</a>
-        <span class="sidebar-section-label">Healthcare</span>
-        <a href="find-doctor.html" class="nav-link"><i class="fa-solid fa-stethoscope"></i> Find a Doctor</a>
-        <a href="#" class="nav-link"><i class="fa-solid fa-calendar-check"></i> My Appointments <span class="nav-badge">2</span></a>
+        <span class="sidebar-section-label">Career</span>
+        <a href="dashboard-staff-jobs.html" class="nav-link"><i class="fa-solid fa-briefcase"></i> Job Opportunities</a>
+        <a href="dashboard-staff-applications.html" class="nav-link"><i class="fa-solid fa-file-contract"></i> My Applications <span class="nav-badge">0</span></a>
         <span class="sidebar-section-label">Account</span>
-        <a href="#" class="nav-link"><i class="fa-solid fa-user"></i> Profile</a>
-        <a href="#" class="nav-link"><i class="fa-solid fa-gear"></i> Settings</a>
+        <a href="dashboard-staff-profile.html" class="nav-link"><i class="fa-solid fa-user"></i> My Profile</a>
+        <a href="dashboard-staff-settings.html" class="nav-link"><i class="fa-solid fa-gear"></i> Settings</a>
     </nav>
     <div class="sidebar-divider"></div>
     <div class="sidebar-footer">
-        <div class="sidebar-user"><div class="sidebar-avatar" data-user-avatar>U</div><div><div class="sidebar-uname" data-user-name>Demo User</div><div class="sidebar-urole">User</div></div></div>
+        <div class="sidebar-user"><div class="sidebar-avatar" data-user-avatar>ST</div><div><div class="sidebar-uname" data-user-name>Demo User</div><div class="sidebar-urole">Staff/Student</div></div></div>
         <button class="sidebar-logout" data-logout><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
     </div>
 </aside>
@@ -47,17 +47,17 @@
         <div class="header-right">
             <div class="header-search">
                 <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" placeholder="Search doctors, hospitals…" />
+                <input type="text" placeholder="Search jobs…" />
             </div>
             <button class="header-icon-btn" title="Notifications">
                 <i class="fa-solid fa-bell"></i>
                 <div class="notif-dot"></div>
             </button>
-            <a href="find-doctor.html" class="btn-primary" style="padding:7px 14px;font-size:.82rem">
-                <i class="fa-solid fa-stethoscope"></i> Find a Doctor
+            <a href="dashboard-staff-jobs.html" class="btn-primary" style="padding:7px 14px;font-size:.82rem">
+                <i class="fa-solid fa-briefcase"></i> Browse Jobs
             </a>
             <div class="header-user-pill">
-                <div class="sidebar-avatar" style="width:26px;height:26px;font-size:.68rem" data-user-avatar>U</div>
+                <div class="sidebar-avatar" style="width:26px;height:26px;font-size:.68rem" data-user-avatar>ST</div>
                 <span data-user-name>User</span>
             </div>
         </div>
@@ -68,77 +68,49 @@
         <!-- STAT CARDS -->
         <div class="mini-stat-row">
             <div class="mini-stat">
-                <div class="mini-ico ico-blue"><i class="fa-solid fa-calendar-check"></i></div>
+                <div class="mini-ico ico-blue"><i class="fa-solid fa-briefcase"></i></div>
                 <div>
-                    <div class="mini-val" data-stat-num="12">0</div>
-                    <div class="mini-label">Total Appointments</div>
-                    <div class="mini-change">↑ 2 this week</div>
+                    <div class="mini-val" id="stat-total-apps">0</div>
+                    <div class="mini-label">Total Applications</div>
                 </div>
             </div>
             <div class="mini-stat">
-                <div class="mini-ico ico-yellow"><i class="fa-solid fa-clock"></i></div>
+                <div class="mini-ico ico-yellow"><i class="fa-solid fa-spinner"></i></div>
                 <div>
-                    <div class="mini-val" data-stat-num="4">0</div>
-                    <div class="mini-label">Upcoming</div>
-                    <div class="mini-change warn">Pending confirmation</div>
+                    <div class="mini-val" id="stat-under-review">0</div>
+                    <div class="mini-label">Under Review</div>
                 </div>
             </div>
             <div class="mini-stat">
-                <div class="mini-ico ico-green"><i class="fa-solid fa-check-double"></i></div>
+                <div class="mini-ico ico-green"><i class="fa-solid fa-calendar-check"></i></div>
                 <div>
-                    <div class="mini-val" data-stat-num="8">0</div>
-                    <div class="mini-label">Completed</div>
-                    <div class="mini-change">Past 30 days</div>
+                    <div class="mini-val" id="stat-interviews">0</div>
+                    <div class="mini-label">Interviews</div>
                 </div>
             </div>
             <div class="mini-stat">
-                <div class="mini-ico ico-cyan"><i class="fa-solid fa-file-medical"></i></div>
+                <div class="mini-ico ico-cyan"><i class="fa-solid fa-building"></i></div>
                 <div>
-                    <div class="mini-val" data-stat-num="5">0</div>
-                    <div class="mini-label">Prescriptions</div>
-                    <div class="mini-change">Available in records</div>
+                    <div class="mini-val" id="stat-new-jobs">0</div>
+                    <div class="mini-label">Open Job Listings</div>
                 </div>
             </div>
         </div>
 
         <div class="two-col">
-            <!-- Active Appointments -->
+            <!-- Active Applications -->
             <div>
                 <div class="dash-card">
                     <div class="dash-card-header">
-                        <div class="dash-card-title"><i class="fa-solid fa-calendar-days"></i> Upcoming Appointments</div>
-                        <a href="#" class="dash-card-action">View All</a>
+                        <div class="dash-card-title"><i class="fa-solid fa-file-contract"></i> Recent Applications</div>
+                        <a href="dashboard-staff-applications.html" class="dash-card-action">View All</a>
                     </div>
-                    <div class="table-wrap">
-                        <table class="dash-table">
-                            <thead><tr><th>Doctor</th><th>Date & Time</th><th>Status</th><th>Action</th></tr></thead>
-                            <tbody>
-                                <tr>
-                                    <td><div class="td-name">Dr. Rajesh Kumar</div><div class="td-sub"><i class="fa-solid fa-stethoscope" style="margin-right:4px;color:var(--accent)"></i>Cardiologist</div></td>
-                                    <td>Aug 15, 2026<br><small>10:00 AM</small></td>
-                                    <td><span class="badge badge-confirmed">Confirmed</span></td>
-                                    <td><button class="btn-sm btn-outline-sm">Details</button></td>
-                                </tr>
-                                <tr>
-                                    <td><div class="td-name">Dr. Sneha Sharma</div><div class="td-sub"><i class="fa-solid fa-stethoscope" style="margin-right:4px;color:var(--accent)"></i>Dermatologist</div></td>
-                                    <td>Aug 20, 2026<br><small>04:30 PM</small></td>
-                                    <td><span class="badge badge-pending">Pending</span></td>
-                                    <td><button class="btn-sm btn-outline-sm">Details</button></td>
-                                </tr>
-                                <tr>
-                                    <td><div class="td-name">Dr. Amit Patel</div><div class="td-sub"><i class="fa-solid fa-stethoscope" style="margin-right:4px;color:var(--accent)"></i>Orthopedics</div></td>
-                                    <td>Aug 22, 2026<br><small>11:15 AM</small></td>
-                                    <td><span class="badge badge-confirmed">Confirmed</span></td>
-                                    <td><button class="btn-sm btn-outline-sm">Details</button></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                    <div class="table-wrap" id="recentAppsContainer"></div>
                 </div>
                 
                 <div class="cta-banner" style="margin-top:20px;padding:20px">
-                    <div><h3 style="font-size:1rem;font-weight:700;margin-bottom:4px">Need a consultation?</h3><p style="font-size:.8rem;color:var(--text2)">Find top-rated doctors and book an appointment instantly.</p></div>
-                    <a href="find-doctor.html" class="cta-btn" style="padding:8px 20px;font-size:.82rem"><i class="fa-solid fa-stethoscope"></i> Find a Doctor</a>
+                    <div><h3 style="font-size:1rem;font-weight:700;margin-bottom:4px">Looking for a new role?</h3><p style="font-size:.8rem;color:var(--text2)">Browse hundreds of active medical and staff jobs.</p></div>
+                    <a href="dashboard-staff-jobs.html" class="cta-btn" style="padding:8px 20px;font-size:.82rem"><i class="fa-solid fa-briefcase"></i> View Jobs</a>
                 </div>
             </div>
 
@@ -146,27 +118,27 @@
             <div>
                 <div class="dash-card">
                     <div class="dash-card-header">
-                        <div class="dash-card-title"><i class="fa-solid fa-heart-pulse"></i> Health Profile</div>
+                        <div class="dash-card-title"><i class="fa-solid fa-user"></i> Profile Strength</div>
                     </div>
                     <div style="padding:20px">
                         <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px">
-                            <div style="width:60px;height:60px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:1.2rem;color:#fff;font-weight:700" data-user-avatar>U</div>
+                            <div style="width:60px;height:60px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:1.2rem;color:#fff;font-weight:700" data-user-avatar>ST</div>
                             <div>
-                                <div style="font-size:1rem;font-weight:700;color:var(--text)" data-user-name>Demo User</div>
-                                <div style="font-size:.8rem;color:var(--text3)">Blood Group: O+ · Age: 28</div>
+                                <div style="font-size:1rem;font-weight:700;color:var(--text)" id="profCardName" data-user-name>Demo User</div>
+                                <div style="font-size:.8rem;color:var(--text3)" id="profCardOrg">Not specified yet</div>
                             </div>
                         </div>
                         
                         <div class="prog-row">
-                            <div class="prog-header"><span class="prog-label" style="font-size:.8rem;font-weight:600">Profile Completion</span><span class="prog-val" style="color:var(--success)">85%</span></div>
-                            <div class="prog-bar" style="height:8px"><div class="prog-fill" style="width:85%;background:var(--success)"></div></div>
+                            <div class="prog-header"><span class="prog-label" style="font-size:.8rem;font-weight:600">Profile Completion</span><span class="prog-val" style="color:var(--success)" id="profCompletionVal">0%</span></div>
+                            <div class="prog-bar" style="height:8px"><div class="prog-fill" id="profCompletionBar" style="width:0%;background:var(--success)"></div></div>
                         </div>
                         
                         <ul style="list-style:none;margin-top:16px;font-size:.78rem;color:var(--text2);display:flex;flex-direction:column;gap:10px">
-                            <li><i class="fa-solid fa-circle-check" style="color:var(--success);margin-right:8px"></i> Personal Details added</li>
-                            <li><i class="fa-solid fa-circle-check" style="color:var(--success);margin-right:8px"></i> Medical History updated</li>
-                            <li><i class="fa-solid fa-circle-check" style="color:var(--success);margin-right:8px"></i> Contact Information verified</li>
-                            <li><i class="fa-regular fa-circle" style="color:var(--text3);margin-right:8px"></i> Add Emergency Contact (Recommended)</li>
+                            <li id="checkPersonal"><i class="fa-regular fa-circle" style="color:var(--text3);margin-right:8px"></i> Personal Details added</li>
+                            <li id="checkOrg"><i class="fa-regular fa-circle" style="color:var(--text3);margin-right:8px"></i> Institution added</li>
+                            <li id="checkAddress"><i class="fa-regular fa-circle" style="color:var(--text3);margin-right:8px"></i> Address added</li>
+                            <li id="checkBio"><i class="fa-regular fa-circle" style="color:var(--text3);margin-right:8px"></i> Bio added</li>
                         </ul>
                         
                         <button class="btn-outline-sm" style="width:100%;justify-content:center;margin-top:20px;padding:8px" onclick="window.location.href='dashboard-staff-profile.html'">Update Profile</button>
@@ -179,6 +151,7 @@
 </div>
 
 
+<script src="../js/theme.js"></script>
 <script src="../js/api.js"></script>
 <script src="../js/auth-guard.js"></script>
 <script src="../js/dashboard-staff-main.js"></script>

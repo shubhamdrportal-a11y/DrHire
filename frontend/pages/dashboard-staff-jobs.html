@@ -66,107 +66,51 @@
         <div class="filter-bar">
             <div class="filter-search"><i class="fa-solid fa-magnifying-glass"></i><input type="text" placeholder="Search by role, keyword, or hospital…" id="jobSearch" /></div>
             <select class="filter-select" id="roleFilter">
-                <option value="">All Roles</option>
-                <option value="nurse">Nursing</option>
-                <option value="technician">Lab Technician</option>
-                <option value="paramedic">Paramedic</option>
-                <option value="intern">Internship</option>
+                <option value="">All Types</option>
+                <option value="Full-Time">Full-Time</option>
+                <option value="Part-Time">Part-Time</option>
+                <option value="Contract">Contract</option>
+                <option value="Internship">Internship</option>
             </select>
             <select class="filter-select" id="locFilter">
                 <option value="">Any Location</option>
-                <option value="delhi">Delhi</option>
-                <option value="mumbai">Mumbai</option>
-                <option value="bangalore">Bangalore</option>
+                <option value="Delhi">Delhi</option>
+                <option value="Mumbai">Mumbai</option>
+                <option value="Bangalore">Bangalore</option>
             </select>
-            <button class="btn-primary" style="padding:9px 16px"><i class="fa-solid fa-filter"></i> Filter</button>
+            <button class="btn-primary" id="jobFilterBtn" style="padding:9px 16px"><i class="fa-solid fa-filter"></i> Filter</button>
         </div>
 
-        <div class="three-col" id="jobsGrid">
-            
-            <div class="job-card" data-role="nurse" data-loc="delhi">
-                <div class="job-card-top">
-                    <div class="job-hosp-logo"><i class="fa-solid fa-hospital"></i></div>
-                    <button class="header-icon-btn" style="width:30px;height:30px;font-size:.8rem" title="Save Job"><i class="fa-regular fa-bookmark"></i></button>
-                </div>
-                <div class="job-title">Senior Staff Nurse (ICU)</div>
-                <div class="job-hosp-name"><i class="fa-solid fa-building" style="font-size:.75rem"></i> Apollo Hospitals</div>
-                <div class="job-tags">
-                    <div class="job-tag"><i class="fa-solid fa-location-dot"></i> New Delhi</div>
-                    <div class="job-tag"><i class="fa-solid fa-clock"></i> Full Time</div>
-                    <div class="job-tag"><i class="fa-solid fa-briefcase"></i> 3+ Yrs Exp</div>
-                </div>
-                <div class="job-desc">Looking for an experienced ICU nurse to join our critical care team. Must have valid registration and experience handling ventilators. Night shifts required.</div>
-                <div class="job-footer">
-                    <div class="job-salary">₹40k - ₹55k / mo</div>
-                    <div class="job-posted">Posted 2d ago</div>
-                </div>
-                <button class="btn-primary" style="width:100%;justify-content:center;margin-top:14px" onclick="alert('Application submitted successfully!')">Apply Now</button>
-            </div>
+        <div id="jobsGrid" class="three-col"></div>
+        <div id="jobsPagination" style="display:flex;gap:8px;justify-content:center;margin-top:20px"></div>
+    </div>
+</div>
 
-            <div class="job-card" data-role="technician" data-loc="mumbai">
-                <div class="job-card-top">
-                    <div class="job-hosp-logo" style="color:var(--success)"><i class="fa-solid fa-microscope"></i></div>
-                    <button class="header-icon-btn" style="width:30px;height:30px;font-size:.8rem" title="Save Job"><i class="fa-regular fa-bookmark"></i></button>
-                </div>
-                <div class="job-title">Senior Lab Technician</div>
-                <div class="job-hosp-name"><i class="fa-solid fa-building" style="font-size:.75rem"></i> Kokilaben Hospital</div>
-                <div class="job-tags">
-                    <div class="job-tag"><i class="fa-solid fa-location-dot"></i> Mumbai</div>
-                    <div class="job-tag"><i class="fa-solid fa-clock"></i> Full Time</div>
-                    <div class="job-tag"><i class="fa-solid fa-briefcase"></i> 5+ Yrs Exp</div>
-                </div>
-                <div class="job-desc">Require a skilled lab technician for our central pathology lab. Expertise in hematology and biochemistry analyzers is mandatory.</div>
-                <div class="job-footer">
-                    <div class="job-salary">₹35k - ₹45k / mo</div>
-                    <div class="job-posted">Posted 1w ago</div>
-                </div>
-                <button class="btn-primary" style="width:100%;justify-content:center;margin-top:14px" onclick="alert('Application submitted successfully!')">Apply Now</button>
-            </div>
-
-            <div class="job-card" data-role="intern" data-loc="bangalore">
-                <div class="job-card-top">
-                    <div class="job-hosp-logo" style="color:var(--warning)"><i class="fa-solid fa-user-graduate"></i></div>
-                    <button class="header-icon-btn" style="width:30px;height:30px;font-size:.8rem" title="Save Job"><i class="fa-regular fa-bookmark"></i></button>
-                </div>
-                <div class="job-title">Medical Intern (Pediatrics)</div>
-                <div class="job-hosp-name"><i class="fa-solid fa-building" style="font-size:.75rem"></i> Fortis Healthcare</div>
-                <div class="job-tags">
-                    <div class="job-tag"><i class="fa-solid fa-location-dot"></i> Bangalore</div>
-                    <div class="job-tag"><i class="fa-solid fa-clock"></i> Internship</div>
-                    <div class="job-tag"><i class="fa-solid fa-graduation-cap"></i> Final Yr MBBS</div>
-                </div>
-                <div class="job-desc">6-month internship in the pediatrics department. Great learning opportunity under senior pediatricians. Stipend provided.</div>
-                <div class="job-footer">
-                    <div class="job-salary">₹15k Stipend</div>
-                    <div class="job-posted">Posted 5h ago</div>
-                </div>
-                <button class="btn-primary" style="width:100%;justify-content:center;margin-top:14px" onclick="alert('Application submitted successfully!')">Apply Now</button>
-            </div>
-            
-            <div class="job-card" data-role="paramedic" data-loc="delhi">
-                <div class="job-card-top">
-                    <div class="job-hosp-logo" style="color:var(--danger)"><i class="fa-solid fa-truck-medical"></i></div>
-                    <button class="header-icon-btn" style="width:30px;height:30px;font-size:.8rem" title="Save Job"><i class="fa-regular fa-bookmark"></i></button>
-                </div>
-                <div class="job-title">Emergency Paramedic / EMT</div>
-                <div class="job-hosp-name"><i class="fa-solid fa-building" style="font-size:.75rem"></i> Max Super Specialty</div>
-                <div class="job-tags">
-                    <div class="job-tag"><i class="fa-solid fa-location-dot"></i> New Delhi</div>
-                    <div class="job-tag"><i class="fa-solid fa-clock"></i> Contract</div>
-                    <div class="job-tag"><i class="fa-solid fa-briefcase"></i> 1-2 Yrs Exp</div>
-                </div>
-                <div class="job-desc">Looking for certified emergency medical technicians to staff our advanced life support ambulances. High pressure environment.</div>
-                <div class="job-footer">
-                    <div class="job-salary">₹25k - ₹35k / mo</div>
-                    <div class="job-posted">Posted 3d ago</div>
-                </div>
-                <button class="btn-primary" style="width:100%;justify-content:center;margin-top:14px" onclick="alert('Application submitted successfully!')">Apply Now</button>
-            </div>
-            
+<!-- Job Details Modal -->
+<div class="modal-overlay" id="jobDetailsModal">
+    <div class="modal-box" style="max-width:600px">
+        <div class="modal-header">
+            <div class="modal-title"><i class="fa-solid fa-briefcase" style="color:var(--accent);margin-right:8px"></i><span id="jdTitle">Job Details</span></div>
+            <button class="modal-close" id="jobDetailsClose"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div style="font-size:.85rem;color:var(--accent);font-weight:600;margin-bottom:12px" id="jdHospital">–</div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px" id="jdTags"></div>
+        <div class="form-section-label">Description</div>
+        <div style="font-size:.85rem;color:var(--text2);margin-bottom:14px" id="jdDesc">–</div>
+        <div class="form-section-label">Requirements</div>
+        <div style="font-size:.85rem;color:var(--text2);margin-bottom:14px" id="jdReqs">–</div>
+        <div class="form-section-label">Benefits</div>
+        <div style="font-size:.85rem;color:var(--text2);margin-bottom:18px" id="jdBenefits">–</div>
+        <div style="display:flex;justify-content:flex-end;gap:10px">
+            <button class="btn-sm btn-outline-sm" id="jobDetailsClose2">Close</button>
+            <button class="btn-sm btn-primary-sm" id="jdApplyBtn">Apply Now</button>
         </div>
     </div>
 </div>
 
-
+<script src="../js/theme.js"></script>
+<script src="../js/api.js"></script>
+<script src="../js/auth-guard.js"></script>
+<script src="../js/dashboard-staff-jobs.js"></script>
 </body>
 </html>

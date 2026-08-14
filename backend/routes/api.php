@@ -104,6 +104,8 @@ $routes = [
     ['GET',    '/staff/appointments',    'StaffController',        'getAppointments'],
     ['DELETE', '/staff/appointments/:id','StaffController',        'cancelAppointment', 'id'],
     ['GET',    '/staff/applications',    'StaffController',        'getApplications'],
+    ['GET',    '/staff/jobs',            'StaffController',        'browseJobs'],
+    ['POST',   '/staff/jobs/:id/apply',  'StaffController',        'applyForJob', 'id'],
 
     // ── Shared / Public ───────────────────────────────────────────
     ['GET',    '/jobs',                  null,                     'publicJobs'],

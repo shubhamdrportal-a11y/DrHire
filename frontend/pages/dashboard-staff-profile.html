@@ -52,26 +52,43 @@
                     <div class="dash-card-header"><span class="dash-card-title"><i class="fa-solid fa-user"></i> Personal Information</span></div>
                     <div style="padding:20px">
                         <div class="photo-upload-area">
-                            <div class="photo-preview" data-user-avatar>ST</div>
+                            <img class="photo-preview" id="profilePhotoPreview" data-user-avatar style="display:none;object-fit:cover" />
+                            <div class="photo-preview" id="photoPreviewFallback" data-user-avatar>ST</div>
                             <div class="photo-upload-info">
                                 <p>Profile Photo</p>
-                                <span>JPG, PNG · Max 5MB</span><br>
-                                <button class="btn-sm btn-outline-sm" style="margin-top:8px"><i class="fa-solid fa-upload"></i> Upload Photo</button>
+                                <span>JPG, PNG or GIF &middot; Max 5MB</span><br>
+                                <label class="btn-sm btn-outline-sm" style="margin-top:8px;display:inline-flex;cursor:pointer">
+                                    <i class="fa-solid fa-upload"></i>&nbsp;Upload Photo
+                                    <input type="file" id="photoUploadInput" accept="image/*" style="display:none" />
+                                </label>
                             </div>
                         </div>
-                        <form id="profileForm">
-                            <div class="form-row">
-                                <div class="form-group"><label class="form-label">First Name</label><input class="form-input" type="text" value="Demo" /></div>
-                                <div class="form-group"><label class="form-label">Last Name</label><input class="form-input" type="text" value="User" /></div>
+                        <form id="staffProfileForm">
+                            <div class="form-group">
+                                <label class="form-label">Full Name</label>
+                                <input class="form-input" type="text" id="prof-name" />
                             </div>
-                            <div class="form-group"><label class="form-label">Email Address</label><input class="form-input" type="email" value="user@demo.com" /></div>
-                            <div class="form-group"><label class="form-label">Phone Number</label><input class="form-input" type="tel" value="+91 98765 00001" /></div>
-                            <div class="form-group"><label class="form-label">Date of Birth</label><input class="form-input" type="date" value="1998-05-15" /></div>
-                            <div class="form-group"><label class="form-label">Gender</label>
-                                <select class="form-select"><option>Male</option><option>Female</option><option>Other</option></select>
+                            <div class="form-group">
+                                <label class="form-label">Email Address</label>
+                                <input class="form-input" type="email" id="prof-email" disabled />
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Phone Number</label>
+                                <input class="form-input" type="tel" id="prof-phone" />
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">About / Bio</label>
+                                <textarea class="form-textarea" rows="4" id="prof-bio" placeholder="A short note about yourself…"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Resume / CV</label>
+                                <label class="btn-sm btn-outline-sm" style="display:inline-flex;cursor:pointer">
+                                    <i class="fa-solid fa-upload"></i>&nbsp;Upload Resume
+                                    <input type="file" id="resumeUploadInput" accept=".pdf,.doc,.docx" style="display:none" />
+                                </label>
+                                <span id="resumeFileName" style="font-size:.78rem;color:var(--text3);margin-left:10px"></span>
                             </div>
                             <div style="display:flex;gap:10px;justify-content:flex-end">
-                                <button type="button" class="btn-secondary">Discard</button>
                                 <button type="submit" class="btn-primary"><i class="fa-solid fa-save"></i> Save Changes</button>
                             </div>
                         </form>
@@ -81,29 +98,16 @@
 
             <!-- Right Column -->
             <div>
-                <div class="dash-card" style="margin-bottom:18px">
-                    <div class="dash-card-header"><span class="dash-card-title"><i class="fa-solid fa-building"></i> Institution Details</span></div>
-                    <div style="padding:20px">
-                        <div class="form-group"><label class="form-label">User Type</label>
-                            <select class="form-select"><option>Medical Student</option><option>Hospital Staff</option><option>Nurse</option><option>Paramedic</option></select>
-                        </div>
-                        <div class="form-group"><label class="form-label">Institution / Hospital Name</label><input class="form-input" type="text" value="AIIMS, New Delhi" /></div>
-                        <div class="form-group"><label class="form-label">Department / Year</label><input class="form-input" type="text" value="MBBS Year 3" /></div>
-                        <div class="form-group"><label class="form-label">Employee / Student ID</label><input class="form-input" type="text" value="AIIMS/2024/0012" /></div>
-                        <button class="btn-primary" style="width:100%"><i class="fa-solid fa-save"></i> Save Institution Info</button>
-                    </div>
-                </div>
-
                 <div class="dash-card">
-                    <div class="dash-card-header"><span class="dash-card-title"><i class="fa-solid fa-location-dot"></i> Address</span></div>
+                    <div class="dash-card-header"><span class="dash-card-title"><i class="fa-solid fa-building"></i> Institution &amp; Address</span></div>
                     <div style="padding:20px">
-                        <div class="form-group"><label class="form-label">Address Line</label><input class="form-input" type="text" value="Hostel Block C, AIIMS Campus, Ansari Nagar" /></div>
+                        <div class="form-group"><label class="form-label">Institution / Hospital Name</label><input class="form-input" type="text" id="prof-org" /></div>
+                        <div class="form-group"><label class="form-label">Address Line</label><input class="form-input" type="text" id="prof-address" /></div>
                         <div class="form-row">
-                            <div class="form-group"><label class="form-label">City</label><input class="form-input" type="text" value="New Delhi" /></div>
-                            <div class="form-group"><label class="form-label">State</label><select class="form-select"><option>Delhi</option><option>Maharashtra</option></select></div>
+                            <div class="form-group"><label class="form-label">City</label><input class="form-input" type="text" id="prof-city" /></div>
+                            <div class="form-group"><label class="form-label">State</label><input class="form-input" type="text" id="prof-state" /></div>
                         </div>
-                        <div class="form-group"><label class="form-label">PIN Code</label><input class="form-input" type="text" value="110029" /></div>
-                        <button class="btn-primary" style="width:100%"><i class="fa-solid fa-save"></i> Save Address</button>
+                        <p style="font-size:.78rem;color:var(--text3);margin-top:6px">Saved together with your personal information above &mdash; use the single "Save Changes" button.</p>
                     </div>
                 </div>
             </div>
@@ -111,6 +115,7 @@
     </div>
 </div>
 
+<script src="../js/theme.js"></script>
 <script src="../js/api.js"></script>
 <script src="../js/auth-guard.js"></script>
 <script src="../js/dashboard-staff-profile.js"></script>

@@ -5,6 +5,7 @@ require_once __DIR__ . '/../models/StaffProfile.php';
 require_once __DIR__ . '/../models/Appointment.php';
 require_once __DIR__ . '/../models/DoctorProfile.php';
 require_once __DIR__ . '/../models/Availability.php';
+require_once __DIR__ . '/../models/Job.php';
 require_once __DIR__ . '/../models/JobApplication.php';
 require_once __DIR__ . '/../models/AuditLog.php';
 require_once __DIR__ . '/../services/NotificationService.php';
@@ -15,6 +16,7 @@ class StaffController
     private Appointment        $apptModel;
     private DoctorProfile      $doctorModel;
     private Availability       $availModel;
+    private Job                $jobModel;
     private JobApplication     $appModel;
     private AuditLog           $auditLog;
     private NotificationService $notifService;
@@ -25,6 +27,7 @@ class StaffController
         $this->apptModel     = new Appointment($db);
         $this->doctorModel   = new DoctorProfile($db);
         $this->availModel    = new Availability($db);
+        $this->jobModel      = new Job($db);
         $this->appModel      = new JobApplication($db);
         $this->auditLog      = new AuditLog($db);
         $this->notifService  = new NotificationService($db);
@@ -128,6 +131,39 @@ class StaffController
         $page    = (int)($_GET['page'] ?? 1);
         $perPage = min((int)($_GET['per_page'] ?? 20), 100);
         jsonResponse($this->appModel->getForApplicant($user['id'], $page, $perPage));
+    }
+
+    public function browseJobs(): void
+    {
+        requireRole('staff');
+        $page    = (int)($_GET['page'] ?? 1);
+        $perPage = min((int)($_GET['per_page'] ?? 20), 100);
+        $filters = [
+            'specialization' => $_GET['specialization'] ?? '',
+            'location'       => $_GET['location']       ?? '',
+            'type'           => $_GET['type']           ?? '',
+            'search'         => $_GET['search']         ?? '',
+        ];
+        jsonResponse($this->jobModel->getAll($filters, $page, $perPage));
+    }
+
+    public function applyForJob(int $jobId): void
+    {
+        $user = requireRole('staff');
+        $data = getRequestBody();
+
+        $appId = $this->appModel->apply($jobId, $user['id'], $data);
+
+        // Get job details for notification
+        $job = $this->jobModel->getById($jobId);
+        if ($job) {
+            $profile = $this->profileModel->getByUserId($user['id']);
+            $name    = $profile['full_name'] ?? 'An applicant';
+            $this->notifService->newApplicationReceived($job['hospital_id'], $name, $job['title']);
+        }
+
+        $this->auditLog->log($user['id'], 'job_applied', 'job_application', $appId);
+        jsonResponse(['success' => true, 'application_id' => $appId, 'message' => 'Application submitted successfully.'], 201);
     }
 
     public function getDoctorAvailability(int $doctorId): void
