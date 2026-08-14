@@ -118,7 +118,7 @@
   async function loadJobs() {
     const container = document.getElementById('jobsTbody');
     if (!container) return;
-    apiUI.loading(container.closest('.dash-card') || container);
+    container.innerHTML = '<tr><td colspan="6"><div style="text-align:center;padding:60px 20px;color:var(--text3,#64748b)"><i class="fa-solid fa-spinner fa-spin fa-2x" style="color:var(--accent,#0ea5e9)"></i><p style="margin-top:16px;font-size:.85rem">Loading...</p></div></td></tr>';
 
     try {
       const qs = new URLSearchParams({ page: currentPage, per_page: 15 });
@@ -151,7 +151,7 @@
       renderPagination('jobsPagination', data.page, data.total_pages, p => { currentPage = p; loadJobs(); });
 
     } catch (err) {
-      if (container.closest('.dash-card')) apiUI.error(container.closest('.dash-card'), 'Failed to load jobs.');
+      container.innerHTML = '<tr><td colspan="6"><div style="text-align:center;padding:60px 20px;color:var(--danger,#ef4444)"><i class="fa-solid fa-triangle-exclamation fa-2x" style="margin-bottom:12px"></i><p style="font-size:.85rem">Failed to load jobs.</p></div></td></tr>';
     }
   }
 
