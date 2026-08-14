@@ -94,11 +94,28 @@
   async function init() {
     grid.innerHTML = `<div class="state-box" style="grid-column:1/-1"><i class="fa-solid fa-spinner fa-spin"></i><h3>Loading open positions…</h3></div>`;
     try {
-      const { data, error } = await db.from('job_listings').select('*').eq('is_active', true).order('created_at', { ascending: false });
-      allJobs = (!error && data && data.length > 0) ? data : DC_JOBS;
+      const data = await api.get('/jobs?per_page=100');
+      allJobs = data.data || [];
     } catch {
-      allJobs = DC_JOBS;
+      grid.innerHTML = `<div class="state-box state-error" style="grid-column:1/-1">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+        <h3>Couldn't load jobs</h3>
+        <p>Please refresh the page and try again.</p>
+      </div>`;
+      document.getElementById('jobsPagination').innerHTML = '';
+      return;
     }
+
+    if (!allJobs.length) {
+      grid.innerHTML = `<div class="state-box" style="grid-column:1/-1">
+        <i class="fa-solid fa-briefcase"></i>
+        <h3>No open positions right now</h3>
+        <p>Hospitals haven't posted any active jobs yet. Check back soon.</p>
+      </div>`;
+      document.getElementById('jobsPagination').innerHTML = '';
+      return;
+    }
+
     populateFilterOptions(allJobs);
 
     // Pre-fill from query string (?specialization=Cardiology)

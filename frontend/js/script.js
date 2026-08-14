@@ -49,25 +49,21 @@ function updateNavAuth() {
   }
 }
 
-// ── Load Jobs from Supabase ──────────────────────────────────────
-const STATIC_JOBS = [
-  { id: 's1', title: 'Cardiologist', hospital: 'Apollo Hospitals', location: 'New Delhi', experience: '5–10 Years', qualification: 'MD Cardiology / DM', salary: '₹3–5 LPA', badge_type: 'badge-urgent', badge_label: 'Urgent' },
-  { id: 's2', title: 'MBBS Doctor (General)', hospital: 'Fortis Healthcare', location: 'Jaipur', experience: '0–3 Years', qualification: 'MBBS', salary: '₹80K–1.2 LPA', badge_type: 'badge-new', badge_label: 'New' },
-  { id: 's3', title: 'Radiologist', hospital: 'Medanta Hospital', location: 'Mumbai', experience: '3–7 Years', qualification: 'MD Radiology', salary: '₹2–3.5 LPA', badge_type: 'badge-full', badge_label: 'Full-Time' },
-  { id: 's4', title: 'Paediatrician', hospital: 'Max Super Speciality', location: 'Bangalore', experience: '4–8 Years', qualification: 'MD Paediatrics', salary: '₹1.8–2.8 LPA', badge_type: 'badge-full', badge_label: 'Full-Time' },
-  { id: 's5', title: 'Orthopaedic Surgeon', hospital: 'Manipal Hospitals', location: 'Hyderabad', experience: '6–12 Years', qualification: 'MS Orthopaedics', salary: '₹4–7 LPA', badge_type: 'badge-urgent', badge_label: 'Urgent' },
-  { id: 's6', title: 'Gynaecologist', hospital: 'AIIMS Referral', location: 'Lucknow', experience: '3–6 Years', qualification: 'MD / MS OBG', salary: '₹2–3 LPA', badge_type: 'badge-new', badge_label: 'New' },
-];
-
+// ── Load Jobs from the real Doctors Coat API (hospital-posted jobs) ──
 async function loadJobs() {
   const container = document.getElementById('jobsContainer');
   if (!container) return;
   container.innerHTML = `<div style="text-align:center;padding:60px;color:#94a3b8"><i class="fa-solid fa-spinner fa-spin fa-2x"></i><p style="margin-top:16px">Loading jobs…</p></div>`;
   try {
-    const { data, error } = await db.from('job_listings').select('*').eq('is_active', true).order('created_at', { ascending: false });
-    renderJobs(container, (!error && data && data.length > 0) ? data : STATIC_JOBS);
-  } catch {
-    renderJobs(container, STATIC_JOBS);
+    const data = await api.get('/jobs?per_page=6');
+    const jobs = data.data || [];
+    if (!jobs.length) {
+      container.innerHTML = `<div style="text-align:center;padding:60px;color:#94a3b8"><i class="fa-solid fa-briefcase fa-2x" style="opacity:.4"></i><p style="margin-top:16px">No open positions right now. Check back soon.</p></div>`;
+      return;
+    }
+    renderJobs(container, jobs);
+  } catch (e) {
+    container.innerHTML = `<div style="text-align:center;padding:60px;color:#94a3b8"><i class="fa-solid fa-triangle-exclamation fa-2x" style="opacity:.5"></i><p style="margin-top:16px">Couldn't load jobs right now. Please refresh.</p></div>`;
   }
 }
 
@@ -96,25 +92,73 @@ function renderJobs(container, jobs) {
 }
 
 // ── Apply Modal ──────────────────────────────────────────────────
+// Applying for a job creates a real row in job_applications tied to the
+// doctor's account, so it shows up for the hospital in their dashboard.
+// That requires a logged-in Doctor account (via /pages/login.html —
+// the real Doctors Coat account, not the demo popup login above).
 let applyJobId = null;
 
-function openApplyModal(jobId, jobTitle) {
-  if (!currentUser) {
-    pendingApplyJobId = jobId;
-    pendingApplyJobTitle = jobTitle;
-    openAuthModal('login');
-    return;
-  }
+async function openApplyModal(jobId, jobTitle) {
   applyJobId = jobId;
   document.getElementById('applyJobTitle').textContent = 'Apply for: ' + jobTitle;
-  document.getElementById('applyFormWrap').style.display = 'block';
   document.getElementById('applySuccessMsg').style.display = 'none';
-  const form = document.getElementById('applyForm');
-  form.reset();
-  if (currentUser) document.getElementById('applyEmail').value = currentUser.email;
+  const wrap = document.getElementById('applyFormWrap');
+  wrap.style.display = 'block';
+  wrap.innerHTML = `<div style="text-align:center;padding:20px 0;color:#94a3b8"><i class="fa-solid fa-spinner fa-spin"></i></div>`;
   document.getElementById('applyModal').classList.add('active');
   document.body.style.overflow = 'hidden';
+
+  let me = null;
+  try { me = await api.get('/auth/me'); } catch { me = null; }
+
+  const isPages = window.location.pathname.includes('/pages/');
+  const loginUrl = isPages ? 'login.html' : 'pages/login.html';
+  const registerUrl = isPages ? 'register.html' : 'pages/register.html';
+
+  if (!me) {
+    wrap.innerHTML = `
+      <p style="color:#94a3b8;font-size:.9rem;margin-bottom:18px">Please login or create a Doctor account on Doctors Coat to apply for this job.</p>
+      <div style="display:flex;gap:10px">
+        <a href="${loginUrl}" class="form-submit" style="flex:1;text-align:center;text-decoration:none;display:block">Login</a>
+        <a href="${registerUrl}" class="form-submit" style="flex:1;text-align:center;text-decoration:none;display:block;background:transparent;border:1px solid var(--primary,#0ea5e9);color:var(--primary,#0ea5e9)">Register as Doctor</a>
+      </div>`;
+    return;
+  }
+
+  if (me.role !== 'doctor') {
+    wrap.innerHTML = `<p style="color:#94a3b8;font-size:.9rem">Only Doctor accounts can apply for jobs. You're logged in as a ${escHtmlJs(me.role)} account.</p>`;
+    return;
+  }
+
+  wrap.innerHTML = `
+    <form id="applyForm">
+      <div class="form-group"><label>Cover letter (optional)</label>
+        <textarea id="applyCoverLetter" rows="4" placeholder="A short note to the hospital…" style="width:100%;resize:vertical;background:var(--bg,#0d1117);color:inherit;border:1px solid var(--border,#30363d);border-radius:8px;padding:10px;font:inherit"></textarea>
+      </div>
+      <button type="submit" class="form-submit"><i class="fa-solid fa-paper-plane" style="margin-right:8px"></i>Submit Application</button>
+    </form>`;
+
+  document.getElementById('applyForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = e.target.querySelector('button[type=submit]');
+    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Submitting…';
+    btn.disabled = true;
+    try {
+      await api.post(`/doctor/jobs/${applyJobId}/apply`, {
+        cover_letter: document.getElementById('applyCoverLetter').value,
+      });
+      wrap.style.display = 'none';
+      document.getElementById('applySuccessMsg').style.display = 'block';
+      setTimeout(closeModal, 3000);
+    } catch (err) {
+      btn.innerHTML = 'Submit Application';
+      btn.disabled = false;
+      alert(err.message || 'Could not submit application.');
+    }
+  });
 }
+
+function escHtmlJs(s) { return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
 
 document.getElementById('modalClose')?.addEventListener('click', closeModal);
 document.getElementById('applyModal')?.addEventListener('click', e => { if (e.target.id === 'applyModal') closeModal(); });
@@ -123,32 +167,6 @@ function closeModal() {
   document.getElementById('applyModal').classList.remove('active');
   document.body.style.overflow = '';
 }
-
-document.getElementById('applyForm')?.addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const btn = e.target.querySelector('button[type=submit]');
-  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Submitting…';
-  btn.disabled = true;
-
-  const isStatic = String(applyJobId).startsWith('s');
-  const { error } = await db.from('job_applications').insert({
-    job_id: isStatic ? null : applyJobId,
-    user_id: currentUser?.id || null,
-    name: document.getElementById('applyName').value,
-    email: document.getElementById('applyEmail').value,
-    phone: document.getElementById('applyPhone').value,
-    specialization: document.getElementById('applySpec').value,
-  });
-
-  btn.innerHTML = 'Submit Application'; btn.disabled = false;
-  if (error) {
-    alert('Submission error: ' + error.message);
-  } else {
-    document.getElementById('applyFormWrap').style.display = 'none';
-    document.getElementById('applySuccessMsg').style.display = 'block';
-    setTimeout(closeModal, 3000);
-  }
-});
 
 // ── Auth Modal ───────────────────────────────────────────────────
 const authModal = document.getElementById('authModal');

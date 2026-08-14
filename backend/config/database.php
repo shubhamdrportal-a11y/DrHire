@@ -33,19 +33,36 @@ function getDbConnection(): PDO
     try {
         $pdo = new PDO($dsn, $user, $pass, $options);
         
-        // Safe database initialization
+        // Safe database initialization.
+        // IMPORTANT: this used to only check whether the `users` table
+        // existed — so on a database that was already initialized before
+        // a new table (e.g. `hospital_doctors`) was added to schema.sql,
+        // that new table would NEVER get created, and every query that
+        // touched it would fail (this was the cause of "Failed to load
+        // doctors" / "Failed to load report data" in production).
+        // Instead: check EVERY table schema.sql defines, and (re-)run the
+        // schema if any are missing. All statements are
+        // `CREATE TABLE IF NOT EXISTS`, so this is always safe to run
+        // again and never touches existing data.
         static $initialized = false;
         if (!$initialized) {
             $schemaFile = __DIR__ . '/../database/schema.sql';
             if (file_exists($schemaFile)) {
-                // Check if users table exists before running the whole schema
-                $stmt = $pdo->query("SHOW TABLES LIKE 'users'");
-                if ($stmt->rowCount() === 0) {
-                    $sql = file_get_contents($schemaFile);
-                    // Disable foreign key checks before executing batch
-                    $pdo->exec("SET FOREIGN_KEY_CHECKS = 0;");
+                $sql = file_get_contents($schemaFile);
+                preg_match_all('/CREATE TABLE IF NOT EXISTS\s+`?(\w+)`?/i', $sql, $m);
+                $requiredTables = array_unique($m[1] ?? []);
+
+                $existing = [];
+                foreach ($pdo->query('SHOW TABLES') as $row) {
+                    $existing[] = array_values($row)[0];
+                }
+                $missing = array_diff($requiredTables, $existing);
+
+                if (!empty($missing)) {
+                    $pdo->exec('SET FOREIGN_KEY_CHECKS = 0;');
                     $pdo->exec($sql);
-                    $pdo->exec("SET FOREIGN_KEY_CHECKS = 1;");
+                    $pdo->exec('SET FOREIGN_KEY_CHECKS = 1;');
+                    error_log('DB schema sync: created missing tables: ' . implode(', ', $missing));
                 }
             }
             $initialized = true;

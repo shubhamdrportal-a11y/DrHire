@@ -31,13 +31,17 @@
 
     document.getElementById('jdMain').innerHTML = `<div class="state-box"><i class="fa-solid fa-spinner fa-spin"></i><h3>Loading job details…</h3></div>`;
 
-    let job = null, allJobs = DC_JOBS;
+    let job = null, allJobs = [];
     try {
-      const { data, error } = await db.from('job_listings').select('*').eq('is_active', true);
-      if (!error && data && data.length > 0) allJobs = data;
-    } catch { /* fall back to static */ }
+      if (id) job = await api.get(`/jobs/${id}`);
+    } catch { job = null; }
 
-    job = allJobs.find(j => String(j.id) === String(id)) || (id ? null : allJobs[0]);
+    try {
+      const listData = await api.get('/jobs?per_page=100');
+      allJobs = listData.data || [];
+    } catch { allJobs = job ? [job] : []; }
+
+    if (!job && !id && allJobs.length) job = allJobs[0];
 
     if (!job) {
       document.getElementById('jdMain').innerHTML = `<div class="state-box state-error">
@@ -68,7 +72,6 @@
     document.getElementById('jdMain').innerHTML = `
       <h2>Job Description</h2>
       <p style="color:var(--muted);line-height:1.8">${job.description || 'No additional description provided for this role.'}</p>
-      ${listBlock('Responsibilities', job.responsibilities)}
       ${listBlock('Requirements', job.requirements)}
       ${listBlock('Benefits', job.benefits)}
     `;
@@ -80,7 +83,7 @@
         <div class="job-detail-row"><span>Experience</span><span>${job.experience}</span></div>
         <div class="job-detail-row"><span>Qualification</span><span>${job.qualification}</span></div>
         <div class="job-detail-row"><span>Job Type</span><span>${job.type}</span></div>
-        <div class="job-detail-row"><span>Posted</span><span>${job.posted || 'Recently'}</span></div>
+        <div class="job-detail-row"><span>Posted</span><span>${job.created_at ? new Date(job.created_at).toLocaleDateString('en-IN') : 'Recently'}</span></div>
       </div>
       <button class="btn-primary" style="width:100%;padding:14px" onclick="openApplyModal('${job.id}','${job.title}')">Apply for this Role</button>
     `;
